@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MENU, GAME, RECORD } from '~/constants/views';
 import { Menu } from '~/components/molecules/menu';
-import { Game } from '~/components/molecules/game';
+import { Game } from '~/components/organisms/game';
 import { Record } from '~/components/molecules/record';
 import { WrapperContainer, WrapperTitle } from './styled';
 

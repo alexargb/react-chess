@@ -1,5 +1,11 @@
 export type ChessBoardCoordinate = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
+export type ChessPieceShortName = 'k' | 'q' | 'r' | 'b' | 'n' | 'p' | '-';
+export type ChessPieceName = 'king' | 'queen' | 'rook' | 'bishop' | 'knight' | 'pawn';
+
+export type ChessPieceMoveChange = number | 'x';
+export type ChessPieceMoveCondition = 'unmoved' | 'unblocked' | 'eating' | 'queen castle' | 'king castle' | 'en passant';
+
 export type ChessPosition = {
   x: ChessBoardCoordinate;
   y: ChessBoardCoordinate;
@@ -8,28 +14,39 @@ export type ChessPosition = {
 export type ChessColour = 'white' | 'black';
 
 export type ChessPieceMove = {
+  changeX: ChessPieceMoveChange;
+  changeY: ChessPieceMoveChange;
+  conditions?: ChessPieceMoveCondition[];
+  eats?: boolean;
+};
+
+export type ChessPieceStrictMove = {
   changeX: number;
   changeY: number;
-  symmetric: boolean;
 };
 
 export type ChessPieceMoveset = ChessPieceMove[];
+export type ChessPieceStrictMoveset = ChessPieceStrictMove[];
 
 export type ChessPiece = {
   id: number;
-  image: string; // TODO: define if URL or actual image
-  moves: ChessPieceMoveset;
-  posibleMoves: ChessPieceMoveset;
-  position?: ChessPosition;
+  name: ChessPieceName;
+  shortName: ChessPieceShortName;
   colour: ChessColour;
-};
+  hasMoved: boolean;
+  moves: ChessPieceMoveset;
+  posibleMoves: ChessPieceStrictMoveset;
+  position: ChessPosition;
+} | null | undefined;
 
 export type ChessSquare = ChessPosition & {
-  piece?: ChessPiece;
+  piece: ChessPiece;
   colour: ChessColour;
+  marked: boolean;
+  selected: boolean;
 };
 
-export type ChessBoard = ChessSquare[][] | null;
+export type ChessBoard = ChessSquare[][] | null | undefined;
 
 export type ChessTimer = {
   white: number;
@@ -42,4 +59,4 @@ export type ChessGame = {
   turn: ChessColour;
   timer?: ChessTimer;
   finished: boolean;
-} | null;
+} | null | undefined;

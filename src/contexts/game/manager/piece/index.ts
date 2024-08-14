@@ -1,0 +1,42 @@
+import type {
+  ChessColour,
+  ChessPiece,
+  ChessPieceShortName,
+  ChessPosition,
+} from '~/types';
+
+import { newKing } from './king';
+import { newQueen } from './queen';
+import { newRook } from './rook';
+import { newBishop } from './bishop';
+import { newKnight } from './knight';
+import { newPawn } from './pawn';
+
+const NAME_MAP = {
+  'k': newKing,
+  'q': newQueen,
+  'r': newRook,
+  'b': newBishop,
+  'n': newKnight,
+  'p': newPawn,
+  '-': () => null,
+};
+
+export const newPiece = (
+  id: number,
+  shortName: ChessPieceShortName,
+  colour: ChessColour,
+  position: ChessPosition,
+): ChessPiece => {
+  const getNewPiece = NAME_MAP[shortName];
+  return getNewPiece(id, colour, position);
+};
+
+export {
+  newKing,
+  newQueen,
+  newRook,
+  newBishop,
+  newKnight,
+  newPawn,
+};

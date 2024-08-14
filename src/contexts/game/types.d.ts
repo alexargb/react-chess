@@ -1,10 +1,12 @@
-import type { Dispatch, SetStateAction, ReactNode } from 'react';
-import { ChessGame } from '~/types';
+import type { ChessGame, ChessSquare } from '~/types';
 
 export type GameContextState = {
   currentGame?: ChessGame;
-  setCurrentGame?: Dispatch<SetStateAction<ChessGame>>;
-  games?: ChessGame[];
+  setCurrentGame?: (game: ChessGame) => void;
+  games: ChessGame[];
+  createNewGame: () => ChessGame;
+  onSquareClick?: (square: ChessSquare) => void,
+  isPieceSelected?: boolean,
 };
 
 export type GameProviderProps = {

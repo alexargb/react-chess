@@ -1,21 +1,72 @@
-import type { ChessGame } from '~/types';
-import type { GameContextState } from '../types';
 import { useState } from 'react';
+import type { ChessGame, ChessSquare } from '~/types';
+import type { GameContextState } from '../types';
+import { newGame, squareSelector, squareUnselector } from '../manager';
 
-let id = 0; // TODO: do this better with file reading
-const getNewGame = (): ChessGame => ({
-  id: id++,
-  board: null,
-  turn: 'white',
-  finished: false,
-});
+const gamesUpdater = (
+  games: ChessGame[],
+  setGames: (games: ChessGame[]) => void,
+) => (game: ChessGame) => {
+  const foundGame = games.find((item) => item?.id === game?.id);
+  if (!foundGame) {
+    setGames([...games, game]);
+    return;
+  }
+  const idx = games.indexOf(foundGame);
+  games[idx] = game;
+  setGames(games);
+};
 
-export const useGameState = () => {
-  const [currentGame, setCurrentGame] = useState<ChessGame>(getNewGame());
+export const useGameState = (): GameContextState => {
+  const [games, setGames] = useState<ChessGame[]>([]);
+  const [currentGame, setCurrentGame] = useState<ChessGame>(null);
+  const [selectedSquare, setSelectedSquare] = useState<ChessSquare | null>(null);
 
-  // TODO: add game management and initialization
+  const updateGames = gamesUpdater(games, setGames);
 
-  const state: GameContextState = { currentGame, setCurrentGame };
+  // game initialization
+  const createNewGame = (): ChessGame => {
+    const game = newGame();
+    setCurrentGame(game);
+    updateGames(game);
+    return game;
+  };
 
-  return state;
+  // square selection
+  const onSquareSelection = (square: ChessSquare) => {
+    setCurrentGame(currentGame);
+    updateGames(currentGame);
+    setSelectedSquare(square);
+  };
+  const selectSquare = squareSelector(currentGame?.board, onSquareSelection);
+
+  const onPieceUnselection = () => {
+    setCurrentGame(currentGame);
+    updateGames(currentGame);
+    setSelectedSquare(null);
+  };
+  const unselectSquare = squareUnselector(currentGame?.board, onPieceUnselection);
+
+  // square click
+  const onSquareClick = (square: ChessSquare) => {
+    // TODO: move if marked
+
+    const { piece } = square;
+    const squareIsSelected = piece?.id === selectedSquare?.piece?.id;
+    const pieceIsTurnColour = piece?.colour === currentGame?.turn;
+
+    if (!piece || squareIsSelected || !pieceIsTurnColour) {
+      unselectSquare();
+      return;
+    }
+    selectSquare(square);
+  };
+
+  return {
+    currentGame,
+    setCurrentGame,
+    games,
+    createNewGame,
+    onSquareClick,
+  };
 };
