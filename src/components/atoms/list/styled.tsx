@@ -29,7 +29,7 @@ export const ListItem = styled.li`
     border: ${listItemBorder};
 
     &:active {
-      background-color: #333;
+      background-color: #46861E;
     }
   }
 

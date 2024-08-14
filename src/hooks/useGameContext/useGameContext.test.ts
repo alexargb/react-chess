@@ -1,6 +1,7 @@
 import React from 'react';
 import type { GameContextState } from '~/contexts/game/types';
 import { useGameContext } from '.';
+import { newGame } from '~/contexts/game/manager';
 
 const mockContextState: GameContextState = {
   currentGame: {
@@ -9,6 +10,8 @@ const mockContextState: GameContextState = {
     turn: 'white',
     finished: false,
   },
+  games: [],
+  createNewGame: newGame,
 };
 
 describe('useGameContext', () => {

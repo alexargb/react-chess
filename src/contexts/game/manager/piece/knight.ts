@@ -1,0 +1,71 @@
+import { ChessColour, ChessPiece, ChessPieceMoveset, ChessPosition } from '~/types';
+
+export const getKnightMoves = (): ChessPieceMoveset => [
+  {
+    changeX: 2,
+    changeY: 1,
+    eats: true,
+  },
+  {
+    changeX: 2,
+    changeY: -1,
+    eats: true,
+  },
+  {
+    changeX: -2,
+    changeY: 1,
+    eats: true,
+  },
+  {
+    changeX: -2,
+    changeY: -1,
+    eats: true,
+  },
+  {
+    changeX: 1,
+    changeY: 2,
+    eats: true,
+  },
+  {
+    changeX: -1,
+    changeY: 2,
+    eats: true,
+  },
+  {
+    changeX: 1,
+    changeY: -2,
+    eats: true,
+  },
+  {
+    changeX: -1,
+    changeY: -2,
+    eats: true,
+  },
+];
+
+export const newKnight = (id: number, colour: ChessColour, position: ChessPosition): ChessPiece => ({
+  id,
+  name: 'knight',
+  shortName: 'n',
+  colour,
+  position,
+  hasMoved: false,
+  moves: getKnightMoves(),
+  posibleMoves: [
+    {
+      changeX: 1,
+      changeY: 2,
+      eats: true,
+    },
+    {
+      changeX: -1,
+      changeY: 2,
+      eats: true,
+    },
+  ].map((move) => {
+    if (colour === 'white') {
+      move.changeY = -move.changeY;
+    }
+    return move;
+  }),
+});
