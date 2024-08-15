@@ -28,7 +28,7 @@ export const squareSelector = (
     const { x, y } = square;
     board[y][x].selected = true;
   
-    square.piece?.posibleMoves.forEach((move) => {
+    square.piece?.possibleMoves.forEach((move) => {
       const { changeX, changeY } = move;
       const newX = x + changeX;
       const newY = y + changeY;

@@ -51,7 +51,7 @@ export const newKnight = (id: number, colour: ChessColour, position: ChessPositi
   position,
   hasMoved: false,
   moves: getKnightMoves(),
-  posibleMoves: [
+  possibleMoves: [
     {
       changeX: 1,
       changeY: 2,

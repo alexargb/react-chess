@@ -14,7 +14,7 @@ const piece: ChessPiece = {
   },
   hasMoved: false,
   moves: [],
-  posibleMoves: [],
+  possibleMoves: [],
 };
 describe('Pieces', () => {
   describe('White', () => {

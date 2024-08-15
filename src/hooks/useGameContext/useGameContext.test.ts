@@ -9,6 +9,7 @@ const mockContextState: GameContextState = {
     board: [],
     turn: 'white',
     finished: false,
+    removedPieces: [],
   },
   games: [],
   createNewGame: newGame,

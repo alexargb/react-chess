@@ -21,5 +21,5 @@ export const newRook = (id: number, colour: ChessColour, position: ChessPosition
   position,
   hasMoved: false,
   moves: getRookMoves(),
-  posibleMoves: [],
+  possibleMoves: [],
 });

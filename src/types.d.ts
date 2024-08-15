@@ -35,7 +35,7 @@ export type ChessPiece = {
   colour: ChessColour;
   hasMoved: boolean;
   moves: ChessPieceMoveset;
-  posibleMoves: ChessPieceStrictMoveset;
+  possibleMoves: ChessPieceStrictMoveset;
   position: ChessPosition;
 } | null | undefined;
 
@@ -59,4 +59,5 @@ export type ChessGame = {
   turn: ChessColour;
   timer?: ChessTimer;
   finished: boolean;
+  removedPieces: ChessPiece[];
 } | null | undefined;

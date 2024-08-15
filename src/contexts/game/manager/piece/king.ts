@@ -63,5 +63,5 @@ export const newKing = (id: number, colour: ChessColour, position: ChessPosition
   position,
   hasMoved: false,
   moves: getKingMoves(),
-  posibleMoves: [],
+  possibleMoves: [],
 });

@@ -16,7 +16,7 @@ const piece: ChessPiece = {
   },
   hasMoved: false,
   moves: [],
-  posibleMoves: [],
+  possibleMoves: [],
 };
 
 const square: ChessSquare = {

@@ -41,7 +41,7 @@ export const newPawn = (id: number, colour: ChessColour, position: ChessPosition
     }
     return move;
   }),
-  posibleMoves: [
+  possibleMoves: [
     {
       changeX: 0,
       changeY: 1,
