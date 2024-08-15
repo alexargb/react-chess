@@ -1,1 +1,1 @@
-export { BigTitle, Title, SmallTitle } from './styled';
+export * from './styled';

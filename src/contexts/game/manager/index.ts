@@ -1,1 +1,1 @@
-export { newGame, squareSelector, squareUnselector } from './game';
+export * from './game';
