@@ -18,8 +18,6 @@ export const Piece = ({ piece }: PieceProps) => {
     Pawn,
   } = colour === 'white' ? White : Black;
 
-  // TODO: add piece movement logic
-
   switch (shortName) {
     case 'k':
       return <King />;

@@ -32,8 +32,8 @@ export const getKingMoves = (): ChessPieceMoveset => [
     eats: true,
   },
   {
-    changeX: -1,
-    changeY: 1,
+    changeX: 1,
+    changeY: -1,
     eats: true,
   },
   {
@@ -64,4 +64,5 @@ export const newKing = (id: number, colour: ChessColour, position: ChessPosition
   hasMoved: false,
   moves: getKingMoves(),
   possibleMoves: [],
+  pawnJustJumped: false,
 });

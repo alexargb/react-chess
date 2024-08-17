@@ -22,4 +22,5 @@ export const newRook = (id: number, colour: ChessColour, position: ChessPosition
   hasMoved: false,
   moves: getRookMoves(),
   possibleMoves: [],
+  pawnJustJumped: false,
 });

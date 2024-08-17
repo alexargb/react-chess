@@ -17,7 +17,8 @@ export type ChessPieceMove = {
   changeX: ChessPieceMoveChange;
   changeY: ChessPieceMoveChange;
   conditions?: ChessPieceMoveCondition[];
-  eats?: boolean;
+  eats: boolean;
+  enPassants?: boolean;
 };
 
 export type ChessPieceStrictMove = {
@@ -37,10 +38,11 @@ export type ChessPiece = {
   moves: ChessPieceMoveset;
   possibleMoves: ChessPieceStrictMoveset;
   position: ChessPosition;
-} | null | undefined;
+  pawnJustJumped: boolean;
+};
 
 export type ChessSquare = ChessPosition & {
-  piece: ChessPiece;
+  piece?: ChessPiece;
   colour: ChessColour;
   marked: boolean;
   selected: boolean;
