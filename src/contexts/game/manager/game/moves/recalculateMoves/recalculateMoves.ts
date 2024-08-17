@@ -1,5 +1,5 @@
 import type { ChessGame, ChessSquare } from '~/types';
-import { getMoveValidator } from './moveValidator';
+import { getMoveValidator } from '../moveValidator';
 
 const recalculatePieceMovesGetter = (game: ChessGame) => {
   if (!game?.board) return () => ({} as ChessSquare);

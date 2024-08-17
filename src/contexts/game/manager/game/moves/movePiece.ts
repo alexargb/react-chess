@@ -1,5 +1,5 @@
 import type { ChessGame, ChessSquare } from '~/types';
-import { recalculateMoves } from './recalculateMove';
+import { recalculateMoves } from './recalculateMoves';
 
 export const movePieceGetter = (
   game: ChessGame,

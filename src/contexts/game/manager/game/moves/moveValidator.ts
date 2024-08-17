@@ -11,7 +11,7 @@ import {
   getPositionFromMove,
   squareHasPieceFromColour,
   validateFinalPosition,
-} from './helpers';
+} from './recalculateMoves/helpers';
 
 type MoveValidatorFunction = (square: ChessSquare) => (move: ChessPieceMove) => ChessPieceStrictMove[];
 
