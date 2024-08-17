@@ -52,7 +52,7 @@ export const getMoveValidator = (game: ChessGame): MoveValidatorFunction => {
 
         if (conditions.includes('en passant')) {
           // TODO: en passant
-          return false;
+          return true;
         }
 
         if (
