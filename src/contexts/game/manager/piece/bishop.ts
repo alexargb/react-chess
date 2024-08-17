@@ -17,4 +17,5 @@ export const newBishop = (id: number, colour: ChessColour, position: ChessPositi
   hasMoved: false,
   moves: getBishopMoves(),
   possibleMoves: [],
+  pawnJustJumped: false,
 });

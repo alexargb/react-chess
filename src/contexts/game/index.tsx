@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
 import type { GameContextState, GameProviderProps } from './types';
-import { useGameState } from './hooks/useGameState';
+import { useGameState } from './useGameState';
 
 const GameContext = createContext<GameContextState>({
   games: [],

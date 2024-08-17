@@ -27,4 +27,5 @@ export const newQueen = (id: number, colour: ChessColour, position: ChessPositio
   hasMoved: false,
   moves: getQueenMoves(),
   possibleMoves: [],
+  pawnJustJumped: false,
 });

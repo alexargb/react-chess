@@ -17,6 +17,7 @@ const piece: ChessPiece = {
   hasMoved: false,
   moves: [],
   possibleMoves: [],
+  pawnJustJumped: false,
 };
 
 const square: ChessSquare = {
@@ -78,7 +79,7 @@ describe('Square', () => {
   });
 
   it('Should render empty Square', () => {
-    square.piece = null;
+    delete square.piece;
     render(<Square square={square} onClick={clickMock}/>);
 
     expect(() => {
@@ -95,7 +96,7 @@ describe('Square', () => {
   });
 
   it('Should render marked empty Square', () => {
-    square.piece = null;
+    delete square.piece;
     square.marked = true;
     render(<Square square={square} onClick={clickMock}/>);
 

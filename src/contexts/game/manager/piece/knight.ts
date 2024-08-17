@@ -55,12 +55,10 @@ export const newKnight = (id: number, colour: ChessColour, position: ChessPositi
     {
       changeX: 1,
       changeY: 2,
-      eats: true,
     },
     {
       changeX: -1,
       changeY: 2,
-      eats: true,
     },
   ].map((move) => {
     if (colour === 'white') {
@@ -68,4 +66,5 @@ export const newKnight = (id: number, colour: ChessColour, position: ChessPositi
     }
     return move;
   }),
+  pawnJustJumped: false,
 });

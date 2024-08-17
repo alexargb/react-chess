@@ -34,6 +34,7 @@ export const newPawn = (id: number, colour: ChessColour, position: ChessPosition
   colour,
   position,
   hasMoved: false,
+  pawnJustJumped: false,
   moves: getPawnMoves().map((move) => {
     if (colour === 'white') {
       move.changeX = -move.changeX;

@@ -19,7 +19,7 @@ const NAME_MAP = {
   'b': newBishop,
   'n': newKnight,
   'p': newPawn,
-  '-': () => null,
+  '-': () => undefined,
 };
 
 export const newPiece = (
@@ -27,7 +27,7 @@ export const newPiece = (
   shortName: ChessPieceShortName,
   colour: ChessColour,
   position: ChessPosition,
-): ChessPiece => {
+): ChessPiece | undefined => {
   const getNewPiece = NAME_MAP[shortName];
   return getNewPiece(id, colour, position);
 };
