@@ -1,5 +1,6 @@
 import type { ChessGame, ChessSquare } from '~/types';
 import { recalculateMoves } from './recalculateMoves';
+import { removeJumpedState } from './removeJumpedState';
 
 export const movePieceGetter = (
   game: ChessGame,
@@ -8,8 +9,14 @@ export const movePieceGetter = (
 ) => (square: ChessSquare) => {
   if (!game?.board || !selectedSquare) return;
 
+  removeJumpedState(game);
+
   const piece = selectedSquare?.piece;
   if (piece) piece.hasMoved = true;
+  if (
+    piece?.shortName === 'p' &&
+    Math.abs(square.y - selectedSquare.y) === 2
+  ) piece.pawnJustJumped = true;
 
   if (square.piece) {
     game.removedPieces.push(square.piece);
