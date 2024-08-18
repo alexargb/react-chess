@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { ChessGame, ChessSquare } from '~/types';
 import type { GameContextState } from './types';
 import {
-  gamesUpdater,
+  recordUpdater,
   newGame,
   squareSelector,
   squareUnselector,
@@ -10,14 +10,14 @@ import {
 } from './manager';
 
 export const useGameState = (): GameContextState => {
-  const [games, setGames] = useState<ChessGame[]>([]);
+  const [record, setRecord] = useState<ChessGame[]>([]);
   const [currentGame, setCurrentGame] = useState<ChessGame>(null);
   const [selectedSquare, setSelectedSquare] = useState<ChessSquare | null>(null);
 
-  const updateGamesRecord = gamesUpdater(games, setGames);
+  const updateRecord = recordUpdater(record, setRecord);
   const updateGames = (game?: ChessGame) => {
     setCurrentGame(game || currentGame);
-    updateGamesRecord(game || currentGame);
+    updateRecord(game || currentGame);
   };
 
   // game initialization
@@ -73,7 +73,7 @@ export const useGameState = (): GameContextState => {
   return {
     currentGame,
     setCurrentGame,
-    games,
+    record,
     createNewGame,
     onSquareClick,
   };

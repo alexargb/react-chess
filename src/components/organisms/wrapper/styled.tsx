@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Title } from '~/components/atoms/title';
+import { BigTitle } from '~/components/atoms/title';
 
 export const WrapperContainer = styled.div`
   background-color: #444;
@@ -8,13 +8,11 @@ export const WrapperContainer = styled.div`
   width: 100%;
 `;
 
-export const WrapperTitle = styled(Title)`
+export const WrapperTitle = styled(BigTitle)`
   background-color: #EAEAEA;
   border-radius: 4px;
   border: 1px solid transparent;
 
-  user-select: none;
-  -webkit-user-select: none;
   cursor: pointer;
 
   &:hover {

@@ -1,9 +1,35 @@
 import React from 'react';
+import { useGameContext } from '~/hooks';
+import { ColourSpan, IdSpan, RecordTitle, RecordWrapper } from './styled';
+import { List, ListItem } from '~/components/atoms/list';
+import { capitalize } from '~/helpers/capitalize';
+import { GAME } from '~/constants/views';
 
-export const Record = () => {
+type RecordProps = {
+  setCurrentView: (view: string) => void;
+};
+
+export const Record = ({ setCurrentView }: RecordProps) => {
+  const { record, setCurrentGame } = useGameContext();
   return (
-    <div className="record">
-      <h3>Record o:</h3>
-    </div>
+    <RecordWrapper className="record">
+      <RecordTitle>Record:</RecordTitle>
+      <List>
+        {record.map((game) => {
+          if (!game) return null;
+          const { id, turn } = game;
+          const onClickRecord = () => {
+            setCurrentGame?.(game);
+            setCurrentView(GAME);
+          };
+
+          return (
+            <ListItem onClick={onClickRecord}>
+              <IdSpan>{id}</IdSpan> <ColourSpan colour={turn}>{capitalize(turn)}'s</ColourSpan> turn
+            </ListItem>
+          );
+        })}
+      </List>
+    </RecordWrapper>
   );
 };

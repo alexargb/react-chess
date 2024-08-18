@@ -3,7 +3,7 @@ import type { GameContextState, GameProviderProps } from './types';
 import { useGameState } from './useGameState';
 
 const GameContext = createContext<GameContextState>({
-  games: [],
+  record: [],
   createNewGame: () => null,
 });
 
