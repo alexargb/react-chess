@@ -26,10 +26,9 @@ export const newPiece = (
   id: number,
   shortName: ChessPieceShortName,
   colour: ChessColour,
-  position: ChessPosition,
 ): ChessPiece | undefined => {
   const getNewPiece = NAME_MAP[shortName];
-  return getNewPiece(id, colour, position);
+  return getNewPiece(id, colour);
 };
 
 export {

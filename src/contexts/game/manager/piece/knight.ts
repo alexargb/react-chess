@@ -1,4 +1,4 @@
-import { ChessColour, ChessPiece, ChessPieceMoveset, ChessPosition } from '~/types';
+import { ChessColour, ChessPiece, ChessPieceMoveset } from '~/types';
 
 export const getKnightMoves = (): ChessPieceMoveset => [
   {
@@ -43,12 +43,11 @@ export const getKnightMoves = (): ChessPieceMoveset => [
   },
 ];
 
-export const newKnight = (id: number, colour: ChessColour, position: ChessPosition): ChessPiece => ({
+export const newKnight = (id: number, colour: ChessColour): ChessPiece => ({
   id,
   name: 'knight',
   shortName: 'n',
   colour,
-  position,
   hasMoved: false,
   moves: getKnightMoves(),
   possibleMoves: [

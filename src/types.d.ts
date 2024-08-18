@@ -37,7 +37,6 @@ export type ChessPiece = {
   hasMoved: boolean;
   moves: ChessPieceMoveset;
   possibleMoves: ChessPieceStrictMoveset;
-  position: ChessPosition;
   pawnJustJumped: boolean;
 };
 

@@ -10,10 +10,6 @@ const piece: ChessPiece = {
   name: 'king',
   shortName: 'k',
   colour: 'white',
-  position: {
-    x: 5,
-    y: 0,
-  },
   hasMoved: false,
   moves: [],
   possibleMoves: [],

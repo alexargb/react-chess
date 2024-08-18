@@ -32,13 +32,12 @@ const newSquare = (
   const id = y * 8 + x;
   const squareColour = getPositionColour(x, y);
   const pieceColour = getPieceColour(y);
-  const position = { x, y };
 
   return {
     x,
     y,
     colour: squareColour,
-    piece: newPiece(id, shortName, pieceColour, position),
+    piece: newPiece(id, shortName, pieceColour),
     marked: false,
     selected: false,
   };
