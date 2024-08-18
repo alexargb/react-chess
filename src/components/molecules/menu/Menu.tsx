@@ -1,11 +1,10 @@
 import React from 'react';
-import type { Dispatch, SetStateAction } from 'react';
 import { List, ListItem } from '~/components/atoms/list';
 import { GAME, RECORD } from '~/constants/views';
 import { useGameContext } from '~/hooks';
 
 type MenuProps = {
-  setCurrentView: Dispatch<SetStateAction<string>>;
+  setCurrentView: (view: string) => void;
 };
 
 export const Menu = ({ setCurrentView }: MenuProps) => {

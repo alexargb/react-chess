@@ -11,7 +11,7 @@ const mockContextState: GameContextState = {
     finished: false,
     removedPieces: [],
   },
-  games: [],
+  record: [],
   createNewGame: newGame,
 };
 

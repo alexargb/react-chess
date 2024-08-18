@@ -3,7 +3,7 @@ import type { ChessGame, ChessSquare } from '~/types';
 export type GameContextState = {
   currentGame?: ChessGame;
   setCurrentGame?: (game: ChessGame) => void;
-  games: ChessGame[];
+  record: ChessGame[];
   createNewGame: () => ChessGame;
   onSquareClick?: (square: ChessSquare) => void,
   isPieceSelected?: boolean,

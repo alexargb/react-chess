@@ -1,1 +1,1 @@
-export * from './updateGames';
+export * from './updateRecord';

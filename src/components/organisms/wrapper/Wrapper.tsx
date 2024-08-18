@@ -14,7 +14,7 @@ export const Wrapper = () => {
       <WrapperTitle onClick={returnToMenu}>React Chess</WrapperTitle>
       { currentView === MENU && <Menu setCurrentView={setCurrentView} /> }
       { currentView === GAME && <Game /> }
-      { currentView === RECORD && <Record /> }
+      { currentView === RECORD && <Record setCurrentView={setCurrentView} /> }
     </WrapperContainer>
   );
 };

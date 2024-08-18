@@ -1,6 +1,6 @@
 import type { ChessGame } from '~/types';
 
-export const gamesUpdater = (
+export const recordUpdater = (
   games: ChessGame[],
   setGames: (games: ChessGame[]) => void,
 ) => (game: ChessGame) => {

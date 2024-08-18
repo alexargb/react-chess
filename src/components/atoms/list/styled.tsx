@@ -33,11 +33,6 @@ export const ListItem = styled.li`
     }
   }
 
-  &:first-of-type {
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-  }
-
   &:last-of-type {
     border-bottom: ${transparentBorder};
     border-bottom-right-radius: 4px;
@@ -46,6 +41,15 @@ export const ListItem = styled.li`
     &:hover {
       border-top: ${transparentBorder};
       border-bottom: ${listItemBorder};
+    }
+  }
+
+  &:first-of-type {
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+
+    &:hover {
+      border-top: ${listItemBorder}; // to override last-of-type's non top border
     }
   }
 `;
