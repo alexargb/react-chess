@@ -8,8 +8,9 @@ type MenuProps = {
 };
 
 export const Menu = ({ setCurrentView }: MenuProps) => {
-  const { currentGame, createNewGame } = useGameContext();
+  const { currentGame, createNewGame, record } = useGameContext();
   const showContinue = !!currentGame;
+  const showRecord = record?.length > 1;
   
   const goToGame = () => setCurrentView(GAME);
   const goToRecord = () => setCurrentView(RECORD);
@@ -23,7 +24,7 @@ export const Menu = ({ setCurrentView }: MenuProps) => {
     <List className="menu">
       { showContinue && <ListItem onClick={goToGame}>Continue Game</ListItem> }
       <ListItem onClick={newGame}>New Game</ListItem>
-      <ListItem onClick={goToRecord}>Record</ListItem>
+      {showRecord && <ListItem onClick={goToRecord}>Record</ListItem>}
     </List>
   );
 };
