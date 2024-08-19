@@ -12,9 +12,9 @@ export const Wrapper = () => {
   return (
     <WrapperContainer>
       <WrapperTitle onClick={returnToMenu}>React Chess</WrapperTitle>
-      { currentView === MENU && <Menu setCurrentView={setCurrentView} /> }
-      { currentView === GAME && <Game /> }
-      { currentView === RECORD && <Record setCurrentView={setCurrentView} /> }
+      {currentView === MENU && <Menu setCurrentView={setCurrentView} />}
+      {currentView === GAME && <Game />}
+      {currentView === RECORD && <Record setCurrentView={setCurrentView} />}
     </WrapperContainer>
   );
 };

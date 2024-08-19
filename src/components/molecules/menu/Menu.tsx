@@ -22,7 +22,7 @@ export const Menu = ({ setCurrentView }: MenuProps) => {
 
   return (
     <List className="menu">
-      { showContinue && <ListItem onClick={goToGame}>Continue Game</ListItem> }
+      {showContinue && <ListItem onClick={goToGame}>Continue Game</ListItem>}
       <ListItem onClick={newGame}>New Game</ListItem>
       {showRecord && <ListItem onClick={goToRecord}>Record</ListItem>}
     </List>
