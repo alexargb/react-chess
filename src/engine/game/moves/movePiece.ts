@@ -1,35 +1,36 @@
-import type { ChessGame, ChessSquare } from '~/types';
-import { recalculateMoves } from './recalculateMoves';
-import { removeJumpedState } from './removeJumpedState';
+import type { ChessGame, ChessSquare } from "~/types";
+import { getOppositeColour } from "~/helpers/oppositeColour";
+import { recalculateMoves } from "./recalculateMoves";
+import { markJumpedState, removeJumpedState } from "./manageJumpedState";
 
-export const movePieceGetter = (
-  game: ChessGame,
-  selectedSquare: ChessSquare,
-  callback?: (game?: ChessGame) => void,
-) => (square: ChessSquare) => {
-  if (!game?.board || !selectedSquare) return;
+export const movePieceGetter =
+  (
+    game: ChessGame,
+    selectedSquare: ChessSquare,
+    callback?: (game?: ChessGame) => void,
+  ) =>
+  (markedSquare: ChessSquare): ChessGame => {
+    if (!game?.board || !selectedSquare) return;
 
-  removeJumpedState(game);
+    removeJumpedState(game);
+    markJumpedState(selectedSquare, markedSquare);
 
-  const piece = selectedSquare?.piece;
-  if (piece) piece.hasMoved = true;
-  if (
-    piece?.shortName === 'p' &&
-    Math.abs(square.y - selectedSquare.y) === 2
-  ) piece.pawnJustJumped = true;
+    const selectedPiece = selectedSquare?.piece;
+    if (selectedPiece) selectedPiece.hasMoved = true;
 
-  if (square.piece) {
-    game.removedPieces.push(square.piece);
-  }
+    if (markedSquare.piece) {
+      game.removedPieces.push(markedSquare.piece);
+    }
 
-  game.board[square.y][square.x].piece = piece;
-  delete game.board[selectedSquare.y][selectedSquare.x].piece;
+    game.board[markedSquare.y][markedSquare.x].piece = selectedPiece;
+    delete game.board[selectedSquare.y][selectedSquare.x].piece;
 
-  // TODO: review if castling or en passant
+    // TODO: review if castling or en passant
 
-  game.turn = game.turn === 'white' ? 'black' : 'white';
+    game.turn = getOppositeColour(game.turn);
 
-  recalculateMoves(game);
+    recalculateMoves(game);
 
-  callback?.();
-};
+    callback?.();
+    return game;
+  };

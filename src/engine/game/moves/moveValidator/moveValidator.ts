@@ -3,7 +3,8 @@ import type {
   ChessPieceMove,
   ChessPieceStrictMove,
   ChessSquare,
-} from '~/types';
+} from "~/types";
+import { getOppositeColour } from "~/helpers/oppositeColour";
 import {
   getSquaresByPieceColour,
   strictMovesMapper,
@@ -11,21 +12,23 @@ import {
   getPositionFromMove,
   squareHasPieceFromColour,
   validateFinalPosition,
-} from './recalculateMoves/helpers';
+} from "./helpers";
 
-type MoveValidatorFunction = (square: ChessSquare) => (move: ChessPieceMove) => ChessPieceStrictMove[];
+type MoveValidatorFunction = (
+  square: ChessSquare,
+) => (move: ChessPieceMove) => ChessPieceStrictMove[];
 
 export const getMoveValidator = (game: ChessGame): MoveValidatorFunction => {
   if (!game?.board) return () => () => [];
   const ownColour = game.turn;
-  const enemyColour = ownColour === 'white' ? 'black' : 'white';
+  const enemyColour = getOppositeColour(ownColour);
 
   const ownPositions = getSquaresByPieceColour(game, game.turn);
   const enemyPositions = getSquaresByPieceColour(game, enemyColour);
   const allPositions = { ownPositions, enemyPositions };
 
   // TODO: check for 'checks'
-  
+
   return (square) => {
     const moveToStrictMoves = strictMovesMapper(square);
     const getUnblockedMoves = movesFromBlockedMoves(square, allPositions);
@@ -46,31 +49,31 @@ export const getMoveValidator = (game: ChessGame): MoveValidatorFunction => {
         const destination = game.board[y][x];
 
         if (
-          conditions.includes('eating') &&
+          conditions.includes("eating") &&
           !squareHasPieceFromColour(destination, enemyColour)
-        ) return false;
+        )
+          return false;
 
-        if (conditions.includes('en passant')) {
+        if (conditions.includes("en passant")) {
           // TODO: en passant
           return true;
         }
 
         if (
-          conditions.includes('unblocked') &&
+          conditions.includes("unblocked") &&
           squareHasPieceFromColour(destination, enemyColour)
-        ) return false;
+        )
+          return false;
 
-        if (
-          conditions.includes('unmoved') &&
-          square.piece?.hasMoved
-        ) return false;
+        if (conditions.includes("unmoved") && square.piece?.hasMoved)
+          return false;
 
-        if (conditions.includes('king castle')) {
+        if (conditions.includes("king castle")) {
           // TODO: king castle
           return false;
         }
 
-        if (conditions.includes('queen castle')) {
+        if (conditions.includes("queen castle")) {
           // TODO: queen castle
           return false;
         }
@@ -78,5 +81,5 @@ export const getMoveValidator = (game: ChessGame): MoveValidatorFunction => {
         return true;
       });
     };
-  } ;
+  };
 };

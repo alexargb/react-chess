@@ -3,15 +3,17 @@ import type {
   ChessPieceStrictMove,
   ChessPosition,
   ChessSquare,
-} from '~/types';
-import { getPositionFromMove } from './getPositionFromMove';
+} from "~/types";
+import { getPositionFromMove } from "./getPositionFromMove";
 
 type AllPositionsParam = {
   ownPositions: ChessSquare[];
   enemyPositions: ChessSquare[];
 };
 
-type BlockedMovesFilterFunction = (move: ChessPieceStrictMove) => ChessPieceStrictMove[];
+type BlockedMovesFilterFunction = (
+  move: ChessPieceStrictMove,
+) => ChessPieceStrictMove[];
 
 const getOrderedMovePositions = (
   square: ChessSquare,
@@ -45,8 +47,8 @@ const getOrderedMovePositions = (
     const yMultiplier = square.y <= final.y ? 1 : -1;
     for (let i = 1; i < Math.abs(move.changeX); i += 1) {
       orderedPositions.push({
-        x: square.x + (xMultiplier * i) as ChessBoardCoordinate,
-        y: square.y + (yMultiplier * i) as ChessBoardCoordinate,
+        x: (square.x + xMultiplier * i) as ChessBoardCoordinate,
+        y: (square.y + yMultiplier * i) as ChessBoardCoordinate,
       });
     }
   }
@@ -62,29 +64,33 @@ const getChessPieceStrictMove = (
   changeY: position.y - square.y,
 });
 
-const sameCoordinatesChecker = (a: ChessPosition) => (b: ChessPosition): boolean =>
-  a.x === b.x && a.y === b.y;
+const sameCoordinatesChecker =
+  (a: ChessPosition) =>
+  (b: ChessPosition): boolean =>
+    a.x === b.x && a.y === b.y;
 
-export const movesFromBlockedMoves = (
-  square: ChessSquare,
-  allPositions: AllPositionsParam,
-): BlockedMovesFilterFunction => (move) => {
-  const { ownPositions, enemyPositions } = allPositions;
-  const orderedMovePositions = getOrderedMovePositions(square, move);
-  const leftMoves: ChessPieceStrictMove[] = [];
+export const movesFromBlockedMoves =
+  (
+    square: ChessSquare,
+    allPositions: AllPositionsParam,
+  ): BlockedMovesFilterFunction =>
+  (move) => {
+    const { ownPositions, enemyPositions } = allPositions;
+    const orderedMovePositions = getOrderedMovePositions(square, move);
+    const leftMoves: ChessPieceStrictMove[] = [];
 
-  for (let i = 0; i < orderedMovePositions.length; i += 1) {
-    const position = orderedMovePositions[i];
-    const haveSameCoordinates = sameCoordinatesChecker(position);
+    for (let i = 0; i < orderedMovePositions.length; i += 1) {
+      const position = orderedMovePositions[i];
+      const haveSameCoordinates = sameCoordinatesChecker(position);
 
-    const ownPiece = ownPositions.find(haveSameCoordinates);
-    if (!!ownPiece) break;
+      const ownPiece = ownPositions.find(haveSameCoordinates);
+      if (!!ownPiece) break;
 
-    leftMoves.push(getChessPieceStrictMove(square, position));
+      leftMoves.push(getChessPieceStrictMove(square, position));
 
-    const enemyPiece = enemyPositions.find(haveSameCoordinates);
-    if (!!enemyPiece) break;
-  }
+      const enemyPiece = enemyPositions.find(haveSameCoordinates);
+      if (!!enemyPiece) break;
+    }
 
-  return leftMoves;
-};
+    return leftMoves;
+  };

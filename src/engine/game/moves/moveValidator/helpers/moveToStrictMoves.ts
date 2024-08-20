@@ -2,19 +2,22 @@ import type {
   ChessPieceMove,
   ChessPieceStrictMove,
   ChessSquare,
-} from '~/types';
-import { getDistanceToBorders } from './getDistanceToBorders';
+} from "~/types";
+import { getDistanceToBorders } from "./getDistanceToBorders";
 
-type MoveType = 'preset' | 'vertical' | 'horizontal' | 'diagonal';
+type MoveType = "preset" | "vertical" | "horizontal" | "diagonal";
 
 const getMoveType = ({ changeX, changeY }: ChessPieceMove): MoveType => {
-  if (changeX === 'x' && changeY === 'x') return 'diagonal';
-  if (changeX === 'x') return 'horizontal';
-  if (changeY === 'x') return 'vertical';
-  return 'preset';
+  if (changeX === "x" && changeY === "x") return "diagonal";
+  if (changeX === "x") return "horizontal";
+  if (changeY === "x") return "vertical";
+  return "preset";
 };
 
-const normalMoveToStrictMoveArray = (move: ChessPieceMove, initialSquare: ChessSquare): ChessPieceStrictMove[] => {
+const normalMoveToStrictMoveArray = (
+  move: ChessPieceMove,
+  initialSquare: ChessSquare,
+): ChessPieceStrictMove[] => {
   const strictMove = {
     changeX: +move.changeX,
     changeY: +move.changeY,
@@ -27,20 +30,15 @@ const filterNonMoves = ({ changeX, changeY }: ChessPieceStrictMove): boolean =>
   changeX !== 0 || changeY !== 0;
 
 export const strictMovesMapper = (initialSquare: ChessSquare) => {
-  const {
-    top,
-    bottom,
-    right,
-    left,
-  } = getDistanceToBorders(initialSquare);
+  const { top, bottom, right, left } = getDistanceToBorders(initialSquare);
 
   return (move: ChessPieceMove): ChessPieceStrictMove[] => {
     let moveSet: ChessPieceStrictMove[] = [];
     switch (getMoveType(move)) {
-      case 'preset':
+      case "preset":
         moveSet = normalMoveToStrictMoveArray(move, initialSquare);
         break;
-      case 'vertical':
+      case "vertical":
         moveSet = [
           {
             changeX: 0,
@@ -52,7 +50,7 @@ export const strictMovesMapper = (initialSquare: ChessSquare) => {
           },
         ];
         break;
-      case 'horizontal':
+      case "horizontal":
         moveSet = [
           {
             changeX: right,
@@ -64,7 +62,7 @@ export const strictMovesMapper = (initialSquare: ChessSquare) => {
           },
         ];
         break;
-      case 'diagonal':
+      case "diagonal":
         moveSet = [
           {
             changeX: Math.min(top, right),
@@ -87,5 +85,5 @@ export const strictMovesMapper = (initialSquare: ChessSquare) => {
     }
 
     return moveSet.filter(filterNonMoves);
-  }
+  };
 };

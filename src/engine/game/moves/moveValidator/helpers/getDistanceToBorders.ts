@@ -1,4 +1,4 @@
-import type { ChessSquare } from '~/types';
+import type { ChessSquare } from "~/types";
 
 export const getDistanceToBorders = (square: ChessSquare) => ({
   top: 7 - square.y,
