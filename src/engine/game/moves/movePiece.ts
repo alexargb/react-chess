@@ -1,7 +1,7 @@
-import type { ChessGame, ChessSquare } from "~/types";
-import { getOppositeColour } from "~/helpers/oppositeColour";
-import { recalculateMoves } from "./recalculateMoves";
-import { markJumpedState, removeJumpedState } from "./manageJumpedState";
+import type { ChessGame, ChessSquare } from '~/types';
+import { getOppositeColour } from '~/helpers/oppositeColour';
+import { recalculateMoves } from './recalculateMoves';
+import { markJumpedState, removeJumpedState } from './manageJumpedState';
 
 export const movePieceGetter =
   (

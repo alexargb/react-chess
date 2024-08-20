@@ -1,4 +1,4 @@
-import type { ChessGame, ChessPiece, ChessSquare } from "~/types";
+import type { ChessGame, ChessPiece, ChessSquare } from '~/types';
 
 export const markJumpedState = (
   selectedSquare: ChessSquare,
@@ -7,7 +7,7 @@ export const markJumpedState = (
   const selectedPiece = selectedSquare?.piece;
 
   if (
-    selectedPiece?.shortName === "p" &&
+    selectedPiece?.shortName === 'p' &&
     Math.abs(markedSquare.y - selectedSquare.y) === 2
   )
     selectedPiece.pawnJustJumped = true;
