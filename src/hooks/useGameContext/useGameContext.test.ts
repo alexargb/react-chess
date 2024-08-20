@@ -1,7 +1,7 @@
 import React from 'react';
 import type { GameContextState } from '~/contexts/game/types';
 import { useGameContext } from '.';
-import { newGame } from '~/contexts/game/manager';
+import { newGame } from '~/engine';
 
 const mockContextState: GameContextState = {
   currentGame: {

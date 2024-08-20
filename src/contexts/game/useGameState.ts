@@ -7,7 +7,7 @@ import {
   squareSelector,
   squareUnselector,
   movePieceGetter,
-} from './manager';
+} from '~/engine';
 
 export const useGameState = (): GameContextState => {
   const [record, setRecord] = useState<ChessGame[]>([]);
