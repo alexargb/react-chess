@@ -1,1 +1,1 @@
-export * from "./oppositeColour";
+export * from './oppositeColour';

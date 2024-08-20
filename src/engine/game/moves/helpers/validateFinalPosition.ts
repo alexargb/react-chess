@@ -1,4 +1,4 @@
-import type { ChessPieceStrictMove, ChessSquare } from "~/types";
+import type { ChessPieceStrictMove, ChessSquare } from '~/types';
 
 export const validateFinalPosition = (initialSquare: ChessSquare) => {
   const { x, y } = initialSquare;

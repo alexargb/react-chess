@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const BigTitle = styled.h1`
   width: fit-content;

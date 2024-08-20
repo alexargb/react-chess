@@ -6,13 +6,13 @@ import type {
 } from '~/types';
 import { getOppositeColour } from '~/helpers/oppositeColour';
 import {
-  getSquaresByPieceColour,
-  strictMovesMapper,
-  movesFromBlockedMoves,
   getPositionFromMove,
+  getSquaresByPieceColour,
   squareHasPieceFromColour,
+  strictMovesMapper,
   validateFinalPosition,
-} from './helpers';
+} from '../helpers';
+import { movesFromBlockedMoves } from './movesFromBlockedMoves';
 
 type MoveValidatorFunction = (
   square: ChessSquare,

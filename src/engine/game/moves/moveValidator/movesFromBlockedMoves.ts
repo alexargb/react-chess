@@ -3,8 +3,8 @@ import type {
   ChessPieceStrictMove,
   ChessPosition,
   ChessSquare,
-} from "~/types";
-import { getPositionFromMove } from "./getPositionFromMove";
+} from '~/types';
+import { getPositionFromMove } from '../helpers/getPositionFromMove';
 
 type AllPositionsParam = {
   ownPositions: ChessSquare[];

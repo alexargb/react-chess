@@ -3,7 +3,7 @@ import type {
   ChessPieceStrictMove,
   ChessPosition,
   ChessSquare,
-} from "~/types";
+} from '~/types';
 
 export const getPositionFromMove = (
   square: ChessSquare,

@@ -1,4 +1,4 @@
-import type { ChessColour, ChessSquare } from "~/types";
+import type { ChessColour, ChessSquare } from '~/types';
 
 export const squareHasPieceFromColour = (
   square: ChessSquare,

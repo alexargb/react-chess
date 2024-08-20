@@ -1,5 +1,5 @@
-import type { ChessColour, ChessGame, ChessSquare } from "~/types";
-import { pieceColourFilterFunction } from "./squareHasPiece";
+import type { ChessColour, ChessGame, ChessSquare } from '~/types';
+import { pieceColourFilterFunction } from './squareHasPiece';
 
 export const getSquaresByPieceColour = (
   game: ChessGame,

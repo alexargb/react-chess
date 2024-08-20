@@ -1,1 +1,1 @@
-export * from "./moveValidator";
+export * from './moveValidator';
