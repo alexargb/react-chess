@@ -5,13 +5,6 @@ import { getSquaresByPieceColour } from './helpers';
 
 const recalculatePieceMovesGetter = (game: ChessGame) => {
   if (!game?.board) return () => ({}) as ChessSquare;
-  const ownColour = game.turn;
-  const enemyColour = getOppositeColour(ownColour);
-
-  const ownSquares = getSquaresByPieceColour(game, game.turn);
-  const enemySquares = getSquaresByPieceColour(game, enemyColour);
-  const allPositions = { ownSquares, enemySquares };
-
   const validateMove = getMoveValidator(game);
 
   return (square: ChessSquare): ChessSquare => {
