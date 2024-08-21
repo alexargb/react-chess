@@ -1,7 +1,7 @@
 import type { ChessColour, ChessSquare } from '~/types';
 
 export const squareHasPieceFromColour = (
-  square: ChessSquare,
+  square: ChessSquare | null,
   colour: ChessColour,
 ): boolean => !!square?.piece && square.piece.colour === colour;
 

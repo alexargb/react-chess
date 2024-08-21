@@ -1,63 +1,63 @@
 import type {
-  ChessGame,
+  ChessColour,
   ChessPieceMove,
   ChessPieceStrictMove,
+  ChessPosition,
   ChessSquare,
 } from '~/types';
-import { getOppositeColour } from '~/helpers/oppositeColour';
+import { getOppositeColour } from '../helpers';
 import {
   getPositionFromMove,
-  getSquaresByPieceColour,
+  movesFromBlockedMoves,
+  sameCoordinatesChecker,
   squareHasPieceFromColour,
   strictMovesMapper,
   validateFinalPosition,
-} from '../helpers';
-import { movesFromBlockedMoves } from './movesFromBlockedMoves';
+} from './helpers';
 
-type MoveValidatorFunction = (
+export type MoveValidatorFunction = (
   square: ChessSquare,
 ) => (move: ChessPieceMove) => ChessPieceStrictMove[];
 
-export const getMoveValidator = (game: ChessGame): MoveValidatorFunction => {
-  if (!game?.board) return () => () => [];
-  const ownColour = game.turn;
+const getDestinationSquare = (
+  squares: ChessSquare[],
+  position: ChessPosition,
+): ChessSquare | null => {
+  const shareCoordinates = sameCoordinatesChecker(position);
+  return squares.find(shareCoordinates) || null;
+};
+
+export const getMoveValidator = (
+  squareSets: ChessSquare[][],
+  ownColour: ChessColour,
+): MoveValidatorFunction => {
   const enemyColour = getOppositeColour(ownColour);
-
-  const ownPositions = getSquaresByPieceColour(game, game.turn);
-  const enemyPositions = getSquaresByPieceColour(game, enemyColour);
-  const allPositions = { ownPositions, enemyPositions };
-
-  // TODO: check for 'checks'
 
   return (square) => {
     const moveToStrictMoves = strictMovesMapper(square);
-    const getUnblockedMoves = movesFromBlockedMoves(square, allPositions);
+    const getUnblockedMoves = movesFromBlockedMoves(square, squareSets);
 
     return (move) => {
       const { conditions } = move;
       const strictMoves = moveToStrictMoves(move)
-        .filter(validateFinalPosition(square))
-        .flatMap(getUnblockedMoves);
+        .filter(validateFinalPosition(square));
+      const unblockedStrictMoves = strictMoves.flatMap(getUnblockedMoves);
 
-      // TODO: filter if it leaves the king in 'check'
-
-      return strictMoves.filter((strictMove) => {
-        if (!game?.board) return false;
+      return unblockedStrictMoves.filter((strictMove) => {
         if (!conditions?.length) return true;
 
-        const { x, y } = getPositionFromMove(square, strictMove);
-        const destination = game.board[y][x];
+        const destinationPosition = getPositionFromMove(square, strictMove);
+        const destination = getDestinationSquare(squareSets.flat(), destinationPosition);
+
+        if (conditions.includes('en passant')) {
+          // TODO: en passant
+        }
 
         if (
           conditions.includes('eating') &&
           !squareHasPieceFromColour(destination, enemyColour)
         )
           return false;
-
-        if (conditions.includes('en passant')) {
-          // TODO: en passant
-          return true;
-        }
 
         if (
           conditions.includes('unblocked') &&

@@ -3,7 +3,7 @@ import type {
   ChessPieceStrictMove,
   ChessSquare,
 } from '~/types';
-import { getDistanceToBorders } from './getDistanceToBorders';
+import { getDistanceToBorders } from './distanceToBorders';
 
 type MoveType = 'preset' | 'vertical' | 'horizontal' | 'diagonal';
 

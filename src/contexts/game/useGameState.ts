@@ -7,6 +7,7 @@ import {
   squareSelector,
   squareUnselector,
   movePieceGetter,
+  recalculateMoves,
 } from '~/engine';
 
 export const useGameState = (): GameContextState => {
@@ -47,8 +48,9 @@ export const useGameState = (): GameContextState => {
   );
 
   // square click
-  const movePiece = movePieceGetter(currentGame, selectedSquare as ChessSquare, () => {
+  const movePiece = movePieceGetter(currentGame, selectedSquare as ChessSquare, true, () => {
     unselectSquare();
+    recalculateMoves(currentGame);
     updateGames();
   });
 
