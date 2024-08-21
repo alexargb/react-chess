@@ -1,36 +1,36 @@
 import type { ChessGame, ChessSquare } from '~/types';
-import { getOppositeColour } from '~/helpers/oppositeColour';
-import { recalculateMoves } from './recalculateMoves';
-import { markJumpedState, removeJumpedState } from './manageJumpedState';
+import { getOppositeColour } from '../helpers';
+import { markJumpedState, removeJumpedState } from './helpers';
 
 export const movePieceGetter =
   (
     game: ChessGame,
-    selectedSquare: ChessSquare,
+    initialSquare: ChessSquare,
+    finalMove: boolean,
     callback?: (game?: ChessGame) => void,
   ) =>
-  (markedSquare: ChessSquare): ChessGame => {
-    if (!game?.board || !selectedSquare) return;
+  (finalSquare: ChessSquare): ChessGame => {
+    if (!game?.board || !initialSquare) return;
 
-    removeJumpedState(game);
-    markJumpedState(selectedSquare, markedSquare);
-
-    const selectedPiece = selectedSquare?.piece;
-    if (selectedPiece) selectedPiece.hasMoved = true;
-
-    if (markedSquare.piece) {
-      game.removedPieces.push(markedSquare.piece);
+    if (finalMove) {
+      removeJumpedState(game);
+      markJumpedState(initialSquare, finalSquare);
     }
 
-    game.board[markedSquare.y][markedSquare.x].piece = selectedPiece;
-    delete game.board[selectedSquare.y][selectedSquare.x].piece;
+    const selectedPiece = initialSquare?.piece;
+    if (selectedPiece && finalMove) selectedPiece.hasMoved = true;
+
+    if (finalSquare.piece && finalMove) {
+      game.removedPieces.push(finalSquare.piece);
+    }
+
+    game.board[finalSquare.y][finalSquare.x].piece = selectedPiece;
+    delete game.board[initialSquare.y][initialSquare.x].piece;
 
     // TODO: review if castling or en passant
 
     game.turn = getOppositeColour(game.turn);
 
-    recalculateMoves(game);
-
-    callback?.();
+    callback?.(game);
     return game;
   };

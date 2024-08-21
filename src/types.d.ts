@@ -24,6 +24,7 @@ export type ChessPieceMove = {
 export type ChessPieceStrictMove = {
   changeX: number;
   changeY: number;
+  hitsKing?: boolean;
 };
 
 export type ChessPieceMoveset = ChessPieceMove[];

@@ -4,12 +4,9 @@ import type {
   ChessPosition,
   ChessSquare,
 } from '~/types';
-import { getPositionFromMove } from '../helpers/getPositionFromMove';
-
-type AllPositionsParam = {
-  ownPositions: ChessSquare[];
-  enemyPositions: ChessSquare[];
-};
+import { getPositionFromMove } from './positionFromMove';
+import { sameCoordinatesChecker } from './sameCoordinatesChecker';
+import { getChessPieceStrictMove } from './chessPieceStrictMove';
 
 type BlockedMovesFilterFunction = (
   move: ChessPieceStrictMove,
@@ -56,41 +53,45 @@ const getOrderedMovePositions = (
   return orderedPositions.concat(final);
 };
 
-const getChessPieceStrictMove = (
-  square: ChessSquare,
-  position: ChessPosition,
-): ChessPieceStrictMove => ({
-  changeX: position.x - square.x,
-  changeY: position.y - square.y,
-});
-
-const sameCoordinatesChecker =
-  (a: ChessPosition) =>
-  (b: ChessPosition): boolean =>
-    a.x === b.x && a.y === b.y;
-
+/**
+ * Higher order function.
+ * The returning mapping function, starting from a single
+ * ChessPieceStrictMove with max scope inside the board,
+ * returns an Array of ChessPieceStrictMove where the last
+ * move of each sequence is or:
+ * - Before a border limit
+ * - Before an own piece
+ * - At an enemy piece
+ * @param square The initial square from which the moves start, with its corresponding inner piece
+ * @param squareSets Sets of ChessSquares with thie format: [ownSquares, enemySquares]
+ * @returns The corresponding mapping function
+ */
 export const movesFromBlockedMoves =
   (
     square: ChessSquare,
-    allPositions: AllPositionsParam,
-  ): BlockedMovesFilterFunction =>
-  (move) => {
-    const { ownPositions, enemyPositions } = allPositions;
-    const orderedMovePositions = getOrderedMovePositions(square, move);
-    const leftMoves: ChessPieceStrictMove[] = [];
+    squareSets: ChessSquare[][],
+  ): BlockedMovesFilterFunction => {
+    const [ownSquares, enemySquares] = squareSets;
 
-    for (let i = 0; i < orderedMovePositions.length; i += 1) {
-      const position = orderedMovePositions[i];
-      const haveSameCoordinates = sameCoordinatesChecker(position);
+    return (move) => {
+      const orderedMovePositions = getOrderedMovePositions(square, move);
+      const moves: ChessPieceStrictMove[] = [];
+  
+      for (let i = 0; i < orderedMovePositions.length; i += 1) {
+        const position = orderedMovePositions[i];
+        const shareCoordinates = sameCoordinatesChecker(position);
+  
+        const ownSquare = ownSquares.find(shareCoordinates);
+        if (!!ownSquare) break;
+  
+        const enemySquare = enemySquares.find(shareCoordinates);
+  
+        const strictMove = getChessPieceStrictMove(square, position, enemySquare);
+        moves.push(strictMove);
 
-      const ownPiece = ownPositions.find(haveSameCoordinates);
-      if (!!ownPiece) break;
-
-      leftMoves.push(getChessPieceStrictMove(square, position));
-
-      const enemyPiece = enemyPositions.find(haveSameCoordinates);
-      if (!!enemyPiece) break;
-    }
-
-    return leftMoves;
-  };
+        if (!!enemySquare) break;
+      }
+  
+      return moves;
+    };
+  }
