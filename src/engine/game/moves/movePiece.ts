@@ -2,6 +2,8 @@ import type { ChessGame, ChessSquare } from '~/types';
 import { getOppositeColour } from '../helpers';
 import { markJumpedState, removeJumpedState } from './helpers';
 
+const squareHasPawn = (square: ChessSquare) => square.piece?.shortName === 'p';
+
 export const movePieceGetter =
   (
     game: ChessGame,
@@ -24,6 +26,7 @@ export const movePieceGetter =
       game.removedPieces.push(finalSquare.piece);
     }
 
+    // castling
     if (initialSquare.piece?.shortName === 'k') {
       const isQueenCastle = initialSquare.x - finalSquare.x > 1;
       const isKingCastle = finalSquare.x - initialSquare.x > 1;
@@ -36,10 +39,18 @@ export const movePieceGetter =
       }
     }
 
+    // en passant
+    if (
+      squareHasPawn(initialSquare) &&
+      finalSquare.x !== initialSquare.x &&
+      !squareHasPawn(finalSquare)
+    ) {
+      const sidePawnSquare = game.board[initialSquare.y][finalSquare.x];
+      delete sidePawnSquare.piece;
+    }
+
     game.board[finalSquare.y][finalSquare.x].piece = selectedPiece;
     delete game.board[initialSquare.y][initialSquare.x].piece;
-
-    // TODO: review if en passant
 
     game.turn = getOppositeColour(game.turn);
 
