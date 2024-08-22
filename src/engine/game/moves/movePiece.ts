@@ -1,8 +1,38 @@
-import type { ChessGame, ChessSquare } from '~/types';
+import type { ChessGame, ChessPieceShortName, ChessSquare } from '~/types';
 import { getOppositeColour } from '../helpers';
 import { markJumpedState, removeJumpedState } from './helpers';
+import { newBishop, newKnight, newQueen, newRook } from '~/engine/piece';
 
 const squareHasPawn = (square: ChessSquare) => square.piece?.shortName === 'p';
+
+const promote = (
+  initialSquare: ChessSquare,
+  finalSquare: ChessSquare,
+  promotesTo: ChessPieceShortName,
+) => {
+  const id = initialSquare.piece?.id;
+  const colour = initialSquare.piece?.colour;
+  if (!id || !colour) return;
+
+  switch (promotesTo) {
+    case 'n':
+      finalSquare.piece = newKnight(id, colour);
+      break;
+    case 'b':
+      finalSquare.piece = newBishop(id, colour);
+      break;
+    case 'r':
+      finalSquare.piece = newRook(id, colour);
+      break;
+    case 'q':
+      finalSquare.piece = newQueen(id, colour);
+      break;
+    default:
+  }
+
+  if (finalSquare.piece) finalSquare.piece.hasMoved = true;
+  delete initialSquare.piece;
+};
 
 export const movePieceGetter =
   (
@@ -11,7 +41,7 @@ export const movePieceGetter =
     finalMove: boolean,
     callback?: (game?: ChessGame) => void,
   ) =>
-  (finalSquare: ChessSquare): ChessGame => {
+  (finalSquare: ChessSquare, promotesTo?: ChessPieceShortName): ChessGame => {
     if (!game?.board || !initialSquare) return;
 
     if (finalMove) {
@@ -49,8 +79,12 @@ export const movePieceGetter =
       delete sidePawnSquare.piece;
     }
 
-    game.board[finalSquare.y][finalSquare.x].piece = selectedPiece;
-    delete game.board[initialSquare.y][initialSquare.x].piece;
+    if (promotesTo) {
+      promote(initialSquare, finalSquare, promotesTo);
+    } else {
+      game.board[finalSquare.y][finalSquare.x].piece = selectedPiece;
+      delete game.board[initialSquare.y][initialSquare.x].piece;
+    }
 
     game.turn = getOppositeColour(game.turn);
 

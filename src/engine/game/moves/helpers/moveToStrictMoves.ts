@@ -16,7 +16,6 @@ const getMoveType = ({ changeX, changeY }: ChessPieceMove): MoveType => {
 
 const normalMoveToStrictMoveArray = (
   move: ChessPieceMove,
-  initialSquare: ChessSquare,
 ): ChessPieceStrictMove[] => {
   const strictMove = {
     changeX: +move.changeX,
@@ -36,7 +35,7 @@ export const strictMovesMapper = (initialSquare: ChessSquare) => {
     let moveSet: ChessPieceStrictMove[] = [];
     switch (getMoveType(move)) {
       case 'preset':
-        moveSet = normalMoveToStrictMoveArray(move, initialSquare);
+        moveSet = normalMoveToStrictMoveArray(move);
         break;
       case 'vertical':
         moveSet = [

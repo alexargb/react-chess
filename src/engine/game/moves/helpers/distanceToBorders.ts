@@ -1,8 +1,8 @@
-import type { ChessSquare } from '~/types';
+import type { ChessPosition } from '~/types';
 
-export const getDistanceToBorders = (square: ChessSquare) => ({
-  top: 7 - square.y,
-  bottom: square.y,
-  right: 7 - square.x,
-  left: square.x,
+export const getDistanceToBorders = (position: ChessPosition) => ({
+  top: 7 - position.y,
+  bottom: position.y,
+  right: 7 - position.x,
+  left: position.x,
 });

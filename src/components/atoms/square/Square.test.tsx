@@ -29,6 +29,7 @@ describe('Square', () => {
   afterEach(() => {
     square.marked = false;
     square.selected = false;
+    delete square.promotesFor;
   });
 
   it('Should render Square with King', async () => {
@@ -74,8 +75,9 @@ describe('Square', () => {
     expect(kingPiece).toBeInTheDocument();
   });
 
-  it('Should render empty Square', () => {
-    delete square.piece;
+  it('Should render PromotionList when clicking on promoting square', () => {
+    if (!square.piece) return;
+    square.promotesFor = 'black';
     render(<Square square={square} onClick={clickMock}/>);
 
     expect(() => {
@@ -83,12 +85,16 @@ describe('Square', () => {
     }).not.toThrow();
 
     expect(() => {
-      screen.getAllByRole(/piece/);
+      screen.getAllByRole(/promotion-list-item/);
     }).toThrow();
 
-    expect(() => {
-      screen.getAllByRole(/square-mark/);
-    }).toThrow();
+    const kingPiece = screen.getByTestId(/white-king/);
+    fireEvent.click(kingPiece);
+    expect(clickMock).not.toHaveBeenCalled();
+
+    const firstPromotionSquare = screen.getAllByRole(/promotion-list-item/)[0];
+    fireEvent.click(firstPromotionSquare);
+    expect(clickMock).toHaveBeenCalled();
   });
 
   it('Should render marked empty Square', () => {

@@ -9,6 +9,7 @@ export const squareUnselector = (
     row.forEach((_, x) => {
       board[y][x].selected = false;
       board[y][x].marked = false;
+      delete board[y][x].promotesFor;
     });
   });
 
@@ -29,11 +30,14 @@ export const squareSelector = (
     board[y][x].selected = true;
   
     square.piece?.possibleMoves.forEach((move) => {
-      const { changeX, changeY } = move;
+      const { changeX, changeY, promotes } = move;
       const newX = x + changeX;
       const newY = y + changeY;
   
       board[newY][newX].marked = true;
+      if (promotes) {
+        board[newY][newX].promotesFor = square.piece?.colour;
+      }
     });
   
     callback?.(square);
