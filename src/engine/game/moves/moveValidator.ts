@@ -1,5 +1,4 @@
 import type {
-  ChessBoardCoordinate,
   ChessColour,
   ChessPieceMove,
   ChessPieceStrictMove,
@@ -38,25 +37,20 @@ const validateCastle = (squareSets: ChessSquare[][], isKingCastle: boolean) => {
   return !!rook && !rook.hasMoved;
 };
 
-const canEnPassant = (position: ChessPosition, squareSets: ChessSquare[][]) => {
+const canEnPassant = (
+  square: ChessSquare,
+  finalPosition: ChessPosition,
+  squareSets: ChessSquare[][],
+) => {
   const [, enemySquares] = squareSets;
 
-  const leftPosition: ChessPosition = {
-    x: position.x - 1 as ChessBoardCoordinate,
-    y: position.y,
-  };
-  const rightPosition: ChessPosition = {
-    x: position.x + 1 as ChessBoardCoordinate,
-    y: position.y,
+  const sidePosition: ChessPosition = {
+    x: finalPosition.x,
+    y: square.y,
   };
 
-  const leftPiece = enemySquares.find(sameCoordinatesChecker(leftPosition))?.piece;
-  const rightPiece = enemySquares.find(sameCoordinatesChecker(rightPosition))?.piece;
-
-  const leftPawnJustJumped = leftPiece?.pawnJustJumped;
-  const rightPawnJustJumped = rightPiece?.pawnJustJumped;
-
-  return leftPawnJustJumped || rightPawnJustJumped;
+  const sidePiece = enemySquares.find(sameCoordinatesChecker(sidePosition))?.piece;
+  return sidePiece?.pawnJustJumped;
 };
 
 export const getMoveValidator = (
@@ -81,7 +75,10 @@ export const getMoveValidator = (
         const destinationPosition = getPositionFromMove(square, strictMove);
         const destination = getDestinationSquare(squareSets.flat(), destinationPosition);
 
-        if (conditions.includes('en passant') && canEnPassant(square, squareSets)) return true;
+        if (
+          conditions.includes('en passant') &&
+          canEnPassant(square, destinationPosition, squareSets)
+        ) return true;
 
         if (
           conditions.includes('eating') &&
