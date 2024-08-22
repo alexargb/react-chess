@@ -68,14 +68,16 @@ export const getMoveValidator = (
         if (conditions.includes('unmoved') && square.piece?.hasMoved)
           return false;
 
-        if (conditions.includes('king castle')) {
-          // TODO: king castle
-          return false;
-        }
+        const isQueenCastle = conditions.includes('queen castle');
+        const isKingCastle = conditions.includes('king castle');
+        if (isQueenCastle || isKingCastle) {
+          const [ownSquares] = squareSets;
+          const rooks = ownSquares.filter(({ piece }) => piece?.shortName === 'r');
 
-        if (conditions.includes('queen castle')) {
-          // TODO: queen castle
-          return false;
+          const rookX = isKingCastle ? 7 : 0;
+          const rook = rooks.find(({ x }) => x === rookX)?.piece
+
+          return !!rook && !rook.hasMoved;
         }
 
         return true;
