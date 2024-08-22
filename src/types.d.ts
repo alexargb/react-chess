@@ -25,6 +25,7 @@ export type ChessPieceStrictMove = {
   changeX: number;
   changeY: number;
   hitsKing?: boolean;
+  promotes?: boolean;
 };
 
 export type ChessPieceMoveset = ChessPieceMove[];
@@ -46,6 +47,7 @@ export type ChessSquare = ChessPosition & {
   colour: ChessColour;
   marked: boolean;
   selected: boolean;
+  promotesFor?: ChessColour;
 };
 
 export type ChessBoard = ChessSquare[][] | null | undefined;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { ChessGame, ChessSquare } from '~/types';
+import type { ChessGame, ChessPieceShortName, ChessSquare } from '~/types';
 import type { GameContextState } from './types';
 import {
   recordUpdater,
@@ -55,9 +55,9 @@ export const useGameState = (): GameContextState => {
   });
 
 
-  const onSquareClick = (square: ChessSquare) => {
+  const onSquareClick = (square: ChessSquare, promotingPiece?: ChessPieceShortName) => {
     if (currentGame?.board && square.marked && selectedSquare) {
-      movePiece(square);
+      movePiece(square, promotingPiece);
       return;
     }
 
