@@ -12,7 +12,7 @@ jest.mock('~/hooks', () => ({
 const gameContextMock = {
   record: [],
   createNewGame: () => null,
-  currentGame: newGame(), // TODO: replace with newGame()
+  currentGame: newGame(),
 };
 
 describe('Game', () => {

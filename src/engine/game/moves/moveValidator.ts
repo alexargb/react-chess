@@ -1,4 +1,5 @@
 import type {
+  ChessBoardCoordinate,
   ChessColour,
   ChessPieceMove,
   ChessPieceStrictMove,
@@ -27,6 +28,37 @@ const getDestinationSquare = (
   return squares.find(shareCoordinates) || null;
 };
 
+const validateCastle = (squareSets: ChessSquare[][], isKingCastle: boolean) => {
+  const [ownSquares] = squareSets;
+  const rooks = ownSquares.filter(({ piece }) => piece?.shortName === 'r');
+
+  const rookX = isKingCastle ? 7 : 0;
+  const rook = rooks.find(({ x }) => x === rookX)?.piece
+
+  return !!rook && !rook.hasMoved;
+};
+
+const canEnPassant = (position: ChessPosition, squareSets: ChessSquare[][]) => {
+  const [, enemySquares] = squareSets;
+
+  const leftPosition: ChessPosition = {
+    x: position.x - 1 as ChessBoardCoordinate,
+    y: position.y,
+  };
+  const rightPosition: ChessPosition = {
+    x: position.x + 1 as ChessBoardCoordinate,
+    y: position.y,
+  };
+
+  const leftPiece = enemySquares.find(sameCoordinatesChecker(leftPosition))?.piece;
+  const rightPiece = enemySquares.find(sameCoordinatesChecker(rightPosition))?.piece;
+
+  const leftPawnJustJumped = leftPiece?.pawnJustJumped;
+  const rightPawnJustJumped = rightPiece?.pawnJustJumped;
+
+  return leftPawnJustJumped || rightPawnJustJumped;
+};
+
 export const getMoveValidator = (
   squareSets: ChessSquare[][],
   ownColour: ChessColour,
@@ -49,36 +81,24 @@ export const getMoveValidator = (
         const destinationPosition = getPositionFromMove(square, strictMove);
         const destination = getDestinationSquare(squareSets.flat(), destinationPosition);
 
-        if (conditions.includes('en passant')) {
-          // TODO: en passant
-        }
+        if (conditions.includes('en passant') && canEnPassant(square, squareSets)) return true;
 
         if (
           conditions.includes('eating') &&
           !squareHasPieceFromColour(destination, enemyColour)
-        )
-          return false;
+        ) return false;
 
         if (
           conditions.includes('unblocked') &&
           squareHasPieceFromColour(destination, enemyColour)
-        )
-          return false;
+        ) return false;
 
-        if (conditions.includes('unmoved') && square.piece?.hasMoved)
-          return false;
+        if (conditions.includes('unmoved') && square.piece?.hasMoved) return false;
 
         const isQueenCastle = conditions.includes('queen castle');
         const isKingCastle = conditions.includes('king castle');
-        if (isQueenCastle || isKingCastle) {
-          const [ownSquares] = squareSets;
-          const rooks = ownSquares.filter(({ piece }) => piece?.shortName === 'r');
-
-          const rookX = isKingCastle ? 7 : 0;
-          const rook = rooks.find(({ x }) => x === rookX)?.piece
-
-          return !!rook && !rook.hasMoved;
-        }
+        const isCastle = isQueenCastle || isKingCastle;
+        if (isCastle) return validateCastle(squareSets, isKingCastle);
 
         return true;
       });
