@@ -8,8 +8,8 @@ export const getSquaresByPieceColour = (
   if (!game?.board) return [];
 
   return game.board.reduce<ChessSquare[]>(
-    (pieces, row) =>
-      pieces.concat(row.filter(pieceColourFilterFunction(colour))),
+    (squares, row) =>
+      squares.concat(row.filter(pieceColourFilterFunction(colour))),
     [],
   );
 };
