@@ -4,21 +4,23 @@ import type { GameContextState } from './types';
 import {
   recordUpdater,
   newGame,
-  squareSelector,
-  squareUnselector,
   movePieceGetter,
   recalculateMoves,
+  unselectGameSquare,
+  selectSquare,
 } from '~/engine';
 
 export const useGameState = (): GameContextState => {
   const [record, setRecord] = useState<ChessGame[]>([]);
-  const [currentGame, setCurrentGame] = useState<ChessGame>(null);
+  const [currentGame, setCurrentGame] = useState<ChessGame | null>(null);
   const [selectedSquare, setSelectedSquare] = useState<ChessSquare | null>(null);
 
-  const updateRecord = recordUpdater(record, setRecord);
-  const updateGames = (game?: ChessGame) => {
+  const getUpdatedRecord = recordUpdater(record);
+  const updateGames = (game?: ChessGame | null) => {
     setCurrentGame(game || currentGame);
-    updateRecord(game || currentGame);
+    // setCurrentGame is not actually necessary for most cases (apart from new game) but
+    // I'll leave it anyway
+    setRecord(getUpdatedRecord(game || currentGame));
   };
 
   // game initialization
@@ -30,46 +32,27 @@ export const useGameState = (): GameContextState => {
     return game;
   };
 
-  // square selection
-  const selectSquare = squareSelector(
-    currentGame?.board,
-    (square: ChessSquare) => {
-      updateGames();
-      setSelectedSquare(square);
-    },
-  );
-
-  const unselectSquare = squareUnselector(
-    currentGame?.board,
-    () => {
-      updateGames();
-      setSelectedSquare(null);
-    },
-  );
-
   // square click
-  const movePiece = movePieceGetter(currentGame, selectedSquare as ChessSquare, true, () => {
-    unselectSquare();
-    recalculateMoves(currentGame);
-    updateGames();
-  });
-
+  const movePiece = movePieceGetter(currentGame, currentGame?.selectedSquare, true);
 
   const onSquareClick = (square: ChessSquare, promotingPiece?: ChessPieceShortName) => {
-    if (currentGame?.board && square.marked && selectedSquare) {
-      movePiece(square, promotingPiece);
+    if (currentGame?.board && square.marked && currentGame?.selectedSquare) {
+      let gameAfterMove = movePiece(square, promotingPiece);
+      gameAfterMove = unselectGameSquare(gameAfterMove);
+      gameAfterMove = recalculateMoves(gameAfterMove);
+      updateGames(gameAfterMove);
       return;
     }
 
     const { piece } = square;
     const squareIsSelected = piece?.id === selectedSquare?.piece?.id;
     const pieceIsTurnColour = piece?.colour === currentGame?.turn;
-
     if (!piece || squareIsSelected || !pieceIsTurnColour) {
-      unselectSquare();
+      updateGames(unselectGameSquare(currentGame));
       return;
     }
-    selectSquare(square);
+
+    updateGames(selectSquare(currentGame, square));
   };
 
   return {

@@ -60,8 +60,8 @@ const checkFilterer = (game: ChessGame, square: ChessSquare) => {
   };
 };
 
-export const recalculateMoves = (game: ChessGame): ChessGame => {
-  if (!game?.board) return;
+export const recalculateMoves = (game: ChessGame | null): ChessGame | null => {
+  if (!game?.board) return game;
   const [ownColour, enemyColour] = getGameColours(game);
 
   const ownSquares = getSquaresByPieceColour(game, ownColour);

@@ -50,7 +50,7 @@ export type ChessSquare = ChessPosition & {
   promotesFor?: ChessColour;
 };
 
-export type ChessBoard = ChessSquare[][] | null | undefined;
+export type ChessBoard = ChessSquare[][];
 
 export type ChessTimer = {
   white: number;
@@ -61,7 +61,8 @@ export type ChessGame = {
   id: number;
   board: ChessBoard;
   turn: ChessColour;
+  selectedSquare: ChessSquare | null; // TODO: adapt
   timer?: ChessTimer;
   finished: boolean;
   removedPieces: ChessPiece[];
-} | null | undefined;
+};

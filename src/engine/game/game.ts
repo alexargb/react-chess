@@ -9,4 +9,5 @@ export const newGame = (id?: number): ChessGame => ({
   turn: 'white',
   finished: false,
   removedPieces: [],
+  selectedSquare: null,
 });

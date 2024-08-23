@@ -5,6 +5,7 @@ import { useGameState } from './useGameState';
 const GameContext = createContext<GameContextState>({
   record: [],
   createNewGame: () => null,
+  currentGame: null,
 });
 
 export const GameProvider = ({ children }: GameProviderProps) => {

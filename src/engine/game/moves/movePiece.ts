@@ -1,12 +1,12 @@
 import type { ChessGame, ChessPieceShortName, ChessSquare } from '~/types';
-import { getOppositeColour } from '../helpers';
+import { getOppositeColour, jsonDeepCopy } from '../helpers';
 import { markJumpedState, removeJumpedState } from './helpers';
 import { newBishop, newKnight, newQueen, newRook } from '~/engine/piece';
 
 export type MovePieceFunction = (
   finalSquare: ChessSquare,
   promotesTo?: ChessPieceShortName,
-) => ChessGame;
+) => ChessGame | null;
 
 const squareHasPawn = (square: ChessSquare) => square.piece?.shortName === 'p';
 
@@ -41,25 +41,15 @@ const promote = (
 
 export const movePieceGetter =
   (
-    game: ChessGame,
-    initialSquare: ChessSquare,
-    finalMove: boolean,
-    callback?: (game?: ChessGame) => void,
+    originalGame: ChessGame | null,
+    initialSquare: ChessSquare | undefined | null,
+    shouldDoTheMove: boolean,
   ): MovePieceFunction =>
   (finalSquare, promotesTo) => {
-    if (!game?.board || !initialSquare) return;
-
-    if (finalMove) {
-      removeJumpedState(game);
-      markJumpedState(initialSquare, finalSquare);
-    }
-
+    const game = jsonDeepCopy(originalGame);
+    if (!game?.board || !initialSquare) return game;
+    
     const selectedPiece = initialSquare?.piece;
-    if (selectedPiece && finalMove) selectedPiece.hasMoved = true;
-
-    if (finalSquare.piece && finalMove) {
-      game.removedPieces.push(finalSquare.piece);
-    }
 
     // castling
     if (initialSquare.piece?.shortName === 'k') {
@@ -84,6 +74,21 @@ export const movePieceGetter =
       delete sidePawnSquare.piece;
     }
 
+    // if should do the move
+    if (shouldDoTheMove) {
+      removeJumpedState(game);
+      markJumpedState(initialSquare, finalSquare);
+      
+      if (selectedPiece) selectedPiece.hasMoved = true;
+
+      if (finalSquare.piece) {
+        game.removedPieces.push(finalSquare.piece);
+      }
+
+      game.turn = getOppositeColour(game.turn);
+    }
+
+    // move
     if (promotesTo) {
       promote(initialSquare, finalSquare, promotesTo);
     } else {
@@ -91,8 +96,5 @@ export const movePieceGetter =
       delete game.board[initialSquare.y][initialSquare.x].piece;
     }
 
-    if (finalMove) game.turn = getOppositeColour(game.turn);
-
-    callback?.(game);
     return game;
   };

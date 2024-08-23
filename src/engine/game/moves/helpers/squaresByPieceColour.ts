@@ -2,7 +2,7 @@ import type { ChessColour, ChessGame, ChessSquare } from '~/types';
 import { pieceColourFilterFunction } from './squareHasPiece';
 
 export const getSquaresByPieceColour = (
-  game: ChessGame,
+  game: ChessGame | null,
   colour: ChessColour,
 ): ChessSquare[] => {
   if (!game?.board) return [];

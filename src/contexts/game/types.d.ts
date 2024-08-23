@@ -1,10 +1,10 @@
 import type { ChessGame, ChessPieceShortName, ChessSquare } from '~/types';
 
 export type GameContextState = {
-  currentGame?: ChessGame;
+  currentGame: ChessGame | null;
   setCurrentGame?: (game: ChessGame) => void;
   record: ChessGame[];
-  createNewGame: () => ChessGame;
+  createNewGame: () => ChessGame | null;
   onSquareClick?: (square: ChessSquare, promotingPiece?: ChessPieceShortName) => void,
   isPieceSelected?: boolean,
 };
