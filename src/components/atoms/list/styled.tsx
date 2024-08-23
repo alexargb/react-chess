@@ -27,6 +27,7 @@ export const ListItem = styled.li`
     cursor: pointer;
     background-color: #454545;
     border: ${listItemBorder};
+    border-top: ${transparentBorder};
 
     &:active {
       background-color: #46861E;
