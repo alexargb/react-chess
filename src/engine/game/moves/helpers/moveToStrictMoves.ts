@@ -6,6 +6,7 @@ import type {
 import { getDistanceToBorders } from './distanceToBorders';
 
 type MoveType = 'preset' | 'vertical' | 'horizontal' | 'diagonal';
+type StrictMoveArray = ChessPieceStrictMove[];
 
 const getMoveType = ({ changeX, changeY }: ChessPieceMove): MoveType => {
   if (changeX === 'x' && changeY === 'x') return 'diagonal';
@@ -14,16 +15,10 @@ const getMoveType = ({ changeX, changeY }: ChessPieceMove): MoveType => {
   return 'preset';
 };
 
-const normalMoveToStrictMoveArray = (
-  move: ChessPieceMove,
-): ChessPieceStrictMove[] => {
-  const strictMove = {
-    changeX: +move.changeX,
-    changeY: +move.changeY,
-  };
-
-  return [strictMove];
-};
+const normalMoveToStrictMoveArray = (move: ChessPieceMove): StrictMoveArray => [{
+  changeX: +move.changeX,
+  changeY: +move.changeY,
+}];
 
 const filterNonMoves = ({ changeX, changeY }: ChessPieceStrictMove): boolean =>
   changeX !== 0 || changeY !== 0;
@@ -31,8 +26,8 @@ const filterNonMoves = ({ changeX, changeY }: ChessPieceStrictMove): boolean =>
 export const strictMovesMapper = (initialSquare: ChessSquare) => {
   const { top, bottom, right, left } = getDistanceToBorders(initialSquare);
 
-  return (move: ChessPieceMove): ChessPieceStrictMove[] => {
-    let moveSet: ChessPieceStrictMove[] = [];
+  return (move: ChessPieceMove): StrictMoveArray => {
+    let moveSet: StrictMoveArray = [];
     switch (getMoveType(move)) {
       case 'preset':
         moveSet = normalMoveToStrictMoveArray(move);
