@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
-import type { ChessBoard, ChessPieceShortName, ChessSquare } from '~/types';
-import { Square } from '~/components/atoms/square';
-import { BoardDiv, RowDiv } from './styled';
+import type { ChessPieceShortName, ChessSquare } from '~/types';
 import { useGameContext } from '~/hooks';
+import { Square } from '~/components/atoms/square';
+import { Congrats } from '~/components/atoms/congrats';
+import { BoardDiv, RowDiv } from './styled';
 
-type BoardProps = {
-  board?: ChessBoard;
-};
-
-export const Board = ({ board }: BoardProps) => {
+export const Board = () => {
+  const { currentGame, onSquareClick } = useGameContext();
   const [promotingSquare, setPromotingSquare] = useState<ChessSquare | undefined>();
-  const { onSquareClick } = useGameContext();
+
+  if (!currentGame?.board?.length) return null;
+  const { board } = currentGame;
 
   const onSelectSquare = (square: ChessSquare) => {
     setPromotingSquare(square);
   };
 
-  if (!board?.length) return null;
   return (
     <BoardDiv role="board">
       {board.map((row, idx) => (
@@ -37,6 +36,8 @@ export const Board = ({ board }: BoardProps) => {
           })}
         </RowDiv>
       ))}
+
+      <Congrats game={currentGame} />
     </BoardDiv>
   );
 };

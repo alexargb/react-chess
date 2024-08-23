@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { Title } from '~/components/atoms/title';
 
+export const GameDiv = styled.div`
+  height: fit-content;
+`;
+
 export const GameTitle = styled(Title)`
   color: #FFF;
   background-color: #46861E;
@@ -16,8 +20,4 @@ export const ColourSpan = styled.span`
   margin-left: 12px;
   margin-bottom: -4px;
   margin-right: 6px;
-`;
-
-export const GameDiv = styled.div`
-  height: fit-content;
 `;

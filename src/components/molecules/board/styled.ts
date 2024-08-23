@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const BoardDiv = styled.div`
+  position: relative;
   margin-top: 16px;
   height: fit-content;
   width: fit-content;
