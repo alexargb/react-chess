@@ -5,6 +5,7 @@ import { getGameColours, jsonDeepCopy } from '../helpers';
 import { getPositionFromMove, getSquaresByPieceColour } from './helpers';
 import { getMoveValidator } from './moveValidator';
 import { movePieceGetter } from './movePiece';
+import { turnHasPossibleMoves } from './helpers/turnHasPossibleMoves';
 
 const recalculateMovesGetter = (validateMove: MoveValidatorFunction) => (square: ChessSquare): ChessSquare => {
   if (square.piece) {
@@ -90,5 +91,8 @@ export const recalculateMoves = (game: ChessGame | null): ChessGame | null => {
     game.board[y][x] = square;
   });
 
+  if (!turnHasPossibleMoves(game)) {
+    game.finished = true;
+  }
   return game;
 };
