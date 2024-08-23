@@ -12,7 +12,7 @@ export const Game = () => {
       <GameTitle>
         Turn: <ColourSpan><Circle $radius={6} $colour={currentGame.turn}/></ColourSpan>
       </GameTitle>
-      <Board board={currentGame.board} />
+      <Board />
     </GameDiv>
   );
 };
