@@ -3,6 +3,11 @@ import { getOppositeColour } from '../helpers';
 import { markJumpedState, removeJumpedState } from './helpers';
 import { newBishop, newKnight, newQueen, newRook } from '~/engine/piece';
 
+export type MovePieceFunction = (
+  finalSquare: ChessSquare,
+  promotesTo?: ChessPieceShortName,
+) => ChessGame;
+
 const squareHasPawn = (square: ChessSquare) => square.piece?.shortName === 'p';
 
 const promote = (
@@ -40,8 +45,8 @@ export const movePieceGetter =
     initialSquare: ChessSquare,
     finalMove: boolean,
     callback?: (game?: ChessGame) => void,
-  ) =>
-  (finalSquare: ChessSquare, promotesTo?: ChessPieceShortName): ChessGame => {
+  ): MovePieceFunction =>
+  (finalSquare, promotesTo) => {
     if (!game?.board || !initialSquare) return;
 
     if (finalMove) {
@@ -86,7 +91,7 @@ export const movePieceGetter =
       delete game.board[initialSquare.y][initialSquare.x].piece;
     }
 
-    game.turn = getOppositeColour(game.turn);
+    if (finalMove) game.turn = getOppositeColour(game.turn);
 
     callback?.(game);
     return game;

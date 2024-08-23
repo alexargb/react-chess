@@ -1,5 +1,6 @@
 import type { ChessGame, ChessPieceStrictMove, ChessSquare } from '~/types';
 import type { MoveValidatorFunction } from './moveValidator';
+import type { MovePieceFunction } from './movePiece';
 import { getGameColours, jsonDeepCopy } from '../helpers';
 import { getPositionFromMove, getSquaresByPieceColour } from './helpers';
 import { getMoveValidator } from './moveValidator';
@@ -13,33 +14,49 @@ const recalculateMovesGetter = (validateMove: MoveValidatorFunction) => (square:
   return square;
 };
 
-const checkFilterer = (game: ChessGame, square: ChessSquare) => {
+const leavesOwnKingOnCheck = (game: ChessGame, movePiece: MovePieceFunction, finalSquare: ChessSquare) => {
   const [ownColour, enemyColour] = getGameColours(game);
 
+  const gameAfterMove = movePiece(finalSquare);
+  const newOwnSquares = getSquaresByPieceColour(gameAfterMove, ownColour);
+  const newEnemySquares = getSquaresByPieceColour(gameAfterMove, enemyColour);
+
+  const validateEnemyMove = getMoveValidator(
+    [newEnemySquares, newOwnSquares],
+    enemyColour,
+  );
+  const recalculateEnemyMoves = recalculateMovesGetter(validateEnemyMove);
+  
+  const leavesOwnKingOnCheck = newEnemySquares.some((square) => {
+    const enemySquareWithPossibleMoves = recalculateEnemyMoves(square);
+    return enemySquareWithPossibleMoves.piece?.possibleMoves.some(({ hitsKing }) => hitsKing);
+  });
+
+  return leavesOwnKingOnCheck;
+};
+
+const checkFilterer = (game: ChessGame, square: ChessSquare) => {
   return (move: ChessPieceStrictMove): boolean => {
     if (!game?.board) return false;
     const testGame = jsonDeepCopy(game);
-
     const movePiece = movePieceGetter(testGame, square, false);
+
+    const isCastle = square.piece?.shortName === 'k' && Math.abs(move.changeX) > 1;
+    if (isCastle) {
+      const middleMove = {
+        changeY: 0,
+        changeX: move.changeX / 2,
+      };
+
+      const middleCastlePosition = getPositionFromMove(square, middleMove);
+      const middleSquare = testGame.board[square.y][middleCastlePosition.x];
+
+      if (leavesOwnKingOnCheck(testGame, movePiece, middleSquare)) return false;
+    }
+
     const { x, y } = getPositionFromMove(square, move);
     const finalSquare = testGame.board[y][x];
-
-    const gameAfterMove = movePiece(finalSquare);
-    const newOwnSquares = getSquaresByPieceColour(gameAfterMove, ownColour);
-    const newEnemySquares = getSquaresByPieceColour(gameAfterMove, enemyColour);
-
-    const validateEnemyMove = getMoveValidator(
-      [newEnemySquares, newOwnSquares],
-      enemyColour,
-    );
-    const recalculateEnemyMoves = recalculateMovesGetter(validateEnemyMove);
-    
-    const leavesOwnKingOnCheck = newEnemySquares.some((square) => {
-      const enemySquareWithPossibleMoves = recalculateEnemyMoves(square);
-      return enemySquareWithPossibleMoves.piece?.possibleMoves.some(({ hitsKing }) => hitsKing);
-    });
-
-    return !leavesOwnKingOnCheck;
+    return !leavesOwnKingOnCheck(testGame, movePiece, finalSquare);
   };
 };
 
