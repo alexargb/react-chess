@@ -2,6 +2,7 @@ import React from 'react';
 import { useGameContext } from '~/hooks';
 import { ColourSpan, IdSpan, RecordTitle, RecordWrapper } from './styled';
 import { List, ListItem } from '~/components/atoms/list';
+import { getOppositeColour } from '~/engine/game/helpers';
 import { capitalize } from '~/helpers/capitalize';
 import { GAME } from '~/constants/views';
 
@@ -17,7 +18,7 @@ export const Record = ({ setCurrentView }: RecordProps) => {
       <List>
         {record.map((game) => {
           if (!game) return null;
-          const { id, turn } = game;
+          const { id, turn, finished } = game;
           const onClickRecord = () => {
             setCurrentGame?.(game);
             setCurrentView(GAME);
@@ -25,7 +26,21 @@ export const Record = ({ setCurrentView }: RecordProps) => {
 
           return (
             <ListItem onClick={onClickRecord} key={id}>
-              <IdSpan>{id}</IdSpan> <ColourSpan $colour={turn}>{capitalize(turn)}'s</ColourSpan> turn
+              <IdSpan>{id}</IdSpan> {
+                finished ? (
+                  <>
+                    <ColourSpan $colour={getOppositeColour(turn)}>
+                      {capitalize(getOppositeColour(turn))}
+                    </ColourSpan> won!
+                  </>
+                ) : (
+                  <>
+                    <ColourSpan $colour={turn}>
+                      {capitalize(turn)}'s
+                    </ColourSpan> turn
+                  </>
+                )
+              }
             </ListItem>
           );
         })}
