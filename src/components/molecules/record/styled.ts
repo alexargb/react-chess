@@ -4,7 +4,7 @@ import { List } from '~/components/atoms/list';
 import { Title } from '~/components/atoms/title';
 
 type ColourSpanProps = {
-  colour: ChessColour;
+  $colour: ChessColour;
 };
 
 export const RecordWrapper = styled.div`
@@ -36,7 +36,7 @@ export const IdSpan = styled.span`
 `;
 
 export const ColourSpan = styled.span<ColourSpanProps>`
-  color: ${({ colour }) => colour};
+  color: ${({ $colour }) => $colour};
   text-decoration: underline;
   font-weight: bolder;
 `;

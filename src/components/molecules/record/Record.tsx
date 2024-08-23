@@ -24,8 +24,8 @@ export const Record = ({ setCurrentView }: RecordProps) => {
           };
 
           return (
-            <ListItem onClick={onClickRecord}>
-              <IdSpan>{id}</IdSpan> <ColourSpan colour={turn}>{capitalize(turn)}'s</ColourSpan> turn
+            <ListItem onClick={onClickRecord} key={id}>
+              <IdSpan>{id}</IdSpan> <ColourSpan $colour={turn}>{capitalize(turn)}'s</ColourSpan> turn
             </ListItem>
           );
         })}

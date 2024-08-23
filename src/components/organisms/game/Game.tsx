@@ -10,7 +10,7 @@ export const Game = () => {
   return (
     <GameDiv role="game">
       <GameTitle>
-        Turn: <ColourSpan><Circle radius={6} colour={currentGame.turn}/></ColourSpan>
+        Turn: <ColourSpan><Circle $radius={6} $colour={currentGame.turn}/></ColourSpan>
       </GameTitle>
       <Board board={currentGame.board} />
     </GameDiv>
