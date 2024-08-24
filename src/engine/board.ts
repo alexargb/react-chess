@@ -43,20 +43,10 @@ const newSquare = (
   };
 };
 
-export const newBoard = (): ChessBoard => {
-  const board: ChessBoard = [];
-
-  BASE_BOARD.forEach((row, posY) => {
-    board.push([]);
-
-    row.forEach((shortName, posX) => {
-      const x = posX as ChessBoardCoordinate;
-      const y = posY as ChessBoardCoordinate;
-
-      const square = newSquare(x, y, shortName as ChessPieceShortName);
-      board[posY].push(square);
-    });
+export const newBoard = (): ChessBoard => BASE_BOARD.map((row, posY) => {
+  const y = posY as ChessBoardCoordinate;
+  return row.map((shortName, posX) => {
+    const x = posX as ChessBoardCoordinate;
+    return newSquare(x, y, shortName as ChessPieceShortName);
   });
-
-  return board;
-};
+});
