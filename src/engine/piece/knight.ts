@@ -45,7 +45,6 @@ export const getKnightMoves = (): ChessPieceMoveset => [
 
 export const newKnight = (id: number, colour: ChessColour): ChessPiece => ({
   id,
-  name: 'knight',
   shortName: 'n',
   colour,
   hasMoved: false,

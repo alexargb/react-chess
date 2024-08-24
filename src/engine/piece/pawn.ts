@@ -29,7 +29,6 @@ export const getPawnMoves = (): ChessPieceMoveset => [
 
 export const newPawn = (id: number, colour: ChessColour): ChessPiece => ({
   id,
-  name: 'pawn',
   shortName: 'p',
   colour,
   hasMoved: false,

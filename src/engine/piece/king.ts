@@ -57,7 +57,6 @@ export const getKingMoves = (): ChessPieceMoveset => [
 
 export const newKing = (id: number, colour: ChessColour): ChessPiece => ({
   id,
-  name: 'king',
   shortName: 'k',
   colour,
   hasMoved: false,

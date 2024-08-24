@@ -15,7 +15,6 @@ export const getRookMoves = (): ChessPieceMoveset => [
 
 export const newRook = (id: number, colour: ChessColour): ChessPiece => ({
   id,
-  name: 'rook',
   shortName: 'r',
   colour,
   hasMoved: false,

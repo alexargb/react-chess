@@ -33,7 +33,6 @@ export type ChessPieceStrictMoveset = ChessPieceStrictMove[];
 
 export type ChessPiece = {
   id: number;
-  name: ChessPieceName;
   shortName: ChessPieceShortName;
   colour: ChessColour;
   hasMoved: boolean;

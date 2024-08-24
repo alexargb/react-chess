@@ -5,7 +5,6 @@ import { Piece } from '.';
 
 const piece: ChessPiece = {
   id: 1,
-  name: 'king',
   shortName: 'k',
   colour: 'white',
   hasMoved: false,
@@ -20,7 +19,6 @@ describe('Pieces', () => {
     });
 
     it('Should render King', () => {
-      piece.name = 'king';
       piece.shortName = 'k';
       render(<Piece piece={piece}/>);
 
@@ -29,7 +27,6 @@ describe('Pieces', () => {
     });
 
     it('Should render Queen', () => {
-      piece.name = 'queen';
       piece.shortName = 'q';
       render(<Piece piece={piece}/>);
 
@@ -38,7 +35,6 @@ describe('Pieces', () => {
     });
 
     it('Should render Rook', () => {
-      piece.name = 'rook';
       piece.shortName = 'r';
       render(<Piece piece={piece}/>);
 
@@ -47,7 +43,6 @@ describe('Pieces', () => {
     });
 
     it('Should render Bishop', () => {
-      piece.name = 'bishop';
       piece.shortName = 'b';
       render(<Piece piece={piece}/>);
 
@@ -56,7 +51,6 @@ describe('Pieces', () => {
     });
 
     it('Should render Knight', () => {
-      piece.name = 'knight';
       piece.shortName = 'n';
       render(<Piece piece={piece}/>);
 
@@ -65,7 +59,6 @@ describe('Pieces', () => {
     });
 
     it('Should render Pawn', () => {
-      piece.name = 'pawn';
       piece.shortName = 'p';
       render(<Piece piece={piece}/>);
 
@@ -80,7 +73,6 @@ describe('Pieces', () => {
     });
 
     it('Should render King', () => {
-      piece.name = 'king';
       piece.shortName = 'k';
       render(<Piece piece={piece}/>);
 
@@ -89,7 +81,6 @@ describe('Pieces', () => {
     });
 
     it('Should render Queen', () => {
-      piece.name = 'queen';
       piece.shortName = 'q';
       render(<Piece piece={piece}/>);
 
@@ -98,7 +89,6 @@ describe('Pieces', () => {
     });
 
     it('Should render Rook', () => {
-      piece.name = 'rook';
       piece.shortName = 'r';
       render(<Piece piece={piece}/>);
 
@@ -107,7 +97,6 @@ describe('Pieces', () => {
     });
 
     it('Should render Bishop', () => {
-      piece.name = 'bishop';
       piece.shortName = 'b';
       render(<Piece piece={piece}/>);
 
@@ -116,7 +105,6 @@ describe('Pieces', () => {
     });
 
     it('Should render Knight', () => {
-      piece.name = 'knight';
       piece.shortName = 'n';
       render(<Piece piece={piece}/>);
 
@@ -125,7 +113,6 @@ describe('Pieces', () => {
     });
 
     it('Should render Pawn', () => {
-      piece.name = 'pawn';
       piece.shortName = 'p';
       render(<Piece piece={piece}/>);
 

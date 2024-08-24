@@ -10,7 +10,6 @@ export const getBishopMoves = (): ChessPieceMoveset => [
 
 export const newBishop = (id: number, colour: ChessColour): ChessPiece => ({
   id,
-  name: 'bishop',
   shortName: 'b',
   colour,
   hasMoved: false,
