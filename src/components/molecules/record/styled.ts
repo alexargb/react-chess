@@ -1,28 +1,34 @@
 import type { ChessColour } from '~/types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { List } from '~/components/atoms/list';
-import { Title } from '~/components/atoms/title';
+
+type RecordWrapperProps = {
+  $visible: boolean;
+};
 
 type ColourSpanProps = {
   $colour: ChessColour;
 };
 
-export const RecordWrapper = styled.div`
+export const RecordWrapper = styled.div<RecordWrapperProps>`
   display: flex;
   flex-direction: column;
   align-items: baseline;
-  margin-top: 16px;
-`;
+  
+  overflow: hidden;
+  transition: all 350ms;
 
-export const RecordTitle = styled(Title)`
-  color: #FFF;
-  background-color: #46861E;
-  border-radius: 4px;
+  ${({ $visible }) => css`
+    margin-top: ${$visible ? '16px' : '0'};
+
+    min-height: ${$visible ? 'fit-content' : '0'};
+    height: ${$visible ? '80vh' : '0'};
+  `}
 `;
 
 export const RecordList = styled(List)`
-  font-weight: bold;
   font-size: 18px;
+  margin-top: 16px;
 `;
 
 export const IdSpan = styled.span`

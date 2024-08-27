@@ -8,6 +8,9 @@ export const List = styled.ul`
 
   border-radius: 4px;
   overflow: hidden;
+
+  margin-block-start: 0;
+  margin-block-end: 0;
 `;
 
 const listItemBorder = '1px solid #AAA';

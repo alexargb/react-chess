@@ -1,27 +1,23 @@
 import React from 'react';
-import { useGameContext } from '~/hooks';
-import { ColourSpan, IdSpan, RecordTitle, RecordWrapper } from './styled';
-import { List, ListItem } from '~/components/atoms/list';
+import { useGameContext, useViewContext } from '~/hooks';
+import { ColourSpan, IdSpan, RecordList, RecordWrapper } from './styled';
+import { ListItem } from '~/components/atoms/list';
 import { getOppositeColour } from '~/engine/game/helpers';
 import { capitalize } from '~/helpers/capitalize';
-import { GAME } from '~/constants/views';
 
-type RecordProps = {
-  setCurrentView: (view: string) => void;
-};
-
-export const Record = ({ setCurrentView }: RecordProps) => {
+export const Record = () => {
+  const { currentView, setCurrentView } = useViewContext();
   const { record, setCurrentGame } = useGameContext();
+
   return (
-    <RecordWrapper className="record">
-      <RecordTitle>Record:</RecordTitle>
-      <List>
+    <RecordWrapper $visible={currentView === 'record'} className="record">
+      <RecordList>
         {record.map((game) => {
           if (!game) return null;
           const { id, turn, finished } = game;
           const onClickRecord = () => {
             setCurrentGame?.(game);
-            setCurrentView(GAME);
+            setCurrentView?.('game');
           };
 
           return (
@@ -44,7 +40,7 @@ export const Record = ({ setCurrentView }: RecordProps) => {
             </ListItem>
           );
         })}
-      </List>
+      </RecordList>
     </RecordWrapper>
   );
 };

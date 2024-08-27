@@ -1,8 +1,19 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Title } from '~/components/atoms/title';
 
-export const GameDiv = styled.div`
-  height: fit-content;
+type GameDivProps = {
+  $visible: boolean;
+};
+
+export const GameDiv = styled.div<GameDivProps>`
+  overflow: hidden;
+  transition: all 350ms;
+
+  ${({ $visible }) => css`
+    width: ${$visible ? '100vw' : '0'};
+    min-height: ${$visible ? 'fit-content' : '0'};
+    height: ${$visible ? '80vh' : '0'};
+  `}
 `;
 
 export const GameTitle = styled(Title)`

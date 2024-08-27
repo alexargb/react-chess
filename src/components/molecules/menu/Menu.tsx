@@ -1,19 +1,16 @@
 import React from 'react';
-import { List, ListItem } from '~/components/atoms/list';
-import { GAME, RECORD } from '~/constants/views';
-import { useGameContext } from '~/hooks';
+import { useGameContext, useViewContext } from '~/hooks';
+import { ListItem } from '~/components/atoms/list';
+import { MenuList } from './styled';
 
-type MenuProps = {
-  setCurrentView: (view: string) => void;
-};
-
-export const Menu = ({ setCurrentView }: MenuProps) => {
+export const Menu = () => {
+  const { currentView, setCurrentView } = useViewContext();
   const { currentGame, createNewGame, record } = useGameContext();
   const showContinue = !!currentGame;
   const showRecord = record?.length > 1;
   
-  const goToGame = () => setCurrentView(GAME);
-  const goToRecord = () => setCurrentView(RECORD);
+  const goToGame = () => setCurrentView?.('game');
+  const goToRecord = () => setCurrentView?.('record');
 
   const newGame = () => {
     createNewGame();
@@ -21,10 +18,10 @@ export const Menu = ({ setCurrentView }: MenuProps) => {
   };
 
   return (
-    <List className="menu">
+    <MenuList $visible={currentView === 'menu'} className="menu">
       {showContinue && <ListItem onClick={goToGame}>Continue Game</ListItem>}
       <ListItem onClick={newGame}>New Game</ListItem>
       {showRecord && <ListItem onClick={goToRecord}>Record</ListItem>}
-    </List>
+    </MenuList>
   );
 };
