@@ -7,7 +7,6 @@ const clickMock = jest.fn();
 
 const piece: ChessPiece = {
   id: 1,
-  name: 'king',
   shortName: 'k',
   colour: 'white',
   hasMoved: false,

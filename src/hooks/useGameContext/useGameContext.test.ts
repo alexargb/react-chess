@@ -1,19 +1,12 @@
 import React from 'react';
 import type { GameContextState } from '~/contexts/game/types';
+import { Game } from '~/engine';
 import { useGameContext } from '.';
-import { newGame } from '~/engine';
 
 const mockContextState: GameContextState = {
-  currentGame: {
-    id: 1,
-    board: [],
-    turn: 'white',
-    finished: false,
-    removedPieces: [],
-    selectedSquare: null,
-  },
+  currentGame: new Game(),
   record: [],
-  createNewGame: newGame,
+  createNewGame: () => new Game(),
 };
 
 describe('useGameContext', () => {

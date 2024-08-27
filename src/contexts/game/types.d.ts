@@ -1,11 +1,13 @@
-import type { ChessGame, ChessPieceShortName, ChessSquare } from '~/types';
+import { Game, Square } from '~/engine';
+
+export type OnSquareClickFunction = (square: Square, promotingPiece?: ChessPieceShortName) => void;
 
 export type GameContextState = {
-  currentGame: ChessGame | null;
-  setCurrentGame?: (game: ChessGame) => void;
-  record: ChessGame[];
-  createNewGame: () => ChessGame | null;
-  onSquareClick?: (square: ChessSquare, promotingPiece?: ChessPieceShortName) => void,
+  currentGame: Game | null;
+  setCurrentGame?: (game: Game) => void;
+  record: Game[];
+  createNewGame: () => void;
+  onSquareClick?: OnSquareClickFunction,
   isPieceSelected?: boolean,
 };
 

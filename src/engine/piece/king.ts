@@ -1,4 +1,4 @@
-import { ChessColour, ChessPiece, ChessPieceMoveset } from '~/types';
+import type { ChessPieceMoveset } from '~/types';
 
 export const getKingMoves = (): ChessPieceMoveset => [
   {
@@ -55,12 +55,7 @@ export const getKingMoves = (): ChessPieceMoveset => [
   },
 ];
 
-export const newKing = (id: number, colour: ChessColour): ChessPiece => ({
-  id,
-  shortName: 'k',
-  colour,
-  hasMoved: false,
+export const getKingBasicMoves = () => ({
   moves: getKingMoves(),
   possibleMoves: [],
-  pawnJustJumped: false,
 });

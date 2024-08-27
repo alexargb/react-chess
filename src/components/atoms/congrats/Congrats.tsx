@@ -5,15 +5,15 @@ import { capitalize } from '~/helpers/capitalize';
 import { CongratsSpan, CongratsWrapper } from './styled';
 
 type CongratsProps = {
-  game: ChessGame;
+  game: ChessGame | null;
 };
 
 export const Congrats = ({ game }: CongratsProps) => {
-  const congratsColour = getOppositeColour(game.turn);
+  const congratsColour = getOppositeColour(game?.turn || 'white');
   const congratsMessage = `${capitalize(congratsColour)} won!`;
 
   return (
-    <CongratsWrapper $visible={game.finished} role="congrats">
+    <CongratsWrapper $visible={!!game?.finished} role="congrats">
       <CongratsSpan $colour={congratsColour}>
         {congratsMessage}
       </CongratsSpan>
