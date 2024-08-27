@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import * as Hooks from '~/hooks';
 import { Game } from '.';
-import { newGame } from '~/engine';
+import { Game as GameClass } from '~/engine';
 
 jest.mock('~/hooks', () => ({
   __esModule: true,
@@ -12,7 +12,7 @@ jest.mock('~/hooks', () => ({
 const gameContextMock = {
   record: [],
   createNewGame: () => null,
-  currentGame: newGame(),
+  currentGame: new GameClass(),
 };
 
 describe('Game', () => {
