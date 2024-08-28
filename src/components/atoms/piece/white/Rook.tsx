@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const Rook = () => (
-  <svg role="piece" xmlns="http://www.w3.org/2000/svg" width="45" height="45" data-testid="white-rook">
+  <svg role="piece" viewBox="0 0 45 45" xmlns="http://www.w3.org/2000/svg" width="10vw" height="10vw" data-testid="white-rook">
     <g
       fill="#fff"
       fillRule="evenodd"

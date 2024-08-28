@@ -1,9 +1,11 @@
 import styled, { css } from 'styled-components';
 import { Title } from '~/components/atoms/title';
 
+const wrapperPadding = '6.7vw';
+
 export const WrapperContainer = styled.div`
   background-color: #444;
-  padding: 8px 26px;
+  padding: 8px ${wrapperPadding};
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -13,7 +15,7 @@ export const WrapperTitle = styled(Title)`
   background-color: #EAEAEA;
 
   width: 100vw;
-  margin-left: -26px;
+  margin-left: -${wrapperPadding};
 
   display: flex;
   align-items: center;

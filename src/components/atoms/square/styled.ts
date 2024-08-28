@@ -25,8 +25,10 @@ export const SquareDiv = styled.div<SquareDivProps>`
     }
     return $colour === 'white' ? '#FFE9D6' : '#46861E';
   }};
-  width: 45px;
-  height: 45px;
+  max-width: 55px;
+  max-height: 55px;
+  width: calc(10vw + 2px);
+  height: calc(10vw + 2px);
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -41,7 +43,7 @@ type PromotionListProps = {
 
 export const PromotionList = styled.div<PromotionListProps>`
   position: absolute;
-  top: -40px;
+  top: -9vw;
   left: -1px;
   z-index: 1000;
 
@@ -50,7 +52,9 @@ export const PromotionList = styled.div<PromotionListProps>`
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+
+  background-color: #444;
 
   border-radius: 4px;
   &:first-child {
@@ -67,16 +71,16 @@ export const PromotionList = styled.div<PromotionListProps>`
 
   ${({ $visible, $isRightBorderSquare, $isLeftBorderSquare }) => css`
     ${$isRightBorderSquare && css`
-      margin-left: ${$visible ? '-110px' : '22px'};
+      margin-left: ${$visible ? '-27vw' : '5vw'};
     `}
     ${$isLeftBorderSquare && css`
-      margin-left: ${$visible ? '-30px' : '22px'};
+      margin-left: ${$visible ? '-5vw' : '5vw'};
     `}
     ${!$isRightBorderSquare && !$isLeftBorderSquare && css`
-      margin-left: ${$visible ? '-70px' : '22px'};
+      margin-left: ${$visible ? '-16.5vw' : '5vw'};
     `}
     border: 1px solid ${$visible ? '#000' : 'transparent'};
-    width: ${$visible ? 'calc(47px * 4)' : '0'};
+    width: ${$visible ? 'calc((10vw + 4px) * 4)' : '0'};
     height: ${$visible ? 'fit-content' : '0'};
   `}
 `;

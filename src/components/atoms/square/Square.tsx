@@ -53,7 +53,7 @@ export const Square = ({
       {piece && <Piece piece={piece}/>}
       {!piece && marked && <SquareMark />}
 
-      {!isPromotionInnerSquare && (
+      {!isPromotionInnerSquare && !!promotesFor && (
         <PromotionSquares
           visible={!!promotesFor && isPromoting}
           pieceColour={promotesFor || 'white'}
