@@ -44,10 +44,12 @@ export class BaseGame implements ChessGame {
       board,
       turn,
       selectedSquare,
+      removedPieces,
     } = game;
     this.id = id;
     this.board = board.map((row) => row.map(Square.getSquareFromChessSquare));
     this.selectedSquare = selectedSquare;
+    this.removedPieces = removedPieces;
     this.turn = turn;
   }
 
