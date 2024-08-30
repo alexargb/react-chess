@@ -1,7 +1,7 @@
 import { useGameContext, useViewContext } from '~/hooks';
-import { ColourSpan, GameDiv, GameTitle } from './styled';
+import { GameDiv } from './styled';
 import { Board } from '~/components/molecules/board';
-import { Circle } from '~/components/atoms/circle';
+import { RemovedPieces } from '~/components/molecules/removedPieces';
 
 export const Game = () => {
   const { currentView } = useViewContext();
@@ -11,10 +11,9 @@ export const Game = () => {
 
   return (
     <GameDiv $visible={currentView === 'game'} role="game">
-      <GameTitle>
-        Turn: <ColourSpan><Circle $radius={6} $colour={currentGame.turn}/></ColourSpan>
-      </GameTitle>
+      <RemovedPieces colour="white" />
       <Board />
+      <RemovedPieces colour="black" />
     </GameDiv>
   );
 };

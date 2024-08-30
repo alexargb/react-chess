@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import type { ChessPieceShortName, ChessSquare } from '~/types';
-import { Square as SquareClass } from '~/engine';
 import { useGameContext } from '~/hooks';
 import { Square } from '~/components/atoms/square';
 import { Congrats } from '~/components/atoms/congrats';

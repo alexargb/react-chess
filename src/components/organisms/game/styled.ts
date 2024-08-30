@@ -7,28 +7,12 @@ type GameDivProps = {
 
 export const GameDiv = styled.div<GameDivProps>`
   transition: all 350ms;
+  margin-top: 32px;
 
   ${({ $visible }) => css`
-    width: ${$visible ? '100vw' : '0'};
+    width: ${$visible ? '86.6vw' : '0'};
     min-height: ${$visible ? 'fit-content' : '0'};
     height: ${$visible ? '80vh' : '0'};
     overflow: ${$visible ? 'visible' : 'hidden'};
   `}
-`;
-
-export const GameTitle = styled(Title)`
-  color: #FFF;
-  background-color: #46861E;
-  padding: 8px 8px;
-  margin-top: 16px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const ColourSpan = styled.span`
-  margin-left: 12px;
-  margin-bottom: -4px;
-  margin-right: 6px;
 `;

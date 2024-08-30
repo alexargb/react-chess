@@ -27,12 +27,11 @@ export const SquareDiv = styled.div<SquareDivProps>`
   }};
   max-width: 55px;
   max-height: 55px;
-  width: calc(10vw + 2px);
-  height: calc(10vw + 2px);
+  width: 11vw;
+  height: 11vw;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  border: 1px solid transparent;
 `;
 
 type PromotionListProps = {
@@ -80,7 +79,7 @@ export const PromotionList = styled.div<PromotionListProps>`
       margin-left: ${$visible ? '-16.5vw' : '5vw'};
     `}
     border: 1px solid ${$visible ? '#000' : 'transparent'};
-    width: ${$visible ? 'calc((10vw + 4px) * 4)' : '0'};
+    width: ${$visible ? 'calc((11vw + 2px) * 4)' : '0'};
     height: ${$visible ? 'fit-content' : '0'};
   `}
 `;
