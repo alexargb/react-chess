@@ -118,7 +118,14 @@ export class Game extends BaseGame {
       !finalSquare.hasPiece('p')
     ) {
       const sideSquare = mockGame.board[initialSquare.y][finalSquare.x];
-      if (sideSquare.hasPiece('p') && sideSquare.hasPieceOfColour(this.enemyColour)) {  
+      if (
+        sideSquare.piece &&
+        sideSquare.hasPiece('p') &&
+        sideSquare.hasPieceOfColour(this.enemyColour)
+      ) {
+        if (shouldDoTheMove) {
+          this.removedPieces.push(sideSquare.piece);
+        }
         delete sideSquare.piece;
       }
     }
