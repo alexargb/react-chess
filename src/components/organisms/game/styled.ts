@@ -7,12 +7,12 @@ type GameDivProps = {
 
 export const GameDiv = styled.div<GameDivProps>`
   transition: all 350ms;
-  margin-top: 32px;
 
   ${({ $visible }) => css`
     width: ${$visible ? '86.6vw' : '0'};
     min-height: ${$visible ? 'fit-content' : '0'};
     height: ${$visible ? '80vh' : '0'};
     overflow: ${$visible ? 'visible' : 'hidden'};
+    margin-top: ${$visible ? '32px' : '0'};
   `}
 `;
