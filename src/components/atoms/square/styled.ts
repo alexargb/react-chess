@@ -13,6 +13,7 @@ type SquareDivProps = {
 export const SquareDiv = styled.div<SquareDivProps>`
   position: relative;
   cursor: pointer;
+  overflow: hidden;
   background-color: ${({ $colour, $selected, $marked, $hasPiece, $isPromoting }) => {
     if ($selected) {
       return $colour === 'white' ? '#DDC7B4' : '#246400';
