@@ -1,7 +1,7 @@
 import React from 'react';
 import { useViewContext } from '~/hooks';
 import { Menu } from '~/components/molecules/menu';
-import { Game } from '~/components/molecules/game';
+import { Game } from '~/components/organisms/game';
 import { Record } from '~/components/molecules/record';
 import {
   Chevron,

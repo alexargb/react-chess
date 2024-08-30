@@ -1,7 +1,15 @@
 import React from 'react';
+import type { PieceSvgProps } from '../types';
 
-export const King = () => (
-  <svg role="piece" viewBox="0 0 45 45" xmlns="http://www.w3.org/2000/svg" width="10vw" height="10vw" data-testid="black-king">
+export const King = ({ width, height }: PieceSvgProps) => (
+  <svg
+    role="piece"
+    viewBox="0 0 45 45"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    data-testid="black-king"
+  >
     <g
       fill="none"
       fillRule="evenodd"

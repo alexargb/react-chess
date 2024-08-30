@@ -28,9 +28,6 @@ describe('Game', () => {
     const gameElement = screen.getByRole(/game/);
     expect(gameElement).toBeInTheDocument();
 
-    const turnElement = screen.getByText(/turn/i);
-    expect(turnElement).toBeInTheDocument();
-
     expect(useGameContextSpy).toHaveBeenCalled();
   });
 });

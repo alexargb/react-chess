@@ -6,7 +6,7 @@ import { MenuList } from './styled';
 export const Menu = () => {
   const { currentView, setCurrentView } = useViewContext();
   const { currentGame, createNewGame, record } = useGameContext();
-  const showContinue = !!currentGame;
+  const showContinue = !!currentGame && !currentGame.finished;
   const showRecord = record?.length > 1;
   
   const goToGame = () => setCurrentView?.('game');
