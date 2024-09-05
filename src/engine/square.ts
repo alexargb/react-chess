@@ -62,6 +62,7 @@ export class Square implements ChessSquare {
     newSquare.selected = selected;
     newSquare.promotesFor = promotesFor;
     if (newSquare.piece && piece) {
+      newSquare.piece.id = piece.id;
       newSquare.piece.moves = piece.moves;
       newSquare.piece.possibleMoves = piece.possibleMoves;
       newSquare.piece.pawnJustJumped = piece.pawnJustJumped;

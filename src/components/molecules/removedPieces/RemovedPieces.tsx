@@ -27,8 +27,8 @@ export const RemovedPieces = ({ colour }: RemovedPiecesProps) => {
       role="removed-pieces-list"
     >
       {pieces.map((piece) => (
-        <RemovedPiecesListItem>
-          <Piece piece={piece} size="small" key={piece.id} />
+        <RemovedPiecesListItem key={piece.id}>
+          <Piece piece={piece} size="small" />
         </RemovedPiecesListItem>
       ))}
     </RemovedPiecesList>
