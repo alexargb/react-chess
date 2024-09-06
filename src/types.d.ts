@@ -53,6 +53,8 @@ export type ChessBoard = ChessSquare[][];
 export type ChessStoryEntry = {
   move: number;
   board: ChessBoard;
+  turn: ChessColour;
+  removedPieces: ChessPiece[];
 };
 export type ChessStory = {
   currentMove: number;
@@ -69,7 +71,7 @@ export type ChessGame = {
   board: ChessBoard;
   story: ChessStory;
   turn: ChessColour;
-  selectedSquare: ChessSquare | null; // TODO: adapt
+  selectedSquare?: ChessSquare;
   timer?: ChessTimer;
   finished: boolean;
   removedPieces: ChessPiece[];

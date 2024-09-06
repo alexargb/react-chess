@@ -1,9 +1,6 @@
 import type {
-  ChessBoard,
-  ChessBoardCoordinate,
   ChessColour,
   ChessGame,
-  ChessPieceShortName,
 } from '~/types';
 import type { Piece } from '../piece';
 import { Board } from '../board';
@@ -15,9 +12,9 @@ let local_id = 1;
 
 export class BaseGame implements ChessGame {
   id: number;
-  board: Square[][] = [];
+  board: Board;
   turn = 'white' as ChessColour;
-  selectedSquare: Square | null = null;
+  selectedSquare?: Square;
   removedPieces: Piece[] = [];
   story: Story;
 
@@ -34,7 +31,7 @@ export class BaseGame implements ChessGame {
     return !ownSquares.some((square) => square.hasPossibleMoves());
   }
 
-  constructor(game?: BaseGame | null) {
+  constructor(game?: BaseGame) {
     if (!game) {
       // BaseGame object from scratch
       this.id = local_id++;
@@ -52,20 +49,19 @@ export class BaseGame implements ChessGame {
       story,
     } = game;
     this.id = id;
-    this.board = this.mapChessBoard(board);
+    this.board = new Board(board);
     this.selectedSquare = selectedSquare;
     this.removedPieces = removedPieces;
     this.turn = turn;
     this.story = story;
   }
 
-  public mapChessBoard(board: ChessBoard): Board {
-    return board.map((row) => row.map(Square.getSquareFromChessSquare));
-  }
-
   public updateStory() {
-    const boardCopy = this.mapChessBoard(this.board)
-    this.story.setNewEntry(boardCopy);
+    this.story.setNewEntry(
+      this.board,
+      this.turn,
+      this.removedPieces,
+    );
   }
 
   public unselectSquare() {
@@ -77,18 +73,19 @@ export class BaseGame implements ChessGame {
         delete board[y][x].promotesFor;
       });
     });
-  
-    this.selectedSquare = null;
+
+    delete this.selectedSquare;
   };
 
-  public selectSquare(square: Square) {
+  public selectSquare(square?: Square) {
+    if (!square) return;
     this.unselectSquare();
-    this.selectedSquare = square;
-
     const { x, y } = square;
+    this.selectedSquare = this.board[y][x];
+
     this.board[y][x].selected = true;
 
-    square.piece?.possibleMoves.forEach((move) => {
+    this.selectedSquare.piece?.possibleMoves.forEach((move) => {
       const { changeX, changeY, promotes } = move;
       const newX = x + changeX;
       const newY = y + changeY;
@@ -96,7 +93,7 @@ export class BaseGame implements ChessGame {
       const finalSquare = this.board[newY][newX];
       finalSquare.marked = true;
       if (promotes) {
-        finalSquare.promotesFor = square.piece?.colour;
+        finalSquare.promotesFor = this.selectedSquare?.piece?.colour;
       }
     });
   };

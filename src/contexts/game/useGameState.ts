@@ -9,7 +9,7 @@ import {
 
 export const useGameState = (): GameContextState => {
   const [record, setRecord] = useState<Game[]>([]);
-  const [currentGame, setCurrentGame] = useState<Game | null>(null);
+  const [currentGame, setCurrentGame] = useState<Game | undefined>();
 
   const getUpdatedRecord = recordUpdater(record);
   const updateGames = (game?: Game) => {
@@ -46,7 +46,9 @@ export const useGameState = (): GameContextState => {
 
   // story management
   const undo = () => {
-    currentGame?.undo();
+    if (!currentGame) return;
+    currentGame.undo();
+    currentGame.selectSquare(currentGame.selectedSquare);
     updateGames();
   };
 

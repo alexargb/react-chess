@@ -3,6 +3,7 @@ import type {
   ChessPieceStrictMove,
 } from '~/types';
 import type { ValidateMoveFunction } from './moveValidator';
+import type { StoryEntry } from './story';
 import { BaseGame } from './baseGame';
 import { Square } from '../square';
 import { MoveValidator } from './moveValidator';
@@ -11,7 +12,7 @@ import { getOppositeColour } from './helpers';
 type MoveValidatorFunction = (square: Square) => ValidateMoveFunction;
 
 export class Game extends BaseGame {
-  constructor(game?: Game | null) {
+  constructor(game?: Game) {
     super(game);
     this.undo = this.undo.bind(this);
     this.redo = this.redo.bind(this);
@@ -87,16 +88,6 @@ export class Game extends BaseGame {
   }
 
   // movePiece
-  public undo() {
-    this.board = this.story.undo();
-    this.turn = getOppositeColour(this.turn);
-  }
-
-  public redo() {
-    this.board = this.story.redo();
-    this.turn = getOppositeColour(this.turn);
-  }
-
   public movePiece(
     initialSquare: Square | undefined | null,
     finalSquare: Square,
@@ -169,5 +160,25 @@ export class Game extends BaseGame {
       return this;
     }
     return mockGame;
+  }
+
+  // story manager
+  private updateFromStoryEntry({
+    board,
+    turn,
+    removedPieces,
+  }: StoryEntry) {
+    this.board = board;
+    this.turn = turn;
+    this.removedPieces = removedPieces;
+    this.recalculateGameMoves();
+  }
+
+  public undo() {
+    this.updateFromStoryEntry(this.story.undo());
+  }
+
+  public redo() {
+    this.updateFromStoryEntry(this.story.redo());
   }
 }

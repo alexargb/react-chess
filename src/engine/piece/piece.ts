@@ -44,15 +44,26 @@ export class Piece implements ChessPiece {
     id: number,
     shortName: ChessPieceShortName,
     colour: ChessColour,
+    possibleMoves?: ChessPieceStrictMoveset,
   ) {
     this.id = id;
     this.shortName = shortName;
     this.colour = colour;
 
     const getBasicMoves = BASIC_MOVES_MAP[shortName];
-    const { moves, possibleMoves } = getBasicMoves(colour);
-    this.moves = moves;
-    this.possibleMoves = possibleMoves;
+    const basic = getBasicMoves(colour);
+
+    this.moves = basic.moves;
+    this.possibleMoves = possibleMoves || basic.possibleMoves;
+  }
+
+  public static fromChessPiece({
+    id,
+    shortName,
+    colour,
+    possibleMoves,
+  }: ChessPiece): Piece {
+    return new Piece(id, shortName, colour, possibleMoves);
   }
 
   /**
@@ -61,7 +72,7 @@ export class Piece implements ChessPiece {
    * @param initialSquare the Square that contains the Piece to be promoted
    * @returns 
    */
-  promote(promotesTo: ChessPieceShortName | undefined, initialSquare: Square): boolean {
+  public promote(promotesTo: ChessPieceShortName | undefined, initialSquare: Square): boolean {
     const colour = initialSquare.piece?.colour;
     if (!promotesTo || !colour || !initialSquare.hasPiece('p')) return false;
   

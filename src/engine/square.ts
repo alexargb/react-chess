@@ -47,7 +47,7 @@ export class Square implements ChessSquare {
     }
   }
 
-  public static getSquareFromChessSquare(baseSquare: ChessSquare): Square {
+  public static fromChessSquare(baseSquare: ChessSquare): Square {
     const {
       x,
       y,
@@ -99,5 +99,18 @@ export class Square implements ChessSquare {
       x: (this.x + move.changeX) as ChessBoardCoordinate,
       y: (this.y + move.changeY) as ChessBoardCoordinate,
     };
+  }
+
+  public print(): string {
+    const { piece, marked, selected } = this;
+    if (!piece) return marked ? '++' : '--';
+
+    let secondChar = '-';
+    if (marked) {
+      secondChar = '+';
+    } else if (selected) {
+      secondChar = 'x';
+    }
+    return piece.shortName + secondChar;
   }
 }
