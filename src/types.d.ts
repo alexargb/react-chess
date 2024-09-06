@@ -50,6 +50,14 @@ export type ChessSquare = ChessPosition & {
 };
 
 export type ChessBoard = ChessSquare[][];
+export type ChessStoryEntry = {
+  move: number;
+  board: ChessBoard;
+};
+export type ChessStory = {
+  currentMove: number;
+  entries: ChessStoryEntry[];
+};
 
 export type ChessTimer = {
   white: number;
@@ -59,6 +67,7 @@ export type ChessTimer = {
 export type ChessGame = {
   id: number;
   board: ChessBoard;
+  story: ChessStory;
   turn: ChessColour;
   selectedSquare: ChessSquare | null; // TODO: adapt
   timer?: ChessTimer;
