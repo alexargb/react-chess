@@ -4,6 +4,8 @@ export type OnSquareClickFunction = (square: Square, promotingPiece?: ChessPiece
 
 export type GameContextState = {
   currentGame: Game | null;
+  undo?: () => void;
+  redo?: () => void;
   setCurrentGame?: (game: Game) => void;
   record: Game[];
   createNewGame: () => void;

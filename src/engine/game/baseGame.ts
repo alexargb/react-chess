@@ -1,12 +1,14 @@
 import type {
+  ChessBoard,
   ChessBoardCoordinate,
   ChessColour,
   ChessGame,
   ChessPieceShortName,
 } from '~/types';
-import { BASE_BOARD } from '../constants';
+import type { Piece } from '../piece';
+import { Board } from '../board';
 import { Square } from '../square';
-import { Piece } from '../piece';
+import { Story } from './story';
 import { getOppositeColour } from './helpers';
 
 let local_id = 1;
@@ -17,16 +19,17 @@ export class BaseGame implements ChessGame {
   turn = 'white' as ChessColour;
   selectedSquare: Square | null = null;
   removedPieces: Piece[] = [];
+  story: Story;
 
-  get enemyColour() {
+  public get enemyColour() {
     return getOppositeColour(this.turn);
   }
 
-  get gameColours() {
+  public get gameColours() {
     return [this.turn, this.enemyColour];
   }
 
-  get finished() {
+  public get finished() {
     const ownSquares = this.getSquaresByPieceColour(this.turn);
     return !ownSquares.some((square) => square.hasPossibleMoves());
   }
@@ -35,7 +38,8 @@ export class BaseGame implements ChessGame {
     if (!game) {
       // BaseGame object from scratch
       this.id = local_id++;
-      this.board = this.newBoard();
+      this.board = new Board();
+      this.story = new Story(this.board);
       return;
     }
     // BaseGame object from ChessGame object
@@ -45,24 +49,23 @@ export class BaseGame implements ChessGame {
       turn,
       selectedSquare,
       removedPieces,
+      story,
     } = game;
     this.id = id;
-    this.board = board.map((row) => row.map(Square.getSquareFromChessSquare));
+    this.board = this.mapChessBoard(board);
     this.selectedSquare = selectedSquare;
     this.removedPieces = removedPieces;
     this.turn = turn;
+    this.story = story;
   }
 
-  private newBoard(): Square[][] {
-    return BASE_BOARD.map((row, posY) => {
-      const y = posY as ChessBoardCoordinate;
+  public mapChessBoard(board: ChessBoard): Board {
+    return board.map((row) => row.map(Square.getSquareFromChessSquare));
+  }
 
-      return row.map((shortName, posX) => {
-        const x = posX as ChessBoardCoordinate;
-
-        return new Square(x, y, shortName as ChessPieceShortName);
-      });
-    });
+  public updateStory() {
+    const boardCopy = this.mapChessBoard(this.board)
+    this.story.setNewEntry(boardCopy);
   }
 
   public unselectSquare() {

@@ -13,6 +13,8 @@ type MoveValidatorFunction = (square: Square) => ValidateMoveFunction;
 export class Game extends BaseGame {
   constructor(game?: Game | null) {
     super(game);
+    this.undo = this.undo.bind(this);
+    this.redo = this.redo.bind(this);
   }
 
   // recalculateGameMoves
@@ -85,6 +87,16 @@ export class Game extends BaseGame {
   }
 
   // movePiece
+  public undo() {
+    this.board = this.story.undo();
+    this.turn = getOppositeColour(this.turn);
+  }
+
+  public redo() {
+    this.board = this.story.redo();
+    this.turn = getOppositeColour(this.turn);
+  }
+
   public movePiece(
     initialSquare: Square | undefined | null,
     finalSquare: Square,
@@ -153,6 +165,7 @@ export class Game extends BaseGame {
       this.board = mockGame.board;
       this.unselectSquare();
       this.recalculateGameMoves();
+      this.updateStory();
       return this;
     }
     return mockGame;

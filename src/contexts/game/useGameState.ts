@@ -44,11 +44,24 @@ export const useGameState = (): GameContextState => {
     updateGames();
   };
 
+  // story management
+  const undo = () => {
+    currentGame?.undo();
+    updateGames();
+  };
+
+  const redo = () => {
+    currentGame?.redo();
+    updateGames();
+  };
+
   return {
     currentGame,
     setCurrentGame,
     record,
     createNewGame,
     onSquareClick,
+    undo,
+    redo,
   };
 };
