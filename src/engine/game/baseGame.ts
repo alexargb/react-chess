@@ -17,6 +17,8 @@ export class BaseGame implements ChessGame {
   selectedSquare?: Square;
   removedPieces: Piece[] = [];
   story: Story;
+  lastMovedPiece?: Piece;
+  lastMovedSquare?: Square;
 
   public get enemyColour() {
     return getOppositeColour(this.turn);
@@ -56,15 +58,24 @@ export class BaseGame implements ChessGame {
     this.story = story;
   }
 
-  public updateStory() {
+  public changeTurn(): BaseGame {
+    this.turn = getOppositeColour(this.turn);
+    return this;
+  }
+
+  public updateStory(): BaseGame {
     this.story.setNewEntry(
       this.board,
       this.turn,
       this.removedPieces,
+      this.lastMovedPiece,
+      this.lastMovedSquare,
     );
+
+    return this;
   }
 
-  public unselectSquare() {
+  public unselectSquare(): BaseGame {
     const { board } = this;
     board.forEach((row, y) => {
       row.forEach((_, x) => {
@@ -75,10 +86,11 @@ export class BaseGame implements ChessGame {
     });
 
     delete this.selectedSquare;
+    return this;
   };
 
-  public selectSquare(square?: Square) {
-    if (!square) return;
+  public selectSquare(square?: Square): BaseGame {
+    if (!square) return this;
     this.unselectSquare();
     const { x, y } = square;
     this.selectedSquare = this.board[y][x];
@@ -96,9 +108,11 @@ export class BaseGame implements ChessGame {
         finalSquare.promotesFor = this.selectedSquare?.piece?.colour;
       }
     });
+
+    return this;
   };
 
-  public removeJumpedStates() {
+  public removeJumpedStates(): BaseGame {
     this.board.forEach((row, y) => {
       row.forEach((_, x) => {
         const square = this.board[y][x];
@@ -107,7 +121,41 @@ export class BaseGame implements ChessGame {
         }
       });
     });
+
+    return this;
   };
+
+  public removeLastMovedPieceState(): BaseGame {
+    const { board } = this;
+    board.forEach((row, y) => {
+      row.forEach((_, x) => {
+        board[y][x].lastMovedSquare = false;
+
+        const square = board[y][x];
+        if (square.piece) square.piece.lastMovedPiece = false;
+      });
+    });
+    delete this.lastMovedPiece;
+    delete this.lastMovedSquare;
+
+    return this;
+  }
+
+  public onPieceMove(
+    initialSquare: Square,
+    finalSquare: Square,
+  ): BaseGame {
+    if (!initialSquare.piece) return this;
+
+    initialSquare.markJumpedState(finalSquare);
+    this.lastMovedPiece = initialSquare.piece.onPieceMove(initialSquare);
+    if (finalSquare.piece) {
+      this.removedPieces.push(finalSquare.piece);
+    }
+
+    this.changeTurn();
+    return this;
+  }
 
   public getSquaresByPieceColour(colour: ChessColour): Square[] {
     const filterSquareByPieceColour = (square: Square) => square.hasPieceOfColour(colour);

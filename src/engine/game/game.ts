@@ -29,7 +29,11 @@ export class Game extends BaseGame {
     };
   }
 
-  private static moveLeavesOwnKingOnCheck(game: Game, initialSquare: Square, move: ChessPieceStrictMove) {
+  private static moveLeavesOwnKingOnCheck(
+    game: Game,
+    initialSquare: Square,
+    move: ChessPieceStrictMove,
+  ): boolean {
     const { x, y } = initialSquare.getPositionFromMove(move);
     const finalSquare = game.board[y][x];
     const [ownColour, enemyColour] = game.gameColours;
@@ -65,7 +69,7 @@ export class Game extends BaseGame {
     };
   }
 
-  private recalculateGameMoves() {
+  private recalculateGameMoves(): Game {
     const [ownColour, enemyColour] = this.gameColours;
   
     const ownSquares = this.getSquaresByPieceColour(ownColour);
@@ -85,6 +89,8 @@ export class Game extends BaseGame {
       const { x, y } = square;
       this.board[y][x] = square;
     });
+
+    return this;
   }
 
   // movePiece
@@ -98,8 +104,9 @@ export class Game extends BaseGame {
     const mockGame = new Game(this);
     const selectedPiece = initialSquare.piece;
 
-    // removing pawnJustJumpedStates
+    // removing previous states
     mockGame.removeJumpedStates();
+    mockGame.removeLastMovedPieceState();
 
     // castling
     if (initialSquare.hasPiece('k')) {
@@ -134,29 +141,26 @@ export class Game extends BaseGame {
     }
 
     // pawn promotion
-    selectedPiece.promote(promotesTo, initialSquare);
+    selectedPiece.promote(initialSquare, promotesTo);
 
     // if should do the move
     if (shouldDoTheMove) {
-      initialSquare.markJumpedState(finalSquare);
-
-      selectedPiece.hasMoved = true;
-      if (finalSquare.piece) {
-        this.removedPieces.push(finalSquare.piece);
-      }
-
-      this.turn = getOppositeColour(this.turn);
+      this.onPieceMove(initialSquare, finalSquare);
     }
 
     // move
     mockGame.board[finalSquare.y][finalSquare.x].piece = selectedPiece;
     delete mockGame.board[initialSquare.y][initialSquare.x].piece;
 
+    mockGame.board[initialSquare.y][initialSquare.x].lastMovedSquare = true;
+    this.lastMovedSquare = mockGame.board[initialSquare.y][initialSquare.x];
+
     if (shouldDoTheMove) {
       this.board = mockGame.board;
-      this.unselectSquare();
-      this.recalculateGameMoves();
-      this.updateStory();
+      this.recalculateGameMoves()
+        .unselectSquare()
+        .updateStory();
+
       return this;
     }
     return mockGame;
@@ -168,17 +172,20 @@ export class Game extends BaseGame {
     turn,
     removedPieces,
   }: StoryEntry) {
+    this.unselectSquare();
     this.board = board;
     this.turn = turn;
     this.removedPieces = removedPieces;
     this.recalculateGameMoves();
   }
 
-  public undo() {
+  public undo(): Game {
     this.updateFromStoryEntry(this.story.undo());
+    return this;
   }
 
-  public redo() {
+  public redo(): Game {
     this.updateFromStoryEntry(this.story.redo());
+    return this;
   }
 }

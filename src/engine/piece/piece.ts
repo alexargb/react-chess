@@ -4,6 +4,7 @@ import type {
   ChessPieceMoveset,
   ChessPieceShortName,
   ChessPieceStrictMoveset,
+  ChessPosition,
 } from '~/types';
 
 import { getKingBasicMoves } from './king';
@@ -31,6 +32,8 @@ const BASIC_MOVES_MAP = {
   '-': defaultGetter,
 };
 
+const PIECE_SHORT_NAMES: ChessPieceShortName[] = ['k', 'q', 'r', 'b', 'n', 'p'];
+
 export class Piece implements ChessPiece {
   id: number;
   shortName: ChessPieceShortName;
@@ -39,6 +42,8 @@ export class Piece implements ChessPiece {
   possibleMoves: ChessPieceStrictMoveset = [];
   hasMoved: boolean = false;
   pawnJustJumped: boolean = false;
+  lastMovedPiece?: boolean;
+  previousPosition?: ChessPosition;
 
   constructor(
     id: number,
@@ -57,13 +62,34 @@ export class Piece implements ChessPiece {
     this.possibleMoves = possibleMoves || basic.possibleMoves;
   }
 
+  public static isPieceShortName(shortName: ChessPieceShortName) {
+    return PIECE_SHORT_NAMES.includes(shortName);
+  }
+
   public static fromChessPiece({
     id,
     shortName,
     colour,
+    hasMoved,
     possibleMoves,
+    pawnJustJumped,
+    lastMovedPiece,
+    previousPosition,
   }: ChessPiece): Piece {
-    return new Piece(id, shortName, colour, possibleMoves);
+    const newPiece = new Piece(id, shortName, colour, possibleMoves);
+    newPiece.hasMoved = hasMoved;
+    newPiece.pawnJustJumped = pawnJustJumped;
+    newPiece.lastMovedPiece = lastMovedPiece;
+    newPiece.previousPosition = previousPosition;
+    return newPiece;
+  }
+
+  public onPieceMove(previousPosition: ChessPosition): Piece {
+    this.previousPosition = previousPosition;
+    this.lastMovedPiece = true;
+    this.hasMoved = true;
+
+    return this;
   }
 
   /**
@@ -72,7 +98,7 @@ export class Piece implements ChessPiece {
    * @param initialSquare the Square that contains the Piece to be promoted
    * @returns 
    */
-  public promote(promotesTo: ChessPieceShortName | undefined, initialSquare: Square): boolean {
+  public promote(initialSquare: Square, promotesTo?: ChessPieceShortName): boolean {
     const colour = initialSquare.piece?.colour;
     if (!promotesTo || !colour || !initialSquare.hasPiece('p')) return false;
   

@@ -39,6 +39,8 @@ export type ChessPiece = {
   moves: ChessPieceMoveset;
   possibleMoves: ChessPieceStrictMoveset;
   pawnJustJumped: boolean;
+  lastMovedPiece?: boolean;
+  previousPosition?: ChessPosition;
 };
 
 export type ChessSquare = ChessPosition & {
@@ -47,6 +49,7 @@ export type ChessSquare = ChessPosition & {
   marked: boolean;
   selected: boolean;
   promotesFor?: ChessColour;
+  lastMovedSquare?: boolean;
 };
 
 export type ChessBoard = ChessSquare[][];
@@ -55,6 +58,8 @@ export type ChessStoryEntry = {
   board: ChessBoard;
   turn: ChessColour;
   removedPieces: ChessPiece[];
+  lastMovedPiece?: ChessPiece;
+  lastMovedSquare?: ChessSquare;
 };
 export type ChessStory = {
   currentMove: number;
@@ -75,4 +80,6 @@ export type ChessGame = {
   timer?: ChessTimer;
   finished: boolean;
   removedPieces: ChessPiece[];
+  lastMovedPiece?: ChessPiece;
+  lastMovedSquare?: ChessSquare;
 };
