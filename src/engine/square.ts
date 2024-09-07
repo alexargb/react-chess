@@ -16,8 +16,9 @@ export class Square implements ChessSquare {
   selected: boolean = false;
   piece?: Piece;
   promotesFor?: ChessColour;
+  lastMovedSquare?: boolean;
 
-  private getPieceColour(y: ChessBoardCoordinate): ChessColour {
+  private getPieceInitialColour(y: ChessBoardCoordinate): ChessColour {
     return y < 4 ? 'black' : 'white';
   }
 
@@ -34,7 +35,7 @@ export class Square implements ChessSquare {
   constructor(
     x: ChessBoardCoordinate,
     y: ChessBoardCoordinate,
-    shortName: ChessPieceShortName,
+    shortName?: ChessPieceShortName,
   ) {
     
     this.x = x;
@@ -42,8 +43,8 @@ export class Square implements ChessSquare {
     this.colour = this.getPositionColour(x, y);
 
     const pieceId = y * 8 + x;
-    if (shortName !== '-') {
-      this.piece = new Piece(pieceId, shortName, this.getPieceColour(y));
+    if (shortName && Piece.isPieceShortName(shortName)) {
+      this.piece = new Piece(pieceId, shortName, this.getPieceInitialColour(y));
     }
   }
 
@@ -55,20 +56,15 @@ export class Square implements ChessSquare {
       marked,
       selected,
       promotesFor,
+      lastMovedSquare,
     } = baseSquare;
-    const newSquare = new Square(x, y, piece?.shortName || '-');
+    const newSquare = new Square(x, y);
 
     newSquare.marked = marked;
     newSquare.selected = selected;
     newSquare.promotesFor = promotesFor;
-    if (newSquare.piece && piece) {
-      newSquare.piece.id = piece.id;
-      newSquare.piece.moves = piece.moves;
-      newSquare.piece.possibleMoves = piece.possibleMoves;
-      newSquare.piece.pawnJustJumped = piece.pawnJustJumped;
-      newSquare.piece.hasMoved = piece.hasMoved;
-      newSquare.piece.colour = piece.colour;
-    }
+    newSquare.lastMovedSquare = lastMovedSquare;
+    if (piece) newSquare.piece = Piece.fromChessPiece(piece);
 
     return newSquare;
   }
@@ -86,12 +82,14 @@ export class Square implements ChessSquare {
     return this.piece.possibleMoves.length > 0;
   }
 
-  public markJumpedState(markedSquare: Square) {
+  public markJumpedState(markedSquare: Square): Square {
     if (
       this.piece &&
       this.hasPiece('p') &&
       Math.abs(markedSquare.y - this.y) === 2
     ) this.piece.pawnJustJumped = true;
+
+    return this;
   }
 
   public getPositionFromMove(move: ChessPieceStrictMove): ChessPosition {
@@ -102,15 +100,19 @@ export class Square implements ChessSquare {
   }
 
   public print(): string {
-    const { piece, marked, selected } = this;
-    if (!piece) return marked ? '++' : '--';
+    const { piece, marked, selected, lastMovedSquare } = this;
 
     let secondChar = '-';
     if (marked) {
       secondChar = '+';
     } else if (selected) {
       secondChar = 'x';
+    } else if (piece?.lastMovedPiece) {
+      secondChar = '>';
+    } else if (lastMovedSquare) {
+      secondChar = '<';
     }
-    return piece.shortName + secondChar;
+
+    return (piece?.shortName || '-') + secondChar;
   }
 }

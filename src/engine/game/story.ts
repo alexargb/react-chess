@@ -2,10 +2,12 @@ import type {
   ChessBoard,
   ChessColour,
   ChessPiece,
+  ChessSquare,
   ChessStory,
   ChessStoryEntry,
 } from '~/types';
 import { Board } from '../board';
+import { Square } from '../square';
 import { Piece } from '../piece';
 
 export class StoryEntry implements ChessStoryEntry {
@@ -13,17 +15,25 @@ export class StoryEntry implements ChessStoryEntry {
   board: Board;
   turn: ChessColour;
   removedPieces: Piece[] = [];
+  lastMovedPiece?: Piece;
+  lastMovedSquare?: Square;
 
   constructor(
     move: number,
     board: ChessBoard,
     turn: ChessColour,
     removedPieces: ChessPiece[],
+    lastMovedPiece?: ChessPiece,
+    lastMovedSquare?: ChessSquare,
   ) {
     this.move = move;
     this.board = new Board(board);
     this.turn = turn;
     this.removedPieces = removedPieces.map(Piece.fromChessPiece);
+    if (lastMovedPiece && lastMovedSquare) {
+      this.lastMovedPiece = Piece.fromChessPiece(lastMovedPiece);
+      this.lastMovedSquare = Square.fromChessSquare(lastMovedSquare);
+    }
   }
 
   public static fromChessStoryEntry({
@@ -31,12 +41,16 @@ export class StoryEntry implements ChessStoryEntry {
     board,
     turn,
     removedPieces,
+    lastMovedPiece,
+    lastMovedSquare,
   }: ChessStoryEntry): StoryEntry {
     return new StoryEntry(
       move,
       board,
       turn,
       removedPieces,
+      lastMovedPiece,
+      lastMovedSquare,
     );
   }
 };
@@ -73,12 +87,16 @@ export class Story implements ChessStory {
     board: Board,
     turn: ChessColour,
     removedPieces: Piece[],
+    lastMovedPiece?: Piece,
+    lastMovedSquare?: Square,
   ) {
     const newEntry = new StoryEntry(
       this.currentMove,
       board,
       turn,
       removedPieces,
+      lastMovedPiece,
+      lastMovedSquare,
     );
 
     const previousEntries = this.entries.slice(0, this.currentMove);
