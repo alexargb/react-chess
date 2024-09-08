@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export const BoardDiv = styled.div`
+export const BoardContainer = styled.div`
   position: relative;
-  margin-top: 16px;
+  margin: 16px 0;
   height: fit-content;
   width: fit-content;
 `;

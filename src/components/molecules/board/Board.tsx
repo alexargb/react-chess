@@ -3,7 +3,7 @@ import type { ChessPieceShortName, ChessSquare } from '~/types';
 import { useGameContext } from '~/hooks';
 import { Square } from '~/components/atoms/square';
 import { Congrats } from '~/components/atoms/congrats';
-import { BoardDiv, RowDiv } from './styled';
+import { BoardContainer, RowDiv } from './styled';
 
 export const Board = () => {
   const { currentGame, onSquareClick } = useGameContext();
@@ -15,7 +15,7 @@ export const Board = () => {
   };
 
   return (
-    <BoardDiv role="board">
+    <BoardContainer role="board">
       {currentGame.board.map((row, idx) => (
         <RowDiv key={idx} role="board-row">
           {row.map((square, idx) => {
@@ -36,7 +36,7 @@ export const Board = () => {
       ))}
 
       <Congrats game={currentGame} />
-    </BoardDiv>
+    </BoardContainer>
   );
 };
 
