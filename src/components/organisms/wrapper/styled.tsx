@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Title } from '~/components/atoms/title';
 
-const wrapperPadding = '6vw';
+const wrapperPadding = '5vw';
 
 export const WrapperContainer = styled.div`
   background-color: #444;
