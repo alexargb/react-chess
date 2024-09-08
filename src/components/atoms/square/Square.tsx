@@ -19,7 +19,7 @@ export const Square = ({
   promotingSquare,
   isPromotionInnerSquare,
 }: SquareProps) => {
-  const { piece, colour, marked, selected, promotesFor } = square;
+  const { piece, colour, marked, selected, lastMovedSquare, promotesFor } = square;
   const [isPromoting, setIsPromoting] = useState(false);
 
   useEffect(() => {
@@ -47,6 +47,8 @@ export const Square = ({
       $selected={selected}
       $hasPiece={!!piece}
       $isPromoting={isPromoting}
+      $isLastMovedSquare={!!lastMovedSquare}
+      $isLastMovedPiece={!!piece?.lastMovedPiece}
       onClick={clickHandler}
       role="square"
     >
