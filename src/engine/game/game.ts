@@ -7,7 +7,6 @@ import type { StoryEntry } from './story';
 import { BaseGame } from './baseGame';
 import { Square } from '../square';
 import { MoveValidator } from './moveValidator';
-import { getOppositeColour } from './helpers';
 
 type MoveValidatorFunction = (square: Square) => ValidateMoveFunction;
 

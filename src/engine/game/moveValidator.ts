@@ -18,6 +18,10 @@ export class MoveValidator {
   ownColour: ChessColour;
   enemyColour: ChessColour;
 
+  get ownKingSquare() {
+    return this.ownSquares.find(({ piece }) => piece?.shortName === 'k');
+  }
+
   constructor(
     squareSets: Square[][],
     ownColour: ChessColour,
@@ -67,13 +71,21 @@ export class MoveValidator {
     return !!sidePiece?.pawnJustJumped;
   }
 
-  private validateCastle(isKingCastle: boolean) {
-    const rooks = this.ownSquares.filter(({ piece }) => piece?.shortName === 'r');
-  
+  private validateCastle(isKingCastle: boolean): boolean {
     const rookX = isKingCastle ? 7 : 0;
-    const rook = rooks.find(({ x }) => x === rookX)?.piece
+    const rookSquare = this.ownSquares
+      .find(({ x, piece }) => piece?.shortName === 'r' && x === rookX);
+      
+    if (!rookSquare?.piece || rookSquare.piece.hasMoved) return false;
+    if (isKingCastle) return true;
+
+    const kingSquareY = this.ownKingSquare?.y || -1;
+    const middlePieceSquare = this.allSquares.find(({ x, y }) => {
+      const isBetweenPieces = x > 0 && x < 3;
+      return y === kingSquareY && isBetweenPieces;
+    });
   
-    return !!rook && !rook.hasMoved;
+    return !middlePieceSquare;
   }
 
   public getMoveValidator(square: Square): ValidateMoveFunction {

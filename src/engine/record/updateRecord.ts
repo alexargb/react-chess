@@ -1,15 +1,15 @@
-import { Game } from "../game";
+import type { Game } from '../game';
 
 export const recordUpdater = (
-  games: Game[],
+  record: Game[],
 ) => (game: Game | null): Game[] => {
-  if (!game) return games;
+  if (!game) return record;
 
-  const foundGame = games.find((item) => item?.id === game?.id);
+  const foundGame = record.find((item) => item?.id === game?.id);
   if (!foundGame) {
-    return games.concat(game);
+    return record.concat(game);
   }
-  const idx = games.indexOf(foundGame);
-  games[idx] = game;
-  return games;
+  const idx = record.indexOf(foundGame);
+  record[idx] = game;
+  return record;
 };
