@@ -1,9 +1,9 @@
-import { useGameContext, useKeyPress } from '~/hooks';
+import { useGameContext, useKeyDown } from '~/hooks';
 
 export const useKeyboardUndoRedo = (hidden: boolean) => {
   const { undo, redo } = useGameContext();
 
-  useKeyPress(({ key }) => {
+  useKeyDown(({ key }) => {
     if (!hidden) {
       if (key === 'ArrowLeft') undo?.();
       if (key === 'ArrowRight') redo?.();

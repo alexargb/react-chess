@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 
-type UseKeyPressCbArg = {
+type UseKeyDownCbArg = {
   ctrl: boolean;
   key: string;
 };
-export type UseKeyPressCb = (arg: UseKeyPressCbArg) => void;
+export type UseKeyDownCb = (arg: UseKeyDownCbArg) => void;
 
-export const useKeyPress = (callback: UseKeyPressCb, deps?: any[]) => {
+export const useKeyDown = (callback: UseKeyDownCb, deps?: any[]) => {
   const keyPressHandler = (event: KeyboardEvent) => {
     callback({
       ctrl: event.ctrlKey,

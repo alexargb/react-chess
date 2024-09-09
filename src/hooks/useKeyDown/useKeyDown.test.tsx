@@ -1,9 +1,9 @@
-import type { UseKeyPressCb } from '.';
+import type { UseKeyDownCb } from '.';
 import { render, waitFor } from '@testing-library/react';
-import { useKeyPress } from './useKeyPress';
+import { useKeyDown } from './useKeyDown';
 
-const MockComponent = ({ callbackMock }: { callbackMock: UseKeyPressCb }) => {
-  useKeyPress(callbackMock);
+const MockComponent = ({ callbackMock }: { callbackMock: UseKeyDownCb }) => {
+  useKeyDown(callbackMock);
   return (
     <div>
       Mock Component
@@ -11,7 +11,7 @@ const MockComponent = ({ callbackMock }: { callbackMock: UseKeyPressCb }) => {
   );
 };
 
-describe('useKeyPress', () => {
+describe('useKeyDown', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
