@@ -3,4 +3,5 @@ export type SideArrowProps = {
   disabled?: boolean;
   right?: boolean;
   left?: boolean;
+  title?: string;
 };

@@ -5,7 +5,7 @@ import { SideArrowRight } from './SideArrowRight';
 import { SideArrowContainer } from './styled';
 
 export const SideArrow = (props: SideArrowProps) => {
-  const { left, right, disabled, onClick } = props;
+  const { left, right, disabled, onClick, title } = props;
 
   if (!left && !right) return null;
 
@@ -13,6 +13,7 @@ export const SideArrow = (props: SideArrowProps) => {
     <SideArrowContainer
       $disabled={!!disabled}
       onClick={onClick}
+      title={title}
     >
       {left ? (
         <SideArrowLeft {...props} />
