@@ -133,7 +133,7 @@ export class Game extends BaseGame {
         sideSquare.hasPieceOfColour(this.enemyColour)
       ) {
         if (shouldDoTheMove) {
-          this.removedPieces.push(sideSquare.piece);
+          this.removedPieces[this.enemyColour].push(sideSquare.piece);
         }
         delete sideSquare.piece;
       }

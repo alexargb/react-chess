@@ -57,7 +57,10 @@ export type ChessStoryEntry = {
   move: number;
   board: ChessBoard;
   turn: ChessColour;
-  removedPieces: ChessPiece[];
+  removedPieces: {
+    white: ChessPiece[];
+    black: ChessPiece[];
+  };
   lastMovedPiece?: ChessPiece;
   lastMovedSquare?: ChessSquare;
 };
@@ -79,7 +82,10 @@ export type ChessGame = {
   selectedSquare?: ChessSquare;
   timer?: ChessTimer;
   finished: boolean;
-  removedPieces: ChessPiece[];
+  removedPieces: {
+    white: ChessPiece[];
+    black: ChessPiece[];
+  };
   lastMovedPiece?: ChessPiece;
   lastMovedSquare?: ChessSquare;
 };

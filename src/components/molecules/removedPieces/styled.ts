@@ -20,6 +20,14 @@ export const RemovedPiecesList = styled.ul<RemovedPiecesListProps>`
   ${({ $colour, $showBorder }) => css`
     border: 3px outset ${$showBorder ? $colour : 'transparent'};
   `}
+
+  li {
+    margin-left: -10px;
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+  }
 `;
 
 export const RemovedPiecesListItem = styled.li`
@@ -28,7 +36,6 @@ export const RemovedPiecesListItem = styled.li`
   justify-content: space-around;
 
   max-width: 32px;
-  width: 5.5vw;
   height: 100%;
   border-radius: 50%;
 `;

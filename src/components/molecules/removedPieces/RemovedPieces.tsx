@@ -12,8 +12,8 @@ type RemovedPiecesProps = {
 export const RemovedPieces = ({ colour }: RemovedPiecesProps) => {
   const { currentGame } = useGameContext();
   const pieces = useMemo(
-    () => getPiecesByColour(currentGame?.removedPieces || [], colour),
-    [currentGame?.removedPieces.length],
+    () => currentGame?.removedPieces[colour] || [],
+    [currentGame?.removedPieces[colour].length],
   );
   const shouldShowBorder = useMemo(() => {
     if (!currentGame || currentGame.finished) return false;

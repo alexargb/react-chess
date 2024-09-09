@@ -15,7 +15,10 @@ export class BaseGame implements ChessGame {
   board: Board;
   turn = 'white' as ChessColour;
   selectedSquare?: Square;
-  removedPieces: Piece[] = [];
+  removedPieces = {
+    white: [] as Piece[],
+    black: [] as Piece[],
+  };
   story: Story;
   lastMovedPiece?: Piece;
   lastMovedSquare?: Square;
@@ -150,7 +153,7 @@ export class BaseGame implements ChessGame {
     initialSquare.markJumpedState(finalSquare);
     this.lastMovedPiece = initialSquare.piece.onPieceMove(initialSquare);
     if (finalSquare.piece) {
-      this.removedPieces.push(finalSquare.piece);
+      this.removedPieces[this.enemyColour].push(finalSquare.piece);
     }
 
     this.changeTurn();

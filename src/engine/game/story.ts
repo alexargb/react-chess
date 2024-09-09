@@ -14,7 +14,10 @@ export class StoryEntry implements ChessStoryEntry {
   move: number;
   board: Board;
   turn: ChessColour;
-  removedPieces: Piece[] = [];
+  removedPieces: { white: Piece[], black: Piece[] } = {
+    white: [] as Piece[],
+    black: [] as Piece[],
+  };
   lastMovedPiece?: Piece;
   lastMovedSquare?: Square;
 
@@ -22,14 +25,15 @@ export class StoryEntry implements ChessStoryEntry {
     move: number,
     board: ChessBoard,
     turn: ChessColour,
-    removedPieces: ChessPiece[],
+    removedPieces: { white: ChessPiece[], black: ChessPiece[] },
     lastMovedPiece?: ChessPiece,
     lastMovedSquare?: ChessSquare,
   ) {
     this.move = move;
     this.board = new Board(board);
     this.turn = turn;
-    this.removedPieces = removedPieces.map(Piece.fromChessPiece);
+    this.removedPieces.white = removedPieces.white.map(Piece.fromChessPiece);
+    this.removedPieces.black = removedPieces.black.map(Piece.fromChessPiece);
     if (lastMovedPiece && lastMovedSquare) {
       this.lastMovedPiece = Piece.fromChessPiece(lastMovedPiece);
       this.lastMovedSquare = Square.fromChessSquare(lastMovedSquare);
@@ -70,7 +74,7 @@ export class Story implements ChessStory {
   }
 
   constructor(initialBoard?: Board) {
-    if (initialBoard) this.setNewEntry(initialBoard, 'white', []);
+    if (initialBoard) this.setNewEntry(initialBoard, 'white', { white: [], black: [] });
   }
 
   public static fromChessStory({ entries, currentMove }: ChessStory): Story {
@@ -86,7 +90,7 @@ export class Story implements ChessStory {
   public setNewEntry(
     board: Board,
     turn: ChessColour,
-    removedPieces: Piece[],
+    removedPieces: { white: Piece[], black: Piece[] },
     lastMovedPiece?: Piece,
     lastMovedSquare?: Square,
   ) {
