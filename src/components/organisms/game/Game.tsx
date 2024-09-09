@@ -18,7 +18,7 @@ export const Game = () => {
       <RemovedPieces colour="white" />
       <Board />
       <RemovedPieces colour="black" />
-      <StoryManager />
+      <StoryManager hidden={hidden} />
     </GameContainer>
   );
 };
