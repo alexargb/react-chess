@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { ChessPieceShortName } from '~/types';
+import type { ChessGame, ChessPieceShortName } from '~/types';
 import type { GameContextState } from './types';
 import {
   recordUpdater,
@@ -13,7 +13,7 @@ export const useGameState = (): GameContextState => {
 
   const getUpdatedRecord = recordUpdater(record);
   const updateGames = (game?: Game) => {
-    const newGame = new Game(game || currentGame);
+    const newGame = Game.fromChessGame(game || currentGame || new Game());
     setCurrentGame(newGame);
     setRecord(getUpdatedRecord(newGame));
   };

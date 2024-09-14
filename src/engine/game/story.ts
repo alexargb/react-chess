@@ -30,7 +30,7 @@ export class StoryEntry implements ChessStoryEntry {
     lastMovedSquare?: ChessSquare,
   ) {
     this.move = move;
-    this.board = new Board(board);
+    this.board = Board.fromChessBoard(board);
     this.turn = turn;
     this.removedPieces.white = removedPieces.white.map(Piece.fromChessPiece);
     this.removedPieces.black = removedPieces.black.map(Piece.fromChessPiece);
