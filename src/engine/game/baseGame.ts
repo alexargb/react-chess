@@ -2,7 +2,7 @@ import type {
   ChessColour,
   ChessGame,
 } from '~/types';
-import type { Piece } from '../piece';
+import { Piece } from '../piece';
 import { Board } from '../board';
 import { Square } from '../square';
 import { Story } from './story';
@@ -10,7 +10,7 @@ import { getOppositeColour } from './helpers';
 
 let local_id = 1;
 
-export class BaseGame implements ChessGame {
+export class BaseGame {
   id: number;
   board: Board;
   turn = 'white' as ChessColour;
@@ -23,28 +23,35 @@ export class BaseGame implements ChessGame {
   lastMovedPiece?: Piece;
   lastMovedSquare?: Square;
 
-  public get enemyColour() {
+  public get enemyColour(): ChessColour {
     return getOppositeColour(this.turn);
   }
 
-  public get gameColours() {
+  public get gameColours(): ChessColour[] {
     return [this.turn, this.enemyColour];
   }
 
-  public get finished() {
-    const ownSquares = this.getSquaresByPieceColour(this.turn);
-    return !ownSquares.some((square) => square.hasPossibleMoves());
+  public get ownSquares(): Square[] {
+    return this.board.getSquaresWithPieceOfColour(this.turn);
   }
 
-  constructor(game?: BaseGame) {
-    if (!game) {
-      // BaseGame object from scratch
-      this.id = local_id++;
-      this.board = new Board();
-      this.story = new Story(this.board);
-      return;
-    }
-    // BaseGame object from ChessGame object
+  public get enemySquares(): Square[] {
+    return this.board.getSquaresWithPieceOfColour(this.enemyColour);
+  }
+
+  public get ownKingIsOnCheck(): boolean {
+    return this.enemySquares
+      .flatMap((square) => square.piece?.possibleMoves || [])
+      .some((move) => move.hitsKing);
+  }
+
+  constructor(id?: number) {
+    this.id = id || (local_id++);
+    this.board = id ? Board.getEmptyBoard() : new Board();
+    this.story = new Story(!id ? this.board : undefined);
+  }
+
+  public static fromChessGame(game: ChessGame, newObject?: BaseGame): BaseGame {
     const {
       id,
       board,
@@ -53,16 +60,23 @@ export class BaseGame implements ChessGame {
       removedPieces,
       story,
     } = game;
-    this.id = id;
-    this.board = new Board(board);
-    this.selectedSquare = selectedSquare;
-    this.removedPieces = removedPieces;
-    this.turn = turn;
-    this.story = story;
+
+    const newBaseGame = newObject || new BaseGame(id);
+
+    newBaseGame.board = Board.fromChessBoard(board);
+    newBaseGame.turn = turn;
+
+    if (selectedSquare) newBaseGame.selectedSquare = Square.fromChessSquare(selectedSquare);
+
+    newBaseGame.removedPieces.white = removedPieces.white.map(Piece.fromChessPiece);
+    newBaseGame.removedPieces.black = removedPieces.black.map(Piece.fromChessPiece);
+
+    newBaseGame.story = Story.fromChessStory(story);
+    return newBaseGame;
   }
 
   public changeTurn(): BaseGame {
-    this.turn = getOppositeColour(this.turn);
+    this.turn = this.enemyColour;
     return this;
   }
 

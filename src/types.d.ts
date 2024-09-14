@@ -13,6 +13,8 @@ export type ChessPosition = {
 
 export type ChessColour = 'white' | 'black';
 
+export type ChessFinishWinner = ChessColour | 'stalemate' | null;
+
 export type ChessPieceMove = {
   changeX: ChessPieceMoveChange;
   changeY: ChessPieceMoveChange;
@@ -82,6 +84,7 @@ export type ChessGame = {
   selectedSquare?: ChessSquare;
   timer?: ChessTimer;
   finished: boolean;
+  finishWinner: ChessFinishWinner;
   removedPieces: {
     white: ChessPiece[];
     black: ChessPiece[];

@@ -69,6 +69,10 @@ export class Square implements ChessSquare {
     return newSquare;
   }
 
+  public static hasPieceOfColour(colour: ChessColour): (square: Square) => boolean {
+    return (square) => square.hasPieceOfColour(colour);
+  }
+
   public hasPiece(shortName: ChessPieceShortName): boolean {
     return this.piece?.shortName === shortName;
   }

@@ -1,4 +1,6 @@
 import type {
+  ChessFinishWinner,
+  ChessGame,
   ChessPieceShortName,
   ChessPieceStrictMove,
 } from '~/types';
@@ -10,11 +12,31 @@ import { MoveValidator } from './moveValidator';
 
 type MoveValidatorFunction = (square: Square) => ValidateMoveFunction;
 
-export class Game extends BaseGame {
-  constructor(game?: Game) {
-    super(game);
+export class Game extends BaseGame implements ChessGame {
+  public get finished() {
+    const ownSquares = this.getSquaresByPieceColour(this.turn);
+    return !ownSquares.some((square) => square.hasPossibleMoves());
+  }
+
+  public get finishWinner(): ChessFinishWinner {
+    if (!this.finished) return null;
+    this.changeTurn();
+    this.recalculateGameMoves();
+    this.changeTurn();
+    if (!this.ownKingIsOnCheck) return 'stalemate';
+    return this.enemyColour;
+  }
+
+  constructor(id?: number) {
+    super(id);
     this.undo = this.undo.bind(this);
     this.redo = this.redo.bind(this);
+  }
+
+  public static fromChessGame(game: ChessGame): Game {
+    const newGame = new Game(game.id);
+    BaseGame.fromChessGame(game, newGame);
+    return newGame;
   }
 
   // recalculateGameMoves
@@ -43,17 +65,17 @@ export class Game extends BaseGame {
   
     const enemyMovesValidator = new MoveValidator([newEnemySquares, newOwnSquares], enemyColour);
     const recalculateEnemyMoves = Game.recalculateMovesGetter(enemyMovesValidator.getMoveValidator);
-    
-    const leavesOwnKingOnCheck = newEnemySquares.some((square) => {
+
+    newEnemySquares.forEach((square) => {
       const enemySquareWithPossibleMoves = recalculateEnemyMoves(square);
-      return enemySquareWithPossibleMoves.piece?.possibleMoves.some(({ hitsKing }) => hitsKing);
+      gameAfterMove.board[square.y][square.x] = enemySquareWithPossibleMoves;
     });
   
-    return leavesOwnKingOnCheck;
+    return gameAfterMove.ownKingIsOnCheck;
   };
 
   private checkFilterer(initialSquare: Square) {
-    const testGame = new Game(this);
+    const testGame = Game.fromChessGame(this);
     return (move: ChessPieceStrictMove): boolean => {
       const isCastle = initialSquare.piece?.shortName === 'k' && Math.abs(move.changeX) > 1;
       if (isCastle) {
@@ -100,7 +122,7 @@ export class Game extends BaseGame {
     promotesTo?: ChessPieceShortName,
   ): Game {
     if (!initialSquare?.piece) return this;
-    const mockGame = new Game(this);
+    const mockGame = Game.fromChessGame(this);
     const selectedPiece = initialSquare.piece;
 
     // removing previous states

@@ -8,5 +8,5 @@ export const useKeyboardUndoRedo = (hidden: boolean) => {
       if (key === 'ArrowLeft') undo?.();
       if (key === 'ArrowRight') redo?.();
     }
-  }, [hidden]);
+  }, [hidden, undo, redo]);
 }
