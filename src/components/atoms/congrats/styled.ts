@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
-import type { ChessColour } from '~/types';
-import { getOppositeColour } from '~/engine/game/helpers';
+import type { ChessFinishWinner } from '~/types';
 
 type CongratsWrapperProps = {
   $visible: boolean;
@@ -38,7 +37,26 @@ export const CongratsWrapper = styled.div<CongratsWrapperProps>`
 `;
 
 type CongratsSpanProps = {
-  $colour: ChessColour;
+  $winner?: ChessFinishWinner;
+};
+
+const getTextColor = (winner?: ChessFinishWinner): string => {
+  switch (winner) {
+    case 'black':
+    case 'white':
+      return winner;
+    default:
+      return '#999';
+  }
+};
+
+const getTextShadowColor = (winner?: ChessFinishWinner): string => {
+  switch (winner) {
+    case 'black':
+      return 'white';
+    default:
+      return 'black';
+  }
 };
 
 export const CongratsSpan = styled.span<CongratsSpanProps>`
@@ -46,8 +64,8 @@ export const CongratsSpan = styled.span<CongratsSpanProps>`
   font-weight: bold;
   font-family: cursive;
 
-  ${({ $colour }) => css`
-    color: ${$colour};
-    text-shadow: 3px 3px 3px ${getOppositeColour($colour)};
+  ${({ $winner }) => css`
+    color: ${getTextColor($winner)};
+    text-shadow: 3px 3px 3px ${getTextShadowColor($winner)};
   `}
 `;
