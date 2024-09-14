@@ -1,20 +1,27 @@
-import React from 'react';
 import type { ChessGame } from '~/types';
-import { getOppositeColour } from '~/engine/game/helpers';
-import { capitalize } from '~/helpers/capitalize';
 import { CongratsSpan, CongratsWrapper } from './styled';
+import { capitalize } from '~/helpers/capitalize';
 
 type CongratsProps = {
-  game: ChessGame | null;
+  game: ChessGame;
+};
+
+const getCongratsMessage = ({ finishWinner }: ChessGame): string => {
+  switch (finishWinner) {
+    case 'black':
+    case 'white':
+      return `${capitalize(finishWinner)} won!`;
+    default:
+      return 'Stalemate 🤷🏼';
+  }
 };
 
 export const Congrats = ({ game }: CongratsProps) => {
-  const congratsColour = getOppositeColour(game?.turn || 'white');
-  const congratsMessage = `${capitalize(congratsColour)} won!`;
+  const congratsMessage = getCongratsMessage(game);
 
   return (
     <CongratsWrapper $visible={!!game?.finished} role="congrats">
-      <CongratsSpan $colour={congratsColour}>
+      <CongratsSpan $winner={game.finishWinner || 'white'}>
         {congratsMessage}
       </CongratsSpan>
     </CongratsWrapper>

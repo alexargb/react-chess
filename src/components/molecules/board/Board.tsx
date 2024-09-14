@@ -35,7 +35,7 @@ export const Board = () => {
         </RowDiv>
       ))}
 
-      <Congrats game={currentGame} />
+      {currentGame && <Congrats game={currentGame} />}
     </BoardContainer>
   );
 };
