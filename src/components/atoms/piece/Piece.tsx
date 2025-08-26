@@ -1,6 +1,3 @@
-import React from 'react';
-import type { ChessPiece } from '~/types';
-import type { PieceSvgProps } from './types';
 import * as White from './white';
 import * as Black from './black';
 

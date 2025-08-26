@@ -1,9 +1,10 @@
+import { Board } from '~/components/molecules/board';
+import { HistoryManager } from '~/components/molecules/historyManager';
+import { RemovedPieces } from '~/components/molecules/removedPieces';
 import { useGameContext, useViewContext } from '~/hooks';
+
 import { useOverflowHidden } from './useOverflowHidden';
 import { GameContainer } from './styled';
-import { Board } from '~/components/molecules/board';
-import { RemovedPieces } from '~/components/molecules/removedPieces';
-import { StoryManager } from '~/components/molecules/storyManager';
 
 export const Game = () => {
   const { currentView } = useViewContext();
@@ -18,7 +19,7 @@ export const Game = () => {
       <RemovedPieces colour="white" />
       <Board />
       <RemovedPieces colour="black" />
-      <StoryManager hidden={hidden} />
+      <HistoryManager hidden={hidden} />
     </GameContainer>
   );
 };

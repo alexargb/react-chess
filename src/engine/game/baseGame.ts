@@ -1,25 +1,21 @@
-import type {
-  ChessColour,
-  ChessGame,
-} from '~/types';
-import { Piece } from '../piece';
-import { Board } from '../board';
-import { Square } from '../square';
-import { Story } from './story';
+import { Board } from '../Board';
+import { Piece } from '../Piece';
+import { Square } from '../Square';
+import { History } from './History';
 import { getOppositeColour } from './helpers';
 
 let local_id = 1;
 
-export class BaseGame {
+export class BaseGame implements BaseChessGame {
   id: number;
   board: Board;
   turn = 'white' as ChessColour;
   selectedSquare?: Square;
-  removedPieces = {
-    white: [] as Piece[],
-    black: [] as Piece[],
+  removedPieces: ChessGameRemovedPieces = {
+    white: [],
+    black: [],
   };
-  story: Story;
+  history: History;
   lastMovedPiece?: Piece;
   lastMovedSquare?: Square;
 
@@ -48,7 +44,7 @@ export class BaseGame {
   constructor(id?: number) {
     this.id = id || (local_id++);
     this.board = id ? Board.getEmptyBoard() : new Board();
-    this.story = new Story(!id ? this.board : undefined);
+    this.history = new History(!id ? this.board : undefined);
   }
 
   public static fromChessGame(game: ChessGame, newObject?: BaseGame): BaseGame {
@@ -58,7 +54,7 @@ export class BaseGame {
       turn,
       selectedSquare,
       removedPieces,
-      story,
+      history,
     } = game;
 
     const newBaseGame = newObject || new BaseGame(id);
@@ -71,7 +67,7 @@ export class BaseGame {
     newBaseGame.removedPieces.white = removedPieces.white.map(Piece.fromChessPiece);
     newBaseGame.removedPieces.black = removedPieces.black.map(Piece.fromChessPiece);
 
-    newBaseGame.story = Story.fromChessStory(story);
+    newBaseGame.history = History.fromChessHistory(history);
     return newBaseGame;
   }
 
@@ -80,8 +76,8 @@ export class BaseGame {
     return this;
   }
 
-  public updateStory(): BaseGame {
-    this.story.setNewEntry(
+  public updateHistory(): BaseGame {
+    this.history.setNewEntry(
       this.board,
       this.turn,
       this.removedPieces,

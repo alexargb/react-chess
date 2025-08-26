@@ -1,6 +1,9 @@
-import React from 'react';
 import type { GameContextState } from '~/contexts/game/types';
+
+import React from 'react';
+
 import { Game } from '~/engine';
+
 import { useGameContext } from '.';
 
 const mockContextState: GameContextState = {

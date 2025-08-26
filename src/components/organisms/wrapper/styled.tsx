@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+
 import { Title } from '~/components/atoms/title';
 
 const wrapperPadding = '5vw';

@@ -1,9 +1,9 @@
-import React from 'react';
-import { useGameContext, useViewContext } from '~/hooks';
-import { ColourSpan, IdSpan, RecordList, RecordWrapper } from './styled';
 import { ListItem } from '~/components/atoms/list';
-import { getOppositeColour } from '~/engine/game/helpers';
+import { getOppositeColour } from '~/engine/Game/helpers';
 import { capitalize } from '~/helpers/capitalize';
+import { useGameContext, useViewContext } from '~/hooks';
+
+import { ColourSpan, IdSpan, RecordList, RecordWrapper } from './styled';
 
 export const Record = () => {
   const { currentView, setCurrentView } = useViewContext();

@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import type { ChessGame, ChessPieceShortName } from '~/types';
 import type { GameContextState } from './types';
+
+import { useState } from 'react';
+
 import {
   recordUpdater,
   Game,
@@ -44,7 +45,7 @@ export const useGameState = (): GameContextState => {
     updateGames();
   };
 
-  // story management
+  // history management
   const undo = () => {
     if (!currentGame) return;
     currentGame.undo();

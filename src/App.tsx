@@ -1,6 +1,6 @@
-import React from 'react';
-import { GameProvider } from '~/contexts/game';
 import { Wrapper } from '~/components/organisms/wrapper';
+import { GameProvider } from '~/contexts/game';
+
 import { ViewProvider } from './contexts/view';
 
 const App = () => (

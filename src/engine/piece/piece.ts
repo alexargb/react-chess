@@ -1,19 +1,10 @@
-import type {
-  ChessColour,
-  ChessPiece,
-  ChessPieceMoveset,
-  ChessPieceShortName,
-  ChessPieceStrictMoveset,
-  ChessPosition,
-} from '~/types';
-
-import { getKingBasicMoves } from './king';
-import { getQueenBasicMoves } from './queen';
-import { getRookBasicMoves } from './rook';
-import { getBishopBasicMoves } from './bishop';
-import { getKnightBasicMoves } from './knight';
-import { getPawnBasicMoves } from './pawn';
-import { Square } from '../square';
+import { getKingBasicMoves } from './King';
+import { getQueenBasicMoves } from './Queen';
+import { getRookBasicMoves } from './Rook';
+import { getBishopBasicMoves } from './Bishop';
+import { getKnightBasicMoves } from './Knight';
+import { getPawnBasicMoves } from './Pawn';
+import { Square } from '../Square';
 
 type BasicMoves = {
   moves: ChessPieceMoveset;

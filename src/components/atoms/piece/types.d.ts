@@ -1,4 +1,4 @@
-export type PieceSvgProps = {
+type PieceSvgProps = {
   width: string;
   height: string;
 };

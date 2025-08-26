@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import type { ChessColour, ChessPiece, ChessPieceShortName, ChessSquare } from '~/types';
+import { useEffect, useState } from 'react';
+
 import { Piece } from '~/components/atoms/piece';
+
 import { SquareMark } from './SquareMark';
 import { PromotionList, PromotionListItem, SquareDiv } from './styled';
 

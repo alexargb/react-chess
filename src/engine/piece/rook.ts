@@ -1,5 +1,3 @@
-import type { ChessPieceMoveset } from '~/types';
-
 export const getRookMoves = (): ChessPieceMoveset => [
   {
     changeX: 0,

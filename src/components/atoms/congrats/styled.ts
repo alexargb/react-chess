@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import type { ChessFinishWinner } from '~/types';
 
 type CongratsWrapperProps = {
   $visible: boolean;

@@ -1,13 +1,13 @@
-import React from 'react';
-import { useGameContext, useViewContext } from '~/hooks';
 import { ListItem } from '~/components/atoms/list';
+import { useGameContext, useViewContext } from '~/hooks';
+
 import { MenuList } from './styled';
 
 export const Menu = () => {
   const { currentView, setCurrentView } = useViewContext();
   const { currentGame, createNewGame, record } = useGameContext();
   const showContinue = !!currentGame && !currentGame.finished;
-  const showRecord = record?.length > 1 || record?.[0]?.finished;
+  const showRecord = record?.length > 1 || record[0]?.finished;
   
   const goToGame = () => setCurrentView?.('game');
   const goToRecord = () => setCurrentView?.('record');

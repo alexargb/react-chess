@@ -1,10 +1,4 @@
-import type {
-  ChessBoardCoordinate,
-  ChessPieceMove,
-  ChessPieceStrictMove,
-  ChessPosition,
-} from '~/types';
-import { Square } from '../square';
+import { Square } from '../Square';
 
 type MoveType = 'preset' | 'vertical' | 'horizontal' | 'diagonal';
 type StrictMoveArray = ChessPieceStrictMove[];

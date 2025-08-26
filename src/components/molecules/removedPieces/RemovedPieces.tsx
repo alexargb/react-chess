@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
-import type { ChessColour } from '~/types';
-import { useGameContext } from '~/hooks';
-import { getPiecesByColour } from '~/engine/game/helpers';
+import { useMemo } from 'react';
+
 import { Piece } from '~/components/atoms/piece';
+import { useGameContext } from '~/hooks';
+
 import { RemovedPiecesList, RemovedPiecesListItem } from './styled';
 
 type RemovedPiecesProps = {

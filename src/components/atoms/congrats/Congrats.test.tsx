@@ -1,5 +1,3 @@
-import React from 'react';
-import type { ChessGame } from '~/types';
 import { render, screen } from '@testing-library/react';
 import { Congrats } from '.';
 

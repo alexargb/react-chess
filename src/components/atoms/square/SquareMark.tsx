@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const SquareMark = () => (
   <svg
     role="square-mark"

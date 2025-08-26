@@ -1,4 +1,3 @@
-import type { ChessColour } from '~/types';
 import styled, { css } from 'styled-components';
 
 type SquareDivProps = {

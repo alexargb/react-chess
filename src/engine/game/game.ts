@@ -1,14 +1,8 @@
-import type {
-  ChessFinishWinner,
-  ChessGame,
-  ChessPieceShortName,
-  ChessPieceStrictMove,
-} from '~/types';
-import type { ValidateMoveFunction } from './moveValidator';
-import type { StoryEntry } from './story';
-import { BaseGame } from './baseGame';
-import { Square } from '../square';
-import { MoveValidator } from './moveValidator';
+import type { ValidateMoveFunction } from './MoveValidator';
+import type { HistoryEntry } from './History';
+import { BaseGame } from './BaseGame';
+import { Square } from '../Square';
+import { MoveValidator } from './MoveValidator';
 
 type MoveValidatorFunction = (square: Square) => ValidateMoveFunction;
 
@@ -18,7 +12,7 @@ export class Game extends BaseGame implements ChessGame {
     return !ownSquares.some((square) => square.hasPossibleMoves());
   }
 
-  public get finishWinner(): ChessFinishWinner {
+  public get finishWinner(): ChessFinishWinner | null {
     if (!this.finished) return null;
     this.changeTurn();
     this.recalculateGameMoves();
@@ -180,19 +174,19 @@ export class Game extends BaseGame implements ChessGame {
       this.board = mockGame.board;
       this.recalculateGameMoves()
         .unselectSquare()
-        .updateStory();
+        .updateHistory();
 
       return this;
     }
     return mockGame;
   }
 
-  // story manager
-  private updateFromStoryEntry({
+  // history manager
+  private updateFromHistoryEntry({
     board,
     turn,
     removedPieces,
-  }: StoryEntry) {
+  }: HistoryEntry) {
     this.unselectSquare();
     this.board = board;
     this.turn = turn;
@@ -201,12 +195,12 @@ export class Game extends BaseGame implements ChessGame {
   }
 
   public undo(): Game {
-    this.updateFromStoryEntry(this.story.undo());
+    this.updateFromHistoryEntry(this.history.undo());
     return this;
   }
 
   public redo(): Game {
-    this.updateFromStoryEntry(this.story.redo());
+    this.updateFromHistoryEntry(this.history.redo());
     return this;
   }
 }

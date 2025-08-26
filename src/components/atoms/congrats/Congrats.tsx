@@ -1,6 +1,5 @@
-import type { ChessGame } from '~/types';
-import { CongratsSpan, CongratsWrapper } from './styled';
 import { capitalize } from '~/helpers/capitalize';
+import { CongratsSpan, CongratsWrapper } from './styled';
 
 type CongratsProps = {
   game: ChessGame;

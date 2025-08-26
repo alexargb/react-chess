@@ -1,3 +1,3 @@
-export * from './game';
-export * from './square';
-export * from './record'
+export * from './Game';
+export * from './Square';
+export * from './Record'

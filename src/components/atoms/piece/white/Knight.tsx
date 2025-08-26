@@ -1,6 +1,3 @@
-import React from 'react';
-import type { PieceSvgProps } from '../types';
-
 export const Knight = ({ width, height }: PieceSvgProps) => (
   <svg
     role="piece"

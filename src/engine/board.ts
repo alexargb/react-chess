@@ -1,10 +1,4 @@
-import type {
-  ChessBoard,
-  ChessBoardCoordinate,
-  ChessColour,
-  ChessSquare,
-} from '~/types';
-import { Square } from './square';
+import { Square } from './Square';
 import { BASE_BOARD } from './constants';
 
 export class Board extends Array<Square[]> {

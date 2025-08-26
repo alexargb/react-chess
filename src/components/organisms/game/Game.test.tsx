@@ -1,8 +1,9 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
+
 import * as Hooks from '~/hooks';
-import { Game } from '.';
 import { Game as GameClass } from '~/engine';
+
+import { Game } from '.';
 
 jest.mock('~/hooks', () => ({
   __esModule: true,

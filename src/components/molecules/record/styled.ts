@@ -1,5 +1,5 @@
-import type { ChessColour } from '~/types';
 import styled, { css } from 'styled-components';
+
 import { List } from '~/components/atoms/list';
 
 type RecordWrapperProps = {

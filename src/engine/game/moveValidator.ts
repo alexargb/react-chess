@@ -1,12 +1,5 @@
-import type {
-  ChessColour,
-  ChessPieceMove,
-  ChessPieceStrictMove,
-  ChessPosition,
-  ChessSquare,
-} from '~/types';
-import { Square } from '../square';
-import { MoveMapper } from './moveMapper';
+import { Square } from '../Square';
+import { MoveMapper } from './MoveMapper';
 import { getOppositeColour } from './helpers';
 
 export type ValidateMoveFunction = (move: ChessPieceMove) => ChessPieceStrictMove[];

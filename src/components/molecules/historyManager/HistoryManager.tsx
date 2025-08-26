@@ -1,30 +1,31 @@
-import { useGameContext } from '~/hooks';
-import { useKeyboardUndoRedo } from './useKeyboardUndoRedo';
-import { StoryManagerContainer } from './styled';
 import { SideArrow } from '~/components/atoms/sideArrow';
+import { useGameContext } from '~/hooks';
 
-type StoryManagerProps = {
+import { HistoryManagerContainer } from './styled';
+import { useKeyboardUndoRedo } from './useKeyboardUndoRedo';
+
+type HistoryManagerProps = {
   hidden: boolean;
 };
 
-export const StoryManager = ({ hidden }: StoryManagerProps) => {
+export const HistoryManager = ({ hidden }: HistoryManagerProps) => {
   const { currentGame, undo, redo } = useGameContext();
   useKeyboardUndoRedo(hidden);
 
   return (
-    <StoryManagerContainer>
+    <HistoryManagerContainer>
       <SideArrow
         onClick={undo}
-        disabled={!currentGame?.story.canUndo}
+        disabled={!currentGame?.history.canUndo}
         left
         title="Arrow Left"
       />
       <SideArrow
         onClick={redo}
-        disabled={!currentGame?.story.canRedo}
+        disabled={!currentGame?.history.canRedo}
         right
         title="Arrow Right"
       />
-    </StoryManagerContainer>
+    </HistoryManagerContainer>
   );
 };

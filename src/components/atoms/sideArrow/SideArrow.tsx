@@ -1,5 +1,3 @@
-import React from 'react';
-import type { SideArrowProps } from './types';
 import { SideArrowLeft } from './SideArrowLeft';
 import { SideArrowRight } from './SideArrowRight';
 import { SideArrowContainer } from './styled';

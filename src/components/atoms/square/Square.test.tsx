@@ -1,6 +1,5 @@
-import React from 'react';
-import type { ChessPiece, ChessSquare } from '~/types';
 import { fireEvent, render, screen } from '@testing-library/react';
+
 import { Square } from '.';
 
 const clickMock = jest.fn();
@@ -91,7 +90,7 @@ describe('Square', () => {
     fireEvent.click(kingPiece);
     expect(clickMock).not.toHaveBeenCalled();
 
-    const firstPromotionSquare = screen.getAllByRole(/promotion-list-item/)[0];
+    const [firstPromotionSquare] = screen.getAllByRole(/promotion-list-item/);
     fireEvent.click(firstPromotionSquare);
     expect(clickMock).toHaveBeenCalled();
   });

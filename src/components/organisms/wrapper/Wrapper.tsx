@@ -1,8 +1,9 @@
-import React from 'react';
-import { useViewContext } from '~/hooks';
 import { Menu } from '~/components/molecules/menu';
-import { Game } from '~/components/organisms/game';
 import { Record } from '~/components/molecules/record';
+import { Game } from '~/components/organisms/game';
+import { capitalize } from '~/helpers/capitalize';
+import { useViewContext } from '~/hooks';
+
 import {
   Chevron,
   CurrentViewSpan,
@@ -10,7 +11,6 @@ import {
   WrapperContainer,
   WrapperTitle,
 } from './styled';
-import { capitalize } from '~/helpers/capitalize';
 
 export const Wrapper = () => {
   const { currentView, setCurrentView } = useViewContext();

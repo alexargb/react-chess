@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StoryManagerContainer = styled.div`
+export const HistoryManagerContainer = styled.div`
   display: flex;
   cursor: pointer;
 

@@ -1,6 +1,5 @@
-import React from 'react';
-import type { ChessPiece } from '~/types';
 import { render, screen } from '@testing-library/react';
+
 import { Piece } from '.';
 
 const piece: ChessPiece = {

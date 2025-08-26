@@ -1,4 +1,5 @@
-import React, { createContext } from 'react';
+import { createContext } from 'react';
+
 import type { GameContextState, GameProviderProps } from './types';
 import { useGameState } from './useGameState';
 

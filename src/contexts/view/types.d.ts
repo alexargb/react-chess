@@ -1,10 +1,10 @@
-export type ViewName = 'menu' | 'game' | 'record';
+type ViewName = 'menu' | 'game' | 'record';
 
-export type ViewContextState = {
+type ViewContextState = {
   currentView?: ViewName;
   setCurrentView?: (view: ViewName) => void;
 };
 
-export type ViewProviderProps = {
+type ViewProviderProps = {
   children: ReactNode;
 };

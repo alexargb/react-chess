@@ -1,12 +1,4 @@
-import type {
-  ChessBoardCoordinate,
-  ChessColour,
-  ChessPieceShortName,
-  ChessPieceStrictMove,
-  ChessPosition,
-  ChessSquare,
-} from '~/types';
-import { Piece } from './piece';
+import { Piece } from './Piece';
 
 export class Square implements ChessSquare {
   x: ChessBoardCoordinate;

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ViewContextState } from '~/contexts/view/types';
+
 import { useViewContext } from '.';
 
 const mockContextState: ViewContextState = {

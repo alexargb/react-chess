@@ -1,22 +1,14 @@
-import type {
-  ChessBoard,
-  ChessColour,
-  ChessPiece,
-  ChessSquare,
-  ChessStory,
-  ChessStoryEntry,
-} from '~/types';
-import { Board } from '../board';
-import { Square } from '../square';
-import { Piece } from '../piece';
+import { Board } from '../Board';
+import { Square } from '../Square';
+import { Piece } from '../Piece';
 
-export class StoryEntry implements ChessStoryEntry {
+export class HistoryEntry implements ChessHistoryEntry {
   move: number;
   board: Board;
   turn: ChessColour;
-  removedPieces: { white: Piece[], black: Piece[] } = {
-    white: [] as Piece[],
-    black: [] as Piece[],
+  removedPieces: ChessGameRemovedPieces = {
+    white: [],
+    black: [],
   };
   lastMovedPiece?: Piece;
   lastMovedSquare?: Square;
@@ -40,15 +32,15 @@ export class StoryEntry implements ChessStoryEntry {
     }
   }
 
-  public static fromChessStoryEntry({
+  public static fromChessHistoryEntry({
     move,
     board,
     turn,
     removedPieces,
     lastMovedPiece,
     lastMovedSquare,
-  }: ChessStoryEntry): StoryEntry {
-    return new StoryEntry(
+  }: ChessHistoryEntry): HistoryEntry {
+    return new HistoryEntry(
       move,
       board,
       turn,
@@ -59,9 +51,9 @@ export class StoryEntry implements ChessStoryEntry {
   }
 };
 
-export class Story implements ChessStory {
+export class History implements ChessHistory {
   currentMove: number = 0;
-  entries: StoryEntry[] = [];
+  entries: HistoryEntry[] = [];
 
   public get canRedo(): boolean {
     return this.currentMove < this.entries.length;
@@ -69,7 +61,7 @@ export class Story implements ChessStory {
   public get canUndo(): boolean {
     return this.currentMove > 1;
   }
-  private get currentEntry(): StoryEntry {
+  private get currentEntry(): HistoryEntry {
     return this.entries[this.currentMove - 1];
   }
 
@@ -77,14 +69,14 @@ export class Story implements ChessStory {
     if (initialBoard) this.setNewEntry(initialBoard, 'white', { white: [], black: [] });
   }
 
-  public static fromChessStory({ entries, currentMove }: ChessStory): Story {
-    if (entries.length === 0) return new Story(new Board());
+  public static fromChessHistory({ entries, currentMove }: ChessHistory): History {
+    if (entries.length === 0) return new History(new Board());
 
-    const newStory = new Story();
-    newStory.currentMove = currentMove;
-    newStory.entries = entries.map(StoryEntry.fromChessStoryEntry);
+    const newHistory = new History();
+    newHistory.currentMove = currentMove;
+    newHistory.entries = entries.map(HistoryEntry.fromChessHistoryEntry);
 
-    return newStory;
+    return newHistory;
   }
 
   public setNewEntry(
@@ -94,7 +86,7 @@ export class Story implements ChessStory {
     lastMovedPiece?: Piece,
     lastMovedSquare?: Square,
   ) {
-    const newEntry = new StoryEntry(
+    const newEntry = new HistoryEntry(
       this.currentMove,
       board,
       turn,
@@ -109,12 +101,12 @@ export class Story implements ChessStory {
     this.currentMove += 1;
   }
 
-  public undo(): StoryEntry {
+  public undo(): HistoryEntry {
     if (this.canUndo) this.currentMove -= 1;
     return this.currentEntry;
   }
 
-  public redo(): StoryEntry {
+  public redo(): HistoryEntry {
     if (this.canRedo) this.currentMove += 1;
     return this.currentEntry;
   }

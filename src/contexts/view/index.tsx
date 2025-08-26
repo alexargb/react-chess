@@ -1,5 +1,5 @@
-import React, { createContext } from 'react';
-import type { ViewContextState, ViewProviderProps } from './types';
+import { createContext } from 'react';
+
 import { useViewState } from './useViewState';
 
 const ViewContext = createContext<ViewContextState>({});

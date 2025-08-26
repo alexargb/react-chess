@@ -1,6 +1,3 @@
-import React from 'react';
-import type { SideArrowProps } from './types';
-
 export const SideArrowRight = ({ disabled }: SideArrowProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import type { ChessPieceShortName, ChessSquare } from '~/types';
-import { useGameContext } from '~/hooks';
-import { Square } from '~/components/atoms/square';
+import { useState } from 'react';
+
 import { Congrats } from '~/components/atoms/congrats';
+import { Square } from '~/components/atoms/square';
+import { useGameContext } from '~/hooks';
+
 import { BoardContainer, RowDiv } from './styled';
 
 export const Board = () => {

@@ -1,5 +1,3 @@
-import type { ChessPieceMoveset } from '~/types';
-
 export const getBishopMoves = (): ChessPieceMoveset => [
   {
     changeX: 'x',

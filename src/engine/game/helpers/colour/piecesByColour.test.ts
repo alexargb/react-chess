@@ -1,6 +1,6 @@
-import type { ChessPiece } from '~/types';
+import { Piece } from '~/engine/Piece';
+
 import { getPiecesByColour } from './piecesByColour';
-import { Piece } from '~/engine/piece';
 
 const whitePawn = new Piece(1, 'p', 'white');
 const whiteBishop = new Piece(2, 'b', 'white');

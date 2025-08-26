@@ -1,5 +1,6 @@
-import type { UseKeyDownCb } from '.';
 import { render, waitFor } from '@testing-library/react';
+
+import type { UseKeyDownCb } from '.';
 import { useKeyDown } from './useKeyDown';
 
 const MockComponent = ({ callbackMock }: { callbackMock: UseKeyDownCb }) => {

@@ -1,5 +1,3 @@
-import type { ChessColour, ChessPiece } from '~/types';
-
 export const getPiecesByColour = (
   pieces: ChessPiece[],
   colour: ChessColour,

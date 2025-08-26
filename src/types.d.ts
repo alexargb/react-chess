@@ -1,21 +1,21 @@
-export type ChessBoardCoordinate = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+type ChessBoardCoordinate = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
-export type ChessPieceShortName = 'k' | 'q' | 'r' | 'b' | 'n' | 'p' | '-';
-export type ChessPieceName = 'king' | 'queen' | 'rook' | 'bishop' | 'knight' | 'pawn';
+type ChessPieceShortName = 'k' | 'q' | 'r' | 'b' | 'n' | 'p' | '-';
+type ChessPieceName = 'king' | 'queen' | 'rook' | 'bishop' | 'knight' | 'pawn';
 
-export type ChessPieceMoveChange = number | 'x';
-export type ChessPieceMoveCondition = 'unmoved' | 'unblocked' | 'eating' | 'queen castle' | 'king castle' | 'en passant';
+type ChessPieceMoveChange = number | 'x';
+type ChessPieceMoveCondition = 'unmoved' | 'unblocked' | 'eating' | 'queen castle' | 'king castle' | 'en passant';
 
-export type ChessPosition = {
+type ChessPosition = {
   x: ChessBoardCoordinate;
   y: ChessBoardCoordinate;
 };
 
-export type ChessColour = 'white' | 'black';
+type ChessColour = 'white' | 'black';
 
-export type ChessFinishWinner = ChessColour | 'stalemate' | null;
+type ChessFinishWinner = ChessColour | 'stalemate';
 
-export type ChessPieceMove = {
+type ChessPieceMove = {
   changeX: ChessPieceMoveChange;
   changeY: ChessPieceMoveChange;
   conditions?: ChessPieceMoveCondition[];
@@ -23,17 +23,17 @@ export type ChessPieceMove = {
   enPassants?: boolean;
 };
 
-export type ChessPieceStrictMove = {
+type ChessPieceStrictMove = {
   changeX: number;
   changeY: number;
   hitsKing?: boolean;
   promotes?: boolean;
 };
 
-export type ChessPieceMoveset = ChessPieceMove[];
-export type ChessPieceStrictMoveset = ChessPieceStrictMove[];
+type ChessPieceMoveset = ChessPieceMove[];
+type ChessPieceStrictMoveset = ChessPieceStrictMove[];
 
-export type ChessPiece = {
+type ChessPiece = {
   id: number;
   shortName: ChessPieceShortName;
   colour: ChessColour;
@@ -45,7 +45,7 @@ export type ChessPiece = {
   previousPosition?: ChessPosition;
 };
 
-export type ChessSquare = ChessPosition & {
+type ChessSquare = ChessPosition & {
   piece?: ChessPiece;
   colour: ChessColour;
   marked: boolean;
@@ -54,8 +54,8 @@ export type ChessSquare = ChessPosition & {
   lastMovedSquare?: boolean;
 };
 
-export type ChessBoard = ChessSquare[][];
-export type ChessStoryEntry = {
+type ChessBoard = ChessSquare[][];
+type ChessHistoryEntry = {
   move: number;
   board: ChessBoard;
   turn: ChessColour;
@@ -66,29 +66,31 @@ export type ChessStoryEntry = {
   lastMovedPiece?: ChessPiece;
   lastMovedSquare?: ChessSquare;
 };
-export type ChessStory = {
+type ChessHistory = {
   currentMove: number;
-  entries: ChessStoryEntry[];
+  entries: ChessHistoryEntry[];
 };
 
-export type ChessTimer = {
+type ChessTimer = {
   white: number;
   black: number;
 };
 
-export type ChessGame = {
+type ChessGameRemovedPieces = Record<ChessColour, Piece[]>;
+
+type BaseChessGame = {
   id: number;
-  board: ChessBoard;
-  story: ChessStory;
+  board: Board;
   turn: ChessColour;
-  selectedSquare?: ChessSquare;
+  selectedSquare?: Square;
+  removedPieces: ChessGameRemovedPieces;
+  history: ChessHistory;
+  lastMovedPiece?: Piece;
+  lastMovedSquare?: Square;
+};
+
+type ChessGame = BaseChessGame & {
   timer?: ChessTimer;
   finished: boolean;
-  finishWinner: ChessFinishWinner;
-  removedPieces: {
-    white: ChessPiece[];
-    black: ChessPiece[];
-  };
-  lastMovedPiece?: ChessPiece;
-  lastMovedSquare?: ChessSquare;
+  finishWinner: ChessFinishWinner | null;
 };
